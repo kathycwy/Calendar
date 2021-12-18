@@ -1,0 +1,152 @@
+//
+//  CalendarHelper.swift
+//  Calendar
+//
+//  Created by C Chan on 17/12/2021.
+//
+
+import Foundation
+
+struct CalendarHelper {
+    var calendar = Calendar.current
+    
+    func nextMonth(date: Date) -> Date{
+        return calendar.date(byAdding: .month, value: 1, to: date)!
+    }
+    
+    func previousMonth(date: Date) -> Date{
+        return calendar.date(byAdding: .month, value: -1, to: date)!
+    }
+    
+    func monthStringFull(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func monthStringSingle(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M"
+        return dateFormatter.string(from: date)
+    }
+    
+    func yearString(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func numOfDatesInMonth(date: Date) -> Int{
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        return range.count
+    }
+    
+    func dayOfMonth(date: Date) -> Int{
+        let components = calendar.dateComponents([.day], from: date)
+        return components.day! //ex. 22
+    }
+    
+    func firstDayOfMonth(date: Date) -> Date{
+        let components = calendar.dateComponents([.year, .month], from: date)
+        return calendar.date(from: components)!
+    }
+    
+    func weekDay(date: Date) -> Int{
+        let components = calendar.dateComponents([.weekday], from: date)
+        return components.weekday! - 1
+    }
+    
+    func todayDateString(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "D"
+        return dateFormatter.string(from: date)
+    }
+    
+    func dayBefore(date: Date) -> Date {
+        return Calendar.current.date(byAdding: DateComponents(day: -1), to: date)!
+    }
+    
+    func getCalendarDays(withStartDate startDate: Date, startDOW: Int) -> [CalendarDay] {
+        let month = getCalendarMonth(for: startDate)
+        let endDate = self.getLastDayOfMonth(year: month.year, month: month.month)
+        let displayIndexBuffer: Int = startDOW == 1 ? month.firstDayOfWeek : ((month.firstDayOfWeek == 7 ? 0 : month.firstDayOfWeek))
+
+        var result: [CalendarDay] = []
+        
+        calendar.enumerateDates(startingAfter: dayBefore(date: startDate),
+                                matching: DateComponents(hour: 0, minute: 0, second:0),
+                                matchingPolicy: .nextTime) { (date, _, stop) in
+                                    guard let date = date, date <= endDate else {
+                                        stop = true
+                                        return
+                                    }
+
+            result.append( CalendarDay(
+                date: date,
+                dayString: String(self.getDay(for: date)),
+                displayIndex: self.getDay(for: date) + displayIndexBuffer,
+                isSelected: false,
+                isWithinDisplayedMonth: true)
+            )
+        }
+        return result.reversed()
+    }
+    
+    func getCalendarMonth(for date: Date) -> CalendarMonth{
+        return self.getCalendarMonth(year: self.getYear(for: date), month: self.getMonth(for: date))
+    }
+    
+    func getCalendarMonth(year: Int, month: Int) -> CalendarMonth{
+        let firstDay = self.getFirstDayOfMonth(year: year, month: month)
+        let month = CalendarMonth(
+            month: month,
+            year: year,
+            numOfDatesInMonth: self.numOfDatesInMonth(date: firstDay),
+            firstDayOfMonth: firstDay,
+            LastDayOfMonth: self.getLastDayOfMonth(year: year, month: month),
+            firstDayOfWeek: self.weekDay(date: firstDay)
+            
+        )
+        return month
+    }
+
+    func getDaysInMonth(for date: Date) -> Int {
+        return Calendar.current.range(of: .day, in: .month, for: date)!.count
+    }
+
+    func getDay(for date: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: date).day!
+    }
+
+    func getMonth(for date: Date) -> Int {
+        return Calendar.current.dateComponents([.month], from: date).month!
+    }
+    
+    func getYear(for date: Date) -> Int {
+        return Calendar.current.dateComponents([.year], from: date).year!
+    }
+
+    func getFirstDayOfMonth(year: Int, month: Int) -> Date {
+        return Calendar.current.date(from: DateComponents(year: year, month: month))!
+    }
+    
+    func getLastDayOfMonth(year: Int, month: Int) -> Date {
+        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.getFirstDayOfMonth(year: year, month: month))!
+    }
+    
+    func getCurrentDate()-> Date {
+        var now = Date()
+        var nowComponents = DateComponents()
+        let calendar = Calendar.current
+        nowComponents.year = Calendar.current.component(.year, from: now)
+        nowComponents.month = Calendar.current.component(.month, from: now)
+        nowComponents.day = Calendar.current.component(.day, from: now)
+        nowComponents.hour = Calendar.current.component(.hour, from: now)
+        nowComponents.minute = Calendar.current.component(.minute, from: now)
+        nowComponents.second = Calendar.current.component(.second, from: now)
+        nowComponents.timeZone = NSTimeZone.local
+        now = calendar.date(from: nowComponents)!
+        return now as Date
+    }
+}
+
