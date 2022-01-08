@@ -18,6 +18,10 @@ struct CalendarHelper {
         return calendar.date(byAdding: .month, value: -1, to: date)!
     }
     
+    func addMonth(date: Date, n: Int) -> Date{
+        return calendar.date(byAdding: .month, value: n, to: date)!
+    }
+    
     func monthStringFull(date: Date) -> String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM yyyy"
@@ -67,7 +71,7 @@ struct CalendarHelper {
     }
     
     func getCalendarDays(withStartDate startDate: Date, startDOW: Int) -> [CalendarDay] {
-        let month = getCalendarMonth(for: startDate)
+        let month = getCalendarMonthWithoutDay(for: startDate, startDOW: startDOW)
         let endDate = self.getLastDayOfMonth(year: month.year, month: month.month)
         let displayIndexBuffer: Int = startDOW == 1 ? month.firstDayOfWeek : ((month.firstDayOfWeek == 7 ? 0 : month.firstDayOfWeek))
 
@@ -86,17 +90,18 @@ struct CalendarHelper {
                 dayString: String(self.getDay(for: date)),
                 displayIndex: self.getDay(for: date) + displayIndexBuffer,
                 isSelected: false,
-                isWithinDisplayedMonth: true)
+                isWithinDisplayedMonth: true,
+                dayOfWeek: weekDay(date:date))
             )
         }
         return result.reversed()
     }
     
-    func getCalendarMonth(for date: Date) -> CalendarMonth{
-        return self.getCalendarMonth(year: self.getYear(for: date), month: self.getMonth(for: date))
+    func getCalendarMonthWithoutDay(for date: Date, startDOW: Int) -> CalendarMonth{
+        return self.getCalendarMonthWithoutDay(year: self.getYear(for: date), month: self.getMonth(for: date), startDOW: startDOW)
     }
     
-    func getCalendarMonth(year: Int, month: Int) -> CalendarMonth{
+    func getCalendarMonthWithoutDay(year: Int, month: Int, startDOW: Int) -> CalendarMonth{
         let firstDay = self.getFirstDayOfMonth(year: year, month: month)
         let month = CalendarMonth(
             month: month,
@@ -104,7 +109,22 @@ struct CalendarHelper {
             numOfDatesInMonth: self.numOfDatesInMonth(date: firstDay),
             firstDayOfMonth: firstDay,
             LastDayOfMonth: self.getLastDayOfMonth(year: year, month: month),
-            firstDayOfWeek: self.weekDay(date: firstDay)
+            firstDayOfWeek: self.weekDay(date: firstDay),
+            calendarDays: []
+        )
+        return month
+    }
+    
+    func getCalendarMonth(year: Int, month: Int, startDOW: Int) -> CalendarMonth{
+        let firstDay = self.getFirstDayOfMonth(year: year, month: month)
+        let month = CalendarMonth(
+            month: month,
+            year: year,
+            numOfDatesInMonth: self.numOfDatesInMonth(date: firstDay),
+            firstDayOfMonth: firstDay,
+            LastDayOfMonth: self.getLastDayOfMonth(year: year, month: month),
+            firstDayOfWeek: self.weekDay(date: firstDay),
+            calendarDays: self.getCalendarDays(withStartDate: firstDay, startDOW: 7)
             
         )
         return month

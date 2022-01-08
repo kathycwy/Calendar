@@ -13,4 +13,5 @@ struct CalendarDay {
     let displayIndex: Int
     let isSelected: Bool
     let isWithinDisplayedMonth: Bool
+    let dayOfWeek: Int
 }

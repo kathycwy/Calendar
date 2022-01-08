@@ -14,5 +14,6 @@ struct CalendarMonth {
     let firstDayOfMonth: Date
     let LastDayOfMonth: Date
     let firstDayOfWeek: Int
+    var calendarDays: [CalendarDay]
 }
 
