@@ -60,6 +60,11 @@ struct CalendarHelper {
         return components.weekday! - 1
     }
     
+    func weekOfYear(date: Date) -> Int{
+        let components = calendar.dateComponents([.weekOfYear], from: date)
+        return components.weekOfYear!
+    }
+    
     func todayDateString(date: Date) -> String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "D"
@@ -89,6 +94,7 @@ struct CalendarHelper {
                 date: date,
                 dayString: String(self.getDay(for: date)),
                 displayIndex: self.getDay(for: date) + displayIndexBuffer,
+                weekNumber: weekOfYear(date: date),
                 isSelected: false,
                 isWithinDisplayedMonth: true,
                 dayOfWeek: weekDay(date:date))

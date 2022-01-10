@@ -13,7 +13,7 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private var calendarMonths: [CalendarMonth] = []
     private var calendarHelper: CalendarHelper = CalendarHelper()
     private var startDOW: Int = 7
-    private let numOfCells: Int = 42
+    private let numOfCells: Int = 42 // 7 cols * 6 rows
     private let defNumOfMonths: Int = 12
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date){
@@ -34,17 +34,20 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         return numOfCells
     }
     
+    func getCalendarMonths() -> [CalendarMonth]{
+        return self.calendarMonths
+    }
+    
     func getInitCalendar(calendarMonths: [CalendarMonth], selectedDate: Date) -> [CalendarMonth] {
         let year = Calendar.current.component(.year, from:selectedDate)
         let month = Calendar.current.component(.month, from:selectedDate)
         let startDate = calendarHelper.getFirstDayOfMonth(year: year, month: month)
         if calendarMonths.count == 0{
-            for i in -2 ... 2 {
-                let tempDate = calendarHelper.addMonth(date: startDate, n: i)
-                let tempYear = Calendar.current.component(.year, from:tempDate)
-                let tempMonth = Calendar.current.component(.month, from:tempDate)
-                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
-                self.calendarMonths.append(calMonth)
+            for tempYear in 1970 ... year {
+                for tempMonth in 1 ... 12 {
+                    let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
+                    self.calendarMonths.append(calMonth)
+                }
             }
         }
         else{
@@ -54,17 +57,7 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     }
     
     func getExtendedCalendarMonths(numberOfMonths: Int) -> [CalendarMonth] {
-        if numberOfMonths < 0 {
-            let lastCalMonth = self.calendarMonths.first
-            for i in numberOfMonths ... -1 {
-                let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
-                let tempYear = Calendar.current.component(.year, from:tempDate)
-                let tempMonth = Calendar.current.component(.month, from:tempDate)
-                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
-                self.calendarMonths.insert(calMonth, at: 0)
-            }
-        }
-        else{
+        if numberOfMonths > 0 {
             let lastCalMonth = self.calendarMonths.last
             for i in 1 ... numberOfMonths {
                 let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
@@ -72,6 +65,16 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 let tempMonth = Calendar.current.component(.month, from:tempDate)
                 let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
                 self.calendarMonths.append(calMonth)
+            }
+        }
+        else{
+            let lastCalMonth = self.calendarMonths.first
+            for i in stride(from: -1, to: numberOfMonths, by: -1){
+                let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
+                let tempYear = Calendar.current.component(.year, from:tempDate)
+                let tempMonth = Calendar.current.component(.month, from:tempDate)
+                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
+                self.calendarMonths.insert(calMonth, at: 0)
             }
         }
         return self.calendarMonths
@@ -105,12 +108,25 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        var displayWeekNum: String = ""
+        if day % 7 == 1 {
+            for i in day ... day + 6 {
+                let weekNum = calendarRange.first(where: {$0.displayIndex == i})?.weekNumber ?? -1
+                if weekNum > -1{
+                    displayWeekNum = String(weekNum)
+                    break
+                }
+            }
+        }
+        
         var displayStr: String = ""
         var i: Int = 0
         var isSunday = false
+        var isDate = false
         if calendarRange[0].displayIndex >= day{
             while (i < calendarMonths[indexPath.section].numOfDatesInMonth && displayStr == ""){
                 if calendarRange[i].displayIndex == day{
+                    isDate = true
                     displayStr = String(calendarRange[i].dayString)
                     if calendarRange[i].dayOfWeek == 0 {
                         isSunday = true
@@ -119,8 +135,11 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 i += 1
             }
         }
+        
         DispatchQueue.main.async {
             cell.dateLabel.text = displayStr
+            //cell.weekLabel.text = displayWeekNum
+            cell.weekLabel.text = String(indexPath.row)
             if isSunday{
                 cell.dateLabel.textColor = UIColor.red
             }
@@ -128,8 +147,19 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 cell.dateLabel.textColor = UIColor.black
             }
         }
-        //cell.layer.borderColor = UIColor.lightGray.cgColor
-        //cell.layer.borderWidth = 0.2
+        
+        //create the border
+        /*
+         if isDate{
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
+            bottomLine.backgroundColor = UIColor.lightGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+        }
+         */
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.layer.borderWidth = 0.2
         return cell
     }
+    
 }

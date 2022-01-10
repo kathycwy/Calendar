@@ -11,6 +11,7 @@ struct CalendarDay {
     let date: Date
     let dayString: String
     let displayIndex: Int
+    let weekNumber: Int
     let isSelected: Bool
     let isWithinDisplayedMonth: Bool
     let dayOfWeek: Int
