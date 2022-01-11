@@ -8,11 +8,29 @@
 import Foundation
 
 struct CalendarDay {
-    let date: Date
+    let date: Date?
     let dayString: String
     let displayIndex: Int
-    let weekNumber: Int
+    let weekNumber: Int?
     let isSelected: Bool
-    let isWithinDisplayedMonth: Bool
-    let dayOfWeek: Int
+    let isDate: Bool
+    let dayOfWeek: Int?
+    
+    init(date: Date? = nil,
+         dayString: String,
+         displayIndex: Int,
+         weekNumber: Int? = nil,
+         isSelected: Bool = false,
+         isDate: Bool,
+         dayOfWeek: Int? = nil) {
+        self.date = date
+        self.dayString = dayString
+        self.displayIndex = displayIndex
+        self.weekNumber = weekNumber
+        self.isSelected = isSelected
+        self.isDate = isDate
+        self.dayOfWeek = dayOfWeek
+    }
+    
 }
+

@@ -15,10 +15,10 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private var startDOW: Int = 7
     private let numOfCells: Int = 42 // 7 cols * 6 rows
     private let defNumOfMonths: Int = 12
+    private let defNumOfCells: Int = 42
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date){
         super.init()
-        _ = self.getInitCalendar(calendarMonths: calendarMonths, selectedDate: selectedDate)
     }
 
     // Number of months shown
@@ -31,7 +31,10 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
 
     // Number of days shown in a particular month
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numOfCells
+        if calendarMonths.count == 0{
+            return defNumOfCells
+        }
+        return calendarMonths[section].calendarDays.count
     }
     
     func getCalendarMonths() -> [CalendarMonth]{
@@ -39,6 +42,7 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     }
     
     func getInitCalendar(calendarMonths: [CalendarMonth], selectedDate: Date) -> [CalendarMonth] {
+        self.calendarMonths.removeAll(keepingCapacity: false)
         let year = Calendar.current.component(.year, from:selectedDate)
         let month = Calendar.current.component(.month, from:selectedDate)
         let startDate = calendarHelper.getFirstDayOfMonth(year: year, month: month)
@@ -92,54 +96,36 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 }
                 // Set header to month
             header.monthLabel.text = calendarHelper.monthStringFull(date: calendarMonths[indexPath.section].firstDayOfMonth)
-                
-                return header
-            default:
-                fatalError("Invalid element type")
+            //header.monthLabel.center.x = header.center.x
+            return header
+        default:
+            fatalError("Invalid element type")
         }
     }
     
     // Contrusting the cells of the collection view - Showing dates
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let day = indexPath.item + 1
-        let calendarRange = calendarMonths[indexPath.section].calendarDays
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as? CalendarCell else {
             return UICollectionViewCell()
         }
         
-        var displayWeekNum: String = ""
-        if day % 7 == 1 {
-            for i in day ... day + 6 {
-                let weekNum = calendarRange.first(where: {$0.displayIndex == i})?.weekNumber ?? -1
-                if weekNum > -1{
-                    displayWeekNum = String(weekNum)
-                    break
-                }
-            }
-        }
+        let calendarRange = calendarMonths[indexPath.section].calendarDays
         
+        // Show week number
+        let displayWeekNum: String = calendarRange[indexPath.row].weekNumber != nil ? String(calendarRange[indexPath.row].weekNumber!) : ""
+        
+        // Show date
         var displayStr: String = ""
-        var i: Int = 0
         var isSunday = false
-        var isDate = false
-        if calendarRange[0].displayIndex >= day{
-            while (i < calendarMonths[indexPath.section].numOfDatesInMonth && displayStr == ""){
-                if calendarRange[i].displayIndex == day{
-                    isDate = true
-                    displayStr = String(calendarRange[i].dayString)
-                    if calendarRange[i].dayOfWeek == 0 {
-                        isSunday = true
-                    }
-                }
-                i += 1
-            }
+        displayStr = String(calendarRange[indexPath.row].dayString)
+        if calendarRange[indexPath.row].dayOfWeek == 0 {
+            isSunday = true
         }
         
         DispatchQueue.main.async {
             cell.dateLabel.text = displayStr
-            //cell.weekLabel.text = displayWeekNum
-            cell.weekLabel.text = String(indexPath.row)
+            cell.weekLabel.text = displayWeekNum
+            //cell.weekLabel.text = String(indexPath.row)
             if isSunday{
                 cell.dateLabel.textColor = UIColor.red
             }
@@ -150,15 +136,17 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         
         //create the border
         /*
-         if isDate{
+        if calendarRange[indexPath.row].isDate == true {
             let bottomLine = CALayer()
-            bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
+            //bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
+            bottomLine.frame = CGRect(x: 0.0, y: 0.0, width: cell.frame.width, height: 1.0)
             bottomLine.backgroundColor = UIColor.lightGray.cgColor
             cell.layer.addSublayer(bottomLine)
         }
          */
-        cell.layer.borderColor = UIColor.lightGray.cgColor
-        cell.layer.borderWidth = 0.2
+         
+        //cell.layer.borderColor = UIColor.lightGray.cgColor
+        //cell.layer.borderWidth = 0.2
         return cell
     }
     

@@ -11,6 +11,8 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
 
     var itemsPerRow: CGFloat = 7
     var rowPerSection: CGFloat = 6
+    var invalidatesAll = false
+    var bounds: CGRect?
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
 
@@ -28,9 +30,8 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
     func configLayout() {
         itemSize = CGSize(width: 30, height: 80)
         headerReferenceSize = CGSize(width: 0, height: 55)
-        sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        minimumLineSpacing = 0
-        minimumInteritemSpacing = 0
+        minimumLineSpacing = 1
+        minimumInteritemSpacing = 1
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -50,30 +51,15 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        let inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        return inset
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
-/*
-         guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
-            fatalError("only flow layout is supported")
-        }
-        return flow.sectionInset
-    }
- */
  
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
@@ -91,30 +77,7 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
         }
         */
     }
-    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
 
-        guard let collectionView = self.collectionView else {
-            let latestOffset = super.targetContentOffset(forProposedContentOffset: proposedContentOffset, withScrollingVelocity: velocity)
-            return latestOffset
-        }
-
-        // Page height used for estimating and calculating paging.
-        let pageHeight = self.itemSize.height + self.minimumLineSpacing
-
-        // Make an estimation of the current page position.
-        let approximatePage = collectionView.contentOffset.y/pageHeight
-
-        // Determine the current page based on velocity.
-        let currentPage = velocity.y == 0 ? round(approximatePage) : (velocity.y < 0.0 ? floor(approximatePage) : ceil(approximatePage))
-
-        // Create custom flickVelocity.
-        let flickVelocity = velocity.y * 0.3
-
-        // Check how many pages the user flicked, if <= 1 then flickedPages should return 0.
-        let flickedPages = (abs(round(flickVelocity)) <= 1) ? 0 : round(flickVelocity)
-
-        let newVerticalOffset = ((currentPage + flickedPages) * pageHeight) - collectionView.contentInset.top
-
-        return CGPoint(x: proposedContentOffset.x, y: newVerticalOffset)
-    }
+    
+    
 }

@@ -13,6 +13,14 @@ class CalendarHeader: UICollectionReusableView {
     @IBOutlet weak var nextMonthButton : UIButton!
     @IBOutlet weak var prevMonthButton : UIButton!
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        monthLabel.text = ""
+        monthLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        monthLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        monthLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        monthLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+    }
 /*
     static let identifier = "calendarHeader"
 

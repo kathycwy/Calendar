@@ -24,7 +24,7 @@ struct CalendarHelper {
     
     func monthStringFull(date: Date) -> String{
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM yyyy"
+        dateFormatter.dateFormat = "MMMM yyyy"
         return dateFormatter.string(from: date)
     }
     
@@ -81,6 +81,18 @@ struct CalendarHelper {
         let displayIndexBuffer: Int = startDOW == 1 ? month.firstDayOfWeek : ((month.firstDayOfWeek == 7 ? 0 : month.firstDayOfWeek))
 
         var result: [CalendarDay] = []
+        var firstWeekNumber: Int = weekOfYear(date: month.firstDayOfMonth)
+        
+        if displayIndexBuffer > 0{
+            for i in 0 ... displayIndexBuffer - 1 {
+                result.append(CalendarDay(
+                    dayString: "",
+                    displayIndex: i,
+                    weekNumber: (i%7==0) ? firstWeekNumber : nil,
+                    isDate: false)
+                )
+            }
+        }
         
         calendar.enumerateDates(startingAfter: dayBefore(date: startDate),
                                 matching: DateComponents(hour: 0, minute: 0, second:0),
@@ -89,18 +101,19 @@ struct CalendarHelper {
                                         stop = true
                                         return
                                     }
-
+            let displayIdx = self.getDay(for: date) + displayIndexBuffer
             result.append( CalendarDay(
                 date: date,
                 dayString: String(self.getDay(for: date)),
-                displayIndex: self.getDay(for: date) + displayIndexBuffer,
-                weekNumber: weekOfYear(date: date),
+                displayIndex: displayIdx,
+                weekNumber: (displayIdx % 7==1) ? weekOfYear(date: date) : nil,
                 isSelected: false,
-                isWithinDisplayedMonth: true,
+                isDate: true,
                 dayOfWeek: weekDay(date:date))
             )
         }
-        return result.reversed()
+        
+        return result
     }
     
     func getCalendarMonthWithoutDay(for date: Date, startDOW: Int) -> CalendarMonth{

@@ -20,39 +20,46 @@ class CalendarViewController: UIViewController {
     private var startDOW: Int = 7
     private var displayDates = [String]()
     private let nextBatchCalendarMonthSize: Int = 2
+    private var isScrolled = false
     
     let calendarHelper = CalendarHelper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initCollectionView()
-        //self.initSwipeSetting()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.collectionView.reloadData()
-        self.view.layoutIfNeeded()
+        super.viewWillAppear(animated)
+        //self.initSwipeSetting()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.scrollToToday()
+        super.viewDidAppear(animated)
+        self.initCollectionView()
+        self.reloadCalendar()
+        //self.view.layoutIfNeeded()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.collectionView.reloadData()
+        
+        if !isScrolled && self.collectionView.visibleCells.count > 0 {
+            isScrolled = true
+            self.scrollToToday(animated: false)
+        }
     }
+    
     
     private func initCollectionView(){
         self.collectionView.dataSource = self.collectionViewDataSource
         self.collectionView.delegate = self.collectionViewFlowLayout
-        self.collectionView.alwaysBounceVertical = true
         self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.alwaysBounceVertical = true
         self.collectionView.backgroundColor = UIColor.white
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         //self.collectionView.contentInsetAdjustmentBehavior = .never
-        if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
+        //if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
         
     }
     
@@ -117,20 +124,18 @@ class CalendarViewController: UIViewController {
         self.collectionView.reloadData()
     }
     
-    func scrollToToday(){
+    func scrollToToday(animated: Bool = true){
         let year = calendarHelper.getYear(for:selectedDate)
         let month = calendarHelper.getMonth(for:selectedDate)
         self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
         let idx = self.calendarMonths.firstIndex(where: {$0.month == month && $0.year == year})!
-        //let indexPath = IndexPath(item: 30, section: idx)
-        //self.collectionView.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
         
         if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
             var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
             if #available(iOS 11.0, *) {
                 offsetY -= self.collectionView.safeAreaInsets.top
             }
-            self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false) // or animated: false
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
         }
     }
     /*
