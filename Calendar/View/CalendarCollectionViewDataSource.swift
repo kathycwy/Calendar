@@ -13,12 +13,12 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private var calendarMonths: [CalendarMonth] = []
     private var calendarHelper: CalendarHelper = CalendarHelper()
     private var startDOW: Int = 7
-    private let numOfCells: Int = 42
+    private let numOfCells: Int = 42 // 7 cols * 6 rows
     private let defNumOfMonths: Int = 12
+    private let defNumOfCells: Int = 42
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date){
         super.init()
-        _ = self.getInitCalendar(calendarMonths: calendarMonths, selectedDate: selectedDate)
     }
 
     // Number of months shown
@@ -31,20 +31,27 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
 
     // Number of days shown in a particular month
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numOfCells
+        if calendarMonths.count == 0{
+            return defNumOfCells
+        }
+        return calendarMonths[section].calendarDays.count
+    }
+    
+    func getCalendarMonths() -> [CalendarMonth]{
+        return self.calendarMonths
     }
     
     func getInitCalendar(calendarMonths: [CalendarMonth], selectedDate: Date) -> [CalendarMonth] {
+        self.calendarMonths.removeAll(keepingCapacity: false)
         let year = Calendar.current.component(.year, from:selectedDate)
         let month = Calendar.current.component(.month, from:selectedDate)
         let startDate = calendarHelper.getFirstDayOfMonth(year: year, month: month)
         if calendarMonths.count == 0{
-            for i in -2 ... 2 {
-                let tempDate = calendarHelper.addMonth(date: startDate, n: i)
-                let tempYear = Calendar.current.component(.year, from:tempDate)
-                let tempMonth = Calendar.current.component(.month, from:tempDate)
-                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
-                self.calendarMonths.append(calMonth)
+            for tempYear in 1970 ... year {
+                for tempMonth in 1 ... 12 {
+                    let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
+                    self.calendarMonths.append(calMonth)
+                }
             }
         }
         else{
@@ -54,17 +61,7 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     }
     
     func getExtendedCalendarMonths(numberOfMonths: Int) -> [CalendarMonth] {
-        if numberOfMonths < 0 {
-            let lastCalMonth = self.calendarMonths.first
-            for i in numberOfMonths ... -1 {
-                let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
-                let tempYear = Calendar.current.component(.year, from:tempDate)
-                let tempMonth = Calendar.current.component(.month, from:tempDate)
-                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
-                self.calendarMonths.insert(calMonth, at: 0)
-            }
-        }
-        else{
+        if numberOfMonths > 0 {
             let lastCalMonth = self.calendarMonths.last
             for i in 1 ... numberOfMonths {
                 let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
@@ -72,6 +69,16 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 let tempMonth = Calendar.current.component(.month, from:tempDate)
                 let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
                 self.calendarMonths.append(calMonth)
+            }
+        }
+        else{
+            let lastCalMonth = self.calendarMonths.first
+            for i in stride(from: -1, to: numberOfMonths, by: -1){
+                let tempDate = calendarHelper.addMonth(date: lastCalMonth!.firstDayOfMonth, n: i)
+                let tempYear = Calendar.current.component(.year, from:tempDate)
+                let tempMonth = Calendar.current.component(.month, from:tempDate)
+                let calMonth = calendarHelper.getCalendarMonth(year: tempYear, month: tempMonth, startDOW: self.startDOW)
+                self.calendarMonths.insert(calMonth, at: 0)
             }
         }
         return self.calendarMonths
@@ -89,38 +96,36 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 }
                 // Set header to month
             header.monthLabel.text = calendarHelper.monthStringFull(date: calendarMonths[indexPath.section].firstDayOfMonth)
-                
-                return header
-            default:
-                fatalError("Invalid element type")
+            //header.monthLabel.center.x = header.center.x
+            return header
+        default:
+            fatalError("Invalid element type")
         }
     }
     
     // Contrusting the cells of the collection view - Showing dates
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let day = indexPath.item + 1
-        let calendarRange = calendarMonths[indexPath.section].calendarDays
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as? CalendarCell else {
             return UICollectionViewCell()
         }
         
+        let calendarRange = calendarMonths[indexPath.section].calendarDays
+        
+        // Show week number
+        let displayWeekNum: String = calendarRange[indexPath.row].weekNumber != nil ? String(calendarRange[indexPath.row].weekNumber!) : ""
+        
+        // Show date
         var displayStr: String = ""
-        var i: Int = 0
         var isSunday = false
-        if calendarRange[0].displayIndex >= day{
-            while (i < calendarMonths[indexPath.section].numOfDatesInMonth && displayStr == ""){
-                if calendarRange[i].displayIndex == day{
-                    displayStr = String(calendarRange[i].dayString)
-                    if calendarRange[i].dayOfWeek == 0 {
-                        isSunday = true
-                    }
-                }
-                i += 1
-            }
+        displayStr = String(calendarRange[indexPath.row].dayString)
+        if calendarRange[indexPath.row].dayOfWeek == 0 {
+            isSunday = true
         }
+        
         DispatchQueue.main.async {
             cell.dateLabel.text = displayStr
+            cell.weekLabel.text = displayWeekNum
+            //cell.weekLabel.text = String(indexPath.row)
             if isSunday{
                 cell.dateLabel.textColor = UIColor.red
             }
@@ -128,8 +133,21 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                 cell.dateLabel.textColor = UIColor.black
             }
         }
+        
+        //create the border
+        /*
+        if calendarRange[indexPath.row].isDate == true {
+            let bottomLine = CALayer()
+            //bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
+            bottomLine.frame = CGRect(x: 0.0, y: 0.0, width: cell.frame.width, height: 1.0)
+            bottomLine.backgroundColor = UIColor.lightGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+        }
+         */
+         
         //cell.layer.borderColor = UIColor.lightGray.cgColor
         //cell.layer.borderWidth = 0.2
         return cell
     }
+    
 }

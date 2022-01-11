@@ -20,34 +20,55 @@ class CalendarViewController: UIViewController {
     private var startDOW: Int = 7
     private var displayDates = [String]()
     private let nextBatchCalendarMonthSize: Int = 2
+    private var isScrolled = false
     
     let calendarHelper = CalendarHelper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initCollectionView()
-        //self.initSwipeSetting()
-        self.scrollToToday()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.collectionView.reloadData()
+        super.viewWillAppear(animated)
+        //self.initSwipeSetting()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.initCollectionView()
+        self.reloadCalendar()
+        //self.view.layoutIfNeeded()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !isScrolled && self.collectionView.visibleCells.count > 0 {
+            isScrolled = true
+            self.scrollToToday(animated: false)
+        }
+    }
+    
     
     private func initCollectionView(){
         self.collectionView.dataSource = self.collectionViewDataSource
         self.collectionView.delegate = self.collectionViewFlowLayout
-
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.alwaysBounceVertical = true
         self.collectionView.backgroundColor = UIColor.white
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-        self.collectionView.isPagingEnabled = true
+        //self.collectionView.contentInsetAdjustmentBehavior = .never
+        //if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
         
     }
+    
+    
     /*
     func initSwipeSetting(){
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-        leftSwipe.direction = .left
+        leftSwipe.direction = .up
         rightSwipe.direction = .right
         self.view.addGestureRecognizer(leftSwipe)
         self.view.addGestureRecognizer(rightSwipe)
@@ -103,9 +124,19 @@ class CalendarViewController: UIViewController {
         self.collectionView.reloadData()
     }
     
-    func scrollToToday(){
-        let indexPath = IndexPath(item: 15, section: 2)
-        self.collectionView.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
+    func scrollToToday(animated: Bool = true){
+        let year = calendarHelper.getYear(for:selectedDate)
+        let month = calendarHelper.getMonth(for:selectedDate)
+        self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
+        let idx = self.calendarMonths.firstIndex(where: {$0.month == month && $0.year == year})!
+        
+        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
+            var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
+            if #available(iOS 11.0, *) {
+                offsetY -= self.collectionView.safeAreaInsets.top
+            }
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
+        }
     }
     /*
     @IBAction func prevMonth(_ sender: Any) {
@@ -118,6 +149,9 @@ class CalendarViewController: UIViewController {
         reloadCalendar()
     }
      */
+    @IBAction func todayButton(_ sender: Any) {
+        scrollToToday()
+    }
 
 }
 

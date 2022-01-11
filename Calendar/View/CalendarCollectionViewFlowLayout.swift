@@ -11,6 +11,8 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
 
     var itemsPerRow: CGFloat = 7
     var rowPerSection: CGFloat = 6
+    var invalidatesAll = false
+    var bounds: CGRect?
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
 
@@ -28,8 +30,7 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
     func configLayout() {
         itemSize = CGSize(width: 30, height: 80)
         headerReferenceSize = CGSize(width: 0, height: 55)
-        sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        minimumLineSpacing = 0
+        minimumLineSpacing = 1
         minimumInteritemSpacing = 1
     }
 
@@ -39,41 +40,26 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
         guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
             fatalError("only flow layout is supported")
         }
-
+        
         let paddingSpace = flow.sectionInset.left + flow.sectionInset.right + (minimumInteritemSpacing * itemsPerRow)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        let heightPerItem = (collectionView.frame.size.height - flow.headerReferenceSize.height) / rowPerSection
+        let heightPerItem = (collectionView.frame.height - flow.headerReferenceSize.height) / rowPerSection
 
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        let inset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
-        return inset
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
-/*
-         guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
-            fatalError("only flow layout is supported")
-        }
-        return flow.sectionInset
-    }
- */
  
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
@@ -83,10 +69,15 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
                 parentLoadNextBatch()
             }
         }
+        /*
         else if indexPath.section == 0 {
             if indexPath.row == 1 {
                 parentLoadPrevBatch()
             }
         }
+        */
     }
+
+    
+    
 }

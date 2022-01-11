@@ -11,6 +11,17 @@ import UIKit
 class CalendarCell: UICollectionViewCell {
 
     @IBOutlet weak var dateLabel : UILabel!
+    @IBOutlet weak var weekLabel : UILabel!
+    @IBOutlet weak var isSelectedLabel : UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dateLabel.textColor = nil
+        weekLabel.textColor = nil
+        dateLabel.text = ""
+        weekLabel.text = ""
+    }
+    
 /*
     static let reuseIdentifier = "calendarCell"
 
