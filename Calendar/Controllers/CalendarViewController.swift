@@ -19,7 +19,8 @@ class CalendarViewController: UIViewController {
     private var dowCount: Int = 7
     private var startDOW: Int = 7
     private var displayDates = [String]()
-    private let nextBatchCalendarMonthSize: Int = 2
+    private let loadingBatchSize: Int = 2
+    private let nextBatchCalendarMonthSize: Int = 12
     private var isScrolled = false
     
     let calendarHelper = CalendarHelper()
@@ -108,8 +109,16 @@ class CalendarViewController: UIViewController {
     }()
     
     func loadNextBatch(){
-        self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: nextBatchCalendarMonthSize)
+        
+        self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
         self.collectionView.reloadData()
+        
+        let reminingBatchCount = Int(ceil(Double((nextBatchCalendarMonthSize - loadingBatchSize) / loadingBatchSize)))
+        if reminingBatchCount > 0{
+            for i in 1 ... reminingBatchCount{
+                self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
+            }
+        }
     }
     
     func loadPrevBatch(){

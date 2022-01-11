@@ -64,8 +64,8 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if indexPath.section == collectionView.numberOfSections - 1 {
-            if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+        if indexPath.section == collectionView.numberOfSections - 6 {
+            if indexPath.row == 0 {
                 parentLoadNextBatch()
             }
         }
