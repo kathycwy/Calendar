@@ -14,7 +14,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Initialise user setting variables
+        UserDefaults.standard.register(
+            defaults: [
+                "ColourTheme": Constants.ColourThemes.teal,
+                "FontSize": UIFont.systemFontSize,
+                "DisplayWeekNumber": true
+            ]
+        )
+        // Initialise colour theme
+        if #available(iOS 13.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+                       
+            navigationBarAppearance.backgroundColor = .appColor(.navigationBackground)
+            navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
+            navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
+            
+            UINavigationBar.appearance().backgroundColor = .appColor(.navigationBackground)
+            UINavigationBar.appearance().barTintColor = .appColor(.navigationBackground)
+            UIBarButtonItem.appearance().tintColor = .appColor(.primary)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onPrimary)!], for: .selected)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.primary)!], for: .normal)
+            
+            UINavigationBar.appearance().isTranslucent = false
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
+            UITabBar.appearance().barTintColor = .appColor(.navigationBackground)
+            UITabBar.appearance().tintColor = .appColor(.navigationTitle)
+            UITabBar.appearance().standardAppearance = tabBarAppearance
+            
+        }
+        else {
+            // Fallback on earlier versions
+            UINavigationBar.appearance().isTranslucent = false
+            UINavigationBar.appearance().barTintColor = .appColor(.navigationBackground)
+            UINavigationBar.appearance().tintColor = .appColor(.navigationTitle)
+            UITabBar.appearance().tintColor = .appColor(.navigationTitle)
+        }
+        UISegmentedControl.appearance().selectedSegmentTintColor = .appColor(.primary)
+        UISegmentedControl.appearance().backgroundColor = .appColor(.onPrimary)
+        UISegmentedControl.appearance().tintColor = .appColor(.onPrimary)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onPrimary)!], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.primary)!], for: .normal)
+        UIButton.appearance().tintColor = UIColor.appColor(.primary)!
+        UISwitch.appearance().onTintColor = .appColor(.navigationTitle)
+        UIRefreshControl.appearance().tintColor = .appColor(.navigationTitle)
+        UIToolbar.appearance().tintColor = .appColor(.navigationTitle)
+        
+
+        let popoverBarAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [UIPopoverPresentationController.self])
+        popoverBarAppearance.tintColor = .appColor(.navigationTitle)
+        popoverBarAppearance.barTintColor = nil
+        popoverBarAppearance.barStyle = .default
+        
         return true
     }
 

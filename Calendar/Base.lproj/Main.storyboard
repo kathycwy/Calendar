@@ -9,16 +9,32 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Today-->
+        <scene sceneID="yUl-Jf-nFG">
+            <objects>
+                <viewController id="LP7-3J-eUD" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Spw-o5-QIG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="4Fq-FD-svn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Today" image="homekit" catalog="system" id="2gM-Qb-wVk"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jyM-kf-XSU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1873" y="-576"/>
+        </scene>
         <!--Calendar-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="CalendarViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MonthViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="eTr-Kh-uWN">
-                                <rect key="frame" x="0.0" y="88" width="414" height="30"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sun" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZtF-fg-bKH">
                                         <rect key="frame" x="0.0" y="0.0" width="59" height="30"/>
@@ -69,7 +85,7 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CqN-Ce-NnL">
-                                <rect key="frame" x="0.0" y="118" width="414" height="664"/>
+                                <rect key="frame" x="0.0" y="74" width="414" height="651"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="LKu-LF-4rl">
                                     <size key="itemSize" width="55" height="134"/>
@@ -85,21 +101,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="55" height="134"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbx-bD-5l1">
-                                                    <rect key="frame" x="9" y="17" width="38" height="23"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbx-bD-5l1" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="8.5" y="15" width="38" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhE-Q0-PZh">
-                                                    <rect key="frame" x="0.0" y="-5" width="31" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhE-Q0-PZh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="31" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rbx-bD-5l1" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" constant="5" id="D4Y-Wx-3Hd"/>
+                                                <constraint firstItem="rbx-bD-5l1" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" constant="15" id="D4Y-Wx-3Hd"/>
                                                 <constraint firstItem="bhE-Q0-PZh" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" id="Pqw-Dv-C6h"/>
                                                 <constraint firstItem="rbx-bD-5l1" firstAttribute="centerX" secondItem="Cks-mf-XH8" secondAttribute="centerX" id="wif-U7-OSI"/>
                                             </constraints>
@@ -118,8 +134,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U6s-5r-Ity">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                             <subviews>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehm-an-oKH">
-                                                    <rect key="frame" x="10" y="5" width="40" height="40"/>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehm-an-oKH">
+                                                    <rect key="frame" x="-34" y="2" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ehm-an-oKH" secondAttribute="height" multiplier="1:1" id="sNW-jh-4hY"/>
                                                     </constraints>
@@ -137,8 +153,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7o-Ak-FwO">
-                                                    <rect key="frame" x="375" y="14" width="19" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7o-Ak-FwO">
+                                                    <rect key="frame" x="414" y="14" width="0.0" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="j7o-Ak-FwO" secondAttribute="height" multiplier="1:1" id="Z3o-tJ-0BM"/>
                                                     </constraints>
@@ -174,30 +190,20 @@
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hyB-cS-dBl">
-                                <rect key="frame" x="22" y="782" width="63" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Today" cornerStyle="capsule"/>
-                                <connections>
-                                    <action selector="todayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XVO-yh-13X"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="systemTealColor"/>
                         <constraints>
-                            <constraint firstItem="hyB-cS-dBl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="9R8-tk-thE"/>
                             <constraint firstItem="eTr-Kh-uWN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ECt-wT-Gi7"/>
                             <constraint firstItem="eTr-Kh-uWN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SKM-h8-dsU"/>
                             <constraint firstItem="CqN-Ce-NnL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="UVh-OI-DBc"/>
-                            <constraint firstItem="eTr-Kh-uWN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ahF-6Q-ix1"/>
+                            <constraint firstItem="eTr-Kh-uWN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="WmJ-d7-Cht"/>
                             <constraint firstItem="CqN-Ce-NnL" firstAttribute="top" secondItem="eTr-Kh-uWN" secondAttribute="bottom" id="bgm-ya-eHt"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hyB-cS-dBl" secondAttribute="bottom" id="evj-0I-wZW"/>
                             <constraint firstItem="eTr-Kh-uWN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iPG-77-j9K"/>
                             <constraint firstItem="CqN-Ce-NnL" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="jr3-R9-iyN"/>
                             <constraint firstItem="CqN-Ce-NnL" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sOw-qh-peu"/>
-                            <constraint firstItem="CqN-Ce-NnL" firstAttribute="bottom" secondItem="hyB-cS-dBl" secondAttribute="top" id="tYD-IE-nep"/>
+                            <constraint firstItem="CqN-Ce-NnL" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="tYD-IE-nep"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="LCQ-Dm-gle"/>
@@ -210,25 +216,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1849.2753623188407" y="71.651785714285708"/>
+            <point key="canvasLocation" x="2815.9420289855075" y="-182.47767857142856"/>
         </scene>
-        <!--Item-->
+        <!--Calendar-->
         <scene sceneID="b4a-jJ-Cuy">
             <objects>
                 <viewController id="P8F-jd-5YW" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="51q-OL-23g">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZj-62-xgO">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="embed" id="IXG-nL-2FM"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="iqu-se-WEv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="systemTealColor"/>
+                        <constraints>
+                            <constraint firstItem="FZj-62-xgO" firstAttribute="bottom" secondItem="iqu-se-WEv" secondAttribute="bottom" id="pMv-sj-BNL"/>
+                            <constraint firstItem="FZj-62-xgO" firstAttribute="trailing" secondItem="iqu-se-WEv" secondAttribute="trailing" id="s5Y-5z-Dvu"/>
+                            <constraint firstItem="FZj-62-xgO" firstAttribute="leading" secondItem="iqu-se-WEv" secondAttribute="leading" id="tMB-oM-BD8"/>
+                            <constraint firstItem="FZj-62-xgO" firstAttribute="top" secondItem="iqu-se-WEv" secondAttribute="top" id="vyc-UN-DUu"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="WE7-CM-lqa"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="4Cp-hI-jel"/>
                     <navigationItem key="navigationItem" id="vN0-6F-e7E"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZFu-j8-q6u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1849" y="-585"/>
+            <point key="canvasLocation" x="1878" y="72"/>
         </scene>
         <!--Item-->
         <scene sceneID="aNf-Um-BxO">
@@ -249,10 +270,10 @@
             </objects>
             <point key="canvasLocation" x="28.985507246376812" y="71.651785714285708"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Calendar Tab Bar Controller-->
         <scene sceneID="Q1D-xU-4Jb">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="RmM-da-CSO" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="RmM-da-CSO" customClass="CalendarTabBarController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="2s2-4N-KfL">
                         <nil key="title"/>
@@ -266,7 +287,7 @@
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="szH-1a-Gz4">
-                                <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="2" id="3cH-ER-7eu" userLabel="Day, Week, Month, Year">
+                                <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="2" id="3cH-ER-7eu" userLabel="Day, Week, Month, Year">
                                     <rect key="frame" x="79" y="5.5" width="235" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <segments>
@@ -277,9 +298,6 @@
                                     </segments>
                                 </segmentedControl>
                                 <color key="tintColor" systemColor="systemTealColor"/>
-                                <connections>
-                                    <segue destination="P8F-jd-5YW" kind="show" id="6DF-qS-wuI"/>
-                                </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" id="OvH-ii-9bB">
@@ -297,7 +315,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="hZD-OE-17f"/>
+                        <segue destination="LP7-3J-eUD" kind="relationship" relationship="viewControllers" id="hII-PN-Xaq"/>
+                        <segue destination="P8F-jd-5YW" kind="relationship" relationship="viewControllers" id="bRt-Op-zDO"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JjX-e9-5yA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -16989,6 +17008,7 @@ AAAAD0GWA
 </mutableData>
         </image>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="homekit" catalog="system" width="128" height="106"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">

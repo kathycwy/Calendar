@@ -10,18 +10,23 @@ import UIKit
 
 class CalendarCell: UICollectionViewCell {
 
-    @IBOutlet weak var dateLabel : UILabel!
+    @IBOutlet weak var dateLabel : PaddingLabel!
     @IBOutlet weak var weekLabel : UILabel!
     @IBOutlet weak var isSelectedLabel : UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        dateLabel.textColor = nil
+        initLabel()
+    }
+    
+    func initLabel(){
+        dateLabel.textColor = UIColor.appColor(.onSurface)
+        dateLabel.backgroundColor = UIColor.appColor(.background)
         weekLabel.textColor = nil
         dateLabel.text = ""
         weekLabel.text = ""
+        dateLabel.padding(15, 15, 15, 15)
     }
-    
 /*
     static let reuseIdentifier = "calendarCell"
 

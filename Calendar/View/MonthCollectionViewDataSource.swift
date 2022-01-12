@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
+class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource {
 
     //private var calendarRange: [CalendarDay] = []
     private var calendarMonths: [CalendarMonth] = []
@@ -95,7 +95,9 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                     return UICollectionReusableView()
                 }
                 // Set header to month
+            header.backgroundColor = UIColor.appColor(.primary)
             header.monthLabel.text = calendarHelper.monthStringFull(date: calendarMonths[indexPath.section].firstDayOfMonth)
+            header.monthLabel.textColor = UIColor.appColor(.onPrimary)
             //header.monthLabel.center.x = header.center.x
             return header
         default:
@@ -108,6 +110,8 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as? CalendarCell else {
             return UICollectionViewCell()
         }
+        
+        cell.initLabel()
         
         let calendarRange = calendarMonths[indexPath.section].calendarDays
         
@@ -122,31 +126,28 @@ class CalendarCollectionViewDataSource : NSObject, UICollectionViewDataSource {
             isSunday = true
         }
         
+        let isDisplayWeekNumber: Bool = UserDefaults.standard.bool(forKey: "DisplayWeekNumber")
+        
         DispatchQueue.main.async {
             cell.dateLabel.text = displayStr
-            cell.weekLabel.text = displayWeekNum
+            cell.weekLabel.text = isDisplayWeekNumber ? displayWeekNum : ""
             //cell.weekLabel.text = String(indexPath.row)
             if isSunday{
                 cell.dateLabel.textColor = UIColor.red
             }
+            else if calendarRange[indexPath.row].date == self.calendarHelper.getCurrentDate(){
+                //cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                //cell.layer.borderWidth = 2
+                cell.dateLabel.layer.cornerRadius = 8.0
+                cell.dateLabel.layer.masksToBounds = true
+                cell.dateLabel.backgroundColor = UIColor.appColor(.primary)
+                cell.dateLabel.textColor = UIColor.appColor(.onPrimary)
+            }
             else{
-                cell.dateLabel.textColor = UIColor.black
+                cell.dateLabel.textColor = UIColor.appColor(.onSurface)
             }
         }
         
-        //create the border
-        /*
-        if calendarRange[indexPath.row].isDate == true {
-            let bottomLine = CALayer()
-            //bottomLine.frame = CGRect(x: 0.0, y: cell.frame.height - 1, width: cell.frame.width, height: 1.0)
-            bottomLine.frame = CGRect(x: 0.0, y: 0.0, width: cell.frame.width, height: 1.0)
-            bottomLine.backgroundColor = UIColor.lightGray.cgColor
-            cell.layer.addSublayer(bottomLine)
-        }
-         */
-         
-        //cell.layer.borderColor = UIColor.lightGray.cgColor
-        //cell.layer.borderWidth = 0.2
         return cell
     }
     
