@@ -173,7 +173,7 @@ struct CalendarHelper {
         return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.getFirstDayOfMonth(year: year, month: month))!
     }
     
-    func getCurrentDate()-> Date {
+    func getCurrentDatetime()-> Date {
         var now = Date()
         var nowComponents = DateComponents()
         let calendar = Calendar.current
@@ -184,6 +184,17 @@ struct CalendarHelper {
         nowComponents.minute = Calendar.current.component(.minute, from: now)
         nowComponents.second = Calendar.current.component(.second, from: now)
         nowComponents.timeZone = NSTimeZone.local
+        now = calendar.date(from: nowComponents)!
+        return now as Date
+    }
+    
+    func getCurrentDate()-> Date {
+        var now = Date()
+        var nowComponents = DateComponents()
+        let calendar = Calendar.current
+        nowComponents.year = Calendar.current.component(.year, from: now)
+        nowComponents.month = Calendar.current.component(.month, from: now)
+        nowComponents.day = Calendar.current.component(.day, from: now)
         now = calendar.date(from: nowComponents)!
         return now as Date
     }

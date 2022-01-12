@@ -7,12 +7,13 @@
 
 import UIKit
 
-class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
+class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
 
     var itemsPerRow: CGFloat = 7
     var rowPerSection: CGFloat = 6
     var invalidatesAll = false
     var bounds: CGRect?
+    let minimumCellHeight: CGFloat = 50
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
 
@@ -29,7 +30,7 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
 
     func configLayout() {
         itemSize = CGSize(width: 30, height: 80)
-        headerReferenceSize = CGSize(width: 0, height: 55)
+        headerReferenceSize = CGSize(width: 0, height: 60)
         minimumLineSpacing = 1
         minimumInteritemSpacing = 1
     }
@@ -44,7 +45,7 @@ class CalendarCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectio
         let paddingSpace = flow.sectionInset.left + flow.sectionInset.right + (minimumInteritemSpacing * itemsPerRow)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        let heightPerItem = (collectionView.frame.height - flow.headerReferenceSize.height) / rowPerSection
+        let heightPerItem = max((collectionView.frame.height - flow.headerReferenceSize.height) / rowPerSection, minimumCellHeight)
 
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
