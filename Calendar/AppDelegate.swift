@@ -18,8 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(
             defaults: [
                 "ColourTheme": Constants.ColourThemes.teal,
-                "FontSize": UIFont.systemFontSize,
-                "DisplayWeekNumber": true
+                "FontSize": Constants.FontSize.normal,
+                "DisplayWeekNumber": true,
+                "StartDayOfWeek": 7
             ]
         )
         // Initialise colour theme

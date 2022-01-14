@@ -1,5 +1,5 @@
 //
-//  CalendarCell.swift
+//  MonthCell.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CalendarCell: UICollectionViewCell {
+class MonthCell: UICollectionViewCell {
 
     @IBOutlet weak var dateLabel : PaddingLabel!
     @IBOutlet weak var weekLabel : UILabel!
@@ -28,14 +28,14 @@ class CalendarCell: UICollectionViewCell {
         dateLabel.padding(15, 15, 15, 15)
     }
 /*
-    static let reuseIdentifier = "calendarCell"
+    static let reuseIdentifier = "monthCell"
 
     static func register(with collectionView: UICollectionView) {
-        collectionView.register(CalendarCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(MonthCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
 
-    static func dequeue(from collectionView: UICollectionView, at indexPath: IndexPath, forDay day: Int) -> CalendarCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? CalendarCell ?? CalendarCell()
+    static func dequeue(from collectionView: UICollectionView, at indexPath: IndexPath, forDay day: Int) -> MonthCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? MonthCell ?? MonthCell()
 
         cell.dateLabel.text = String(format: "%02d", day)
 
