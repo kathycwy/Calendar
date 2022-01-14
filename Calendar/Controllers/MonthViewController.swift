@@ -19,7 +19,6 @@ class MonthViewController: UIViewController, UITabBarDelegate {
     private var calendarMonths: [CalendarMonth] = []
     var selectedDate = Date()
     private var dowCount: Int = 7
-    private var startDOW: Int = 7
     private var displayDates = [String]()
     private let loadingBatchSize: Int = 2
     private let nextBatchCalendarMonthSize: Int = 12
@@ -142,7 +141,7 @@ class MonthViewController: UIViewController, UITabBarDelegate {
         
         let reminingBatchCount = Int(ceil(Double((nextBatchCalendarMonthSize - loadingBatchSize) / loadingBatchSize)))
         if reminingBatchCount > 0{
-            for i in 1 ... reminingBatchCount{
+            for _ in 1 ... reminingBatchCount{
                 self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
             }
         }

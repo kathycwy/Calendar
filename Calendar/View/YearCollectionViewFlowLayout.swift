@@ -7,24 +7,16 @@
 
 import UIKit
 
-class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
-    
-    private var isAsInnerCollectionView: Bool = false
-    var itemsPerRow: CGFloat = 7
-    var rowPerSection: CGFloat = 6
-    let minimumCellHeight: CGFloat = 50
-    let minimumInnerCellHeight: CGFloat = 10
-    let minimumheaderHeight: CGFloat = 40
+class YearCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
+
+    var itemsPerRow: CGFloat = 3
+    var rowPerSection: CGFloat = 4
+    let defaultCellHeight: CGFloat = 200
+    let minimumCellWidth: CGFloat = 120
+    let minimumCellHeight: CGFloat = 200
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
-    var headerHeight: CGFloat = 40
 
-    init(isAsInnerCollectionView: Bool){
-        super.init()
-        self.isAsInnerCollectionView = isAsInnerCollectionView
-        self.configLayout()
-    }
-    
     override init() {
         super.init()
         self.configLayout()
@@ -37,23 +29,16 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
     }
 
     func configLayout() {
-        if isAsInnerCollectionView {
-            itemSize = CGSize(width: 20, height: 20)
-            let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
-            minimumLineSpacing = 1
-            minimumInteritemSpacing = 1
-        }
-        else {
-            itemSize = CGSize(width: 30, height: 80)
-            headerReferenceSize = CGSize(width: 0, height: 60)
-            minimumLineSpacing = 1
-            minimumInteritemSpacing = 1
-        }
+        itemSize = CGSize(width: minimumCellHeight, height: minimumCellHeight)
+        headerReferenceSize = CGSize(width: 0, height: 50)
+        minimumLineSpacing = 10
+        minimumInteritemSpacing = 5
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+        /*
         guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
             fatalError("only flow layout is supported")
         }
@@ -61,22 +46,24 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
         var paddingSpace = flow.sectionInset.left + flow.sectionInset.right + (minimumInteritemSpacing * itemsPerRow)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-
+        
         paddingSpace = flow.sectionInset.top + flow.sectionInset.bottom + (minimumLineSpacing * rowPerSection)
-        let heightPerItem = max((collectionView.frame.height - paddingSpace) / rowPerSection, isAsInnerCollectionView ? minimumInnerCellHeight : minimumCellHeight)
-        return CGSize(width: widthPerItem, height: heightPerItem)
+        let heightPerItem = max((collectionView.frame.height - paddingSpace) / rowPerSection, minimumCellHeight)
+         return CGSize(width: widthPerItem, height: heightPerItem)
+         */
+        return CGSize(width: minimumCellWidth, height: minimumCellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 5
     }
  
     func collectionView(_ collectionView: UICollectionView,
@@ -95,6 +82,7 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
         }
         */
     }
+
     
     
 }

@@ -3,6 +3,9 @@ import UIKit
 class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var freshLaunch = true
+    @IBOutlet weak var monthContainerView: UIView!
+    @IBOutlet weak var yearContainerView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -26,4 +29,9 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
        return true
    }
     
+    @IBAction func didChangeIndex(_ sender: UISegmentedControl) {
+        var param = [String:Int?]()
+        param["SelectedIndex"] = sender.selectedSegmentIndex
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "switchCalendarView"), object: nil, userInfo: param as [AnyHashable : Any])
+    }
 }

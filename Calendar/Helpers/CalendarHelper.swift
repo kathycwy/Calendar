@@ -75,8 +75,9 @@ struct CalendarHelper {
         return Calendar.current.date(byAdding: DateComponents(day: -1), to: date)!
     }
     
-    func getCalendarDays(withStartDate startDate: Date, startDOW: Int) -> [CalendarDay] {
-        let month = getCalendarMonthWithoutDay(for: startDate, startDOW: startDOW)
+    func getCalendarDays(withStartDate startDate: Date) -> [CalendarDay] {
+        let startDOW: Int = UserDefaults.standard.integer(forKey: "StartDayOfWeek")
+        let month = getCalendarMonthWithoutDay(for: startDate)
         let endDate = self.getLastDayOfMonth(year: month.year, month: month.month)
         let displayIndexBuffer: Int = startDOW == 1 ? month.firstDayOfWeek : ((month.firstDayOfWeek == 7 ? 0 : month.firstDayOfWeek))
 
@@ -116,11 +117,11 @@ struct CalendarHelper {
         return result
     }
     
-    func getCalendarMonthWithoutDay(for date: Date, startDOW: Int) -> CalendarMonth{
-        return self.getCalendarMonthWithoutDay(year: self.getYear(for: date), month: self.getMonth(for: date), startDOW: startDOW)
+    func getCalendarMonthWithoutDay(for date: Date) -> CalendarMonth{
+        return self.getCalendarMonthWithoutDay(year: self.getYear(for: date), month: self.getMonth(for: date))
     }
     
-    func getCalendarMonthWithoutDay(year: Int, month: Int, startDOW: Int) -> CalendarMonth{
+    func getCalendarMonthWithoutDay(year: Int, month: Int) -> CalendarMonth{
         let firstDay = self.getFirstDayOfMonth(year: year, month: month)
         let month = CalendarMonth(
             month: month,
@@ -134,7 +135,7 @@ struct CalendarHelper {
         return month
     }
     
-    func getCalendarMonth(year: Int, month: Int, startDOW: Int) -> CalendarMonth{
+    func getCalendarMonth(year: Int, month: Int) -> CalendarMonth{
         let firstDay = self.getFirstDayOfMonth(year: year, month: month)
         let month = CalendarMonth(
             month: month,
@@ -143,10 +144,18 @@ struct CalendarHelper {
             firstDayOfMonth: firstDay,
             LastDayOfMonth: self.getLastDayOfMonth(year: year, month: month),
             firstDayOfWeek: self.weekDay(date: firstDay),
-            calendarDays: self.getCalendarDays(withStartDate: firstDay, startDOW: 7)
+            calendarDays: self.getCalendarDays(withStartDate: firstDay)
             
         )
         return month
+    }
+    
+    func getCalendarYear(year: Int) -> CalendarYear{
+        var calendarYear = CalendarYear(year: year)
+        for i in(1...12){
+            calendarYear.calendarMonths.append(self.getCalendarMonth(year: year, month: i))
+        }
+        return calendarYear
     }
 
     func getDaysInMonth(for date: Date) -> Int {
