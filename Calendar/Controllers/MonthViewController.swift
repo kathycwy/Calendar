@@ -134,6 +134,12 @@ class MonthViewController: UIViewController, UITabBarDelegate {
         return collectionView
     }()
     
+    func calculateIndexPathsToReload(from newcalendarMonths: [CalendarMonth]) -> [IndexPath] {
+      let startIndex = self.calendarMonths.count - newcalendarMonths.count
+      let endIndex = startIndex + newcalendarMonths.count
+      return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
     func loadNextBatch(){
         
         self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
@@ -173,6 +179,7 @@ class MonthViewController: UIViewController, UITabBarDelegate {
             self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
         }
     }
+    
     /*
     @IBAction func prevMonth(_ sender: Any) {
         selectedDate = calendarHelper.previousMonth(date: selectedDate)

@@ -15,10 +15,6 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private let defNumOfYears: Int = 50
     private let defNumOfCells: Int = 12
 
-    init(calendarYears: [CalendarYear], selectedDate: Date, isAsInnerCollectionView: Bool = false){
-        super.init()
-    }
-    
     // Number of years shown
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         if calendarYears.count == 0{
@@ -40,8 +36,8 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     }
     
     func getInitCalendar(calendarYears: [CalendarYear], selectedDate: Date) -> [CalendarYear] {
-        self.calendarYears.removeAll(keepingCapacity: false)
         if calendarYears.count == 0{
+            self.calendarYears.removeAll(keepingCapacity: false)
             let year = Calendar.current.component(.year, from:selectedDate) + 10
             for tempYear in 1970 ... year {
                 let calYear = calendarHelper.getCalendarYear(year: tempYear)

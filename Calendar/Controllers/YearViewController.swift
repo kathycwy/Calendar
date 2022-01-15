@@ -36,15 +36,15 @@ class YearViewController: UIViewController, UITabBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.initCollectionView()
+        self.initView()
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.initCollectionView()
-        self.initView()
-        self.reloadCalendar()
-        NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
+        self.reloadCalendar(calendarYears: [])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +82,7 @@ class YearViewController: UIViewController, UITabBarDelegate {
     }()
 
     lazy var collectionViewDataSource: YearCollectionViewDataSource = {
-        let collectionView = YearCollectionViewDataSource(calendarYears: calendarYears, selectedDate: selectedDate)
+        let collectionView = YearCollectionViewDataSource()
         return collectionView
     }()
     
@@ -99,7 +99,7 @@ class YearViewController: UIViewController, UITabBarDelegate {
         }
     }
     
-    func reloadCalendar() {
+    func reloadCalendar(calendarYears: [CalendarYear]) {
         self.calendarYears = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears, selectedDate: selectedDate)
         self.collectionView.reloadData()
     }
