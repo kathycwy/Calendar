@@ -7,7 +7,8 @@
 
 import UIKit
 
-class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource {
+class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource/*, UICollectionViewDataSourcePrefetching*/ {
+    
 
     //private var calendarRange: [CalendarDay] = []
     private var isAsInnerCollectionView: Bool = false
@@ -188,4 +189,9 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         return cell
     }
     
+    /*
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        return
+    }
+     */
 }

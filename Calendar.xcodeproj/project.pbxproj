@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F70D327921984001ADEA0 /* WeekViewController.swift */; };
 		422B2CB7276CBF04002C8AED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB6276CBF04002C8AED /* AppDelegate.swift */; };
 		422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB8276CBF04002C8AED /* SceneDelegate.swift */; };
 		422B2CBB276CBF04002C8AED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CBA276CBF04002C8AED /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		421F70D327921984001ADEA0 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
 		422B2CB3276CBF04002C8AED /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B2CB6276CBF04002C8AED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422B2CB8276CBF04002C8AED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				422B2CBA276CBF04002C8AED /* ViewController.swift */,
+				421F70D327921984001ADEA0 /* WeekViewController.swift */,
 				422B2CDE276CD617002C8AED /* MonthViewController.swift */,
 				4236D909278F3A5A0034C01F /* YearViewController.swift */,
 				4236D903278EFB540034C01F /* CalendarViewController.swift */,
@@ -268,6 +271,7 @@
 				42EDD231278EAEF8008549A3 /* Constants.swift in Sources */,
 				4248DA072790991700F13CD2 /* YearHeader.swift in Sources */,
 				422B2CC1276CBF04002C8AED /* Calendar.xcdatamodeld in Sources */,
+				421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */,
 				422B2CD8276CCC87002C8AED /* MonthCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OMv-Ah-Jev">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RmM-da-CSO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -239,15 +239,25 @@
                                     <segue destination="pu0-il-KqJ" kind="embed" id="6Lz-yV-bg5"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6E-7L-1lU">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <connections>
+                                    <segue destination="G35-1g-V33" kind="embed" id="keQ-Kf-MgL"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iqu-se-WEv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="systemTealColor"/>
                         <constraints>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="bottom" secondItem="FZj-62-xgO" secondAttribute="bottom" id="3w3-g1-c2e"/>
+                            <constraint firstItem="b6E-7L-1lU" firstAttribute="bottom" secondItem="FZj-62-xgO" secondAttribute="bottom" id="6zP-a1-DCI"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="trailing" secondItem="FZj-62-xgO" secondAttribute="trailing" id="Rcl-QP-Wle"/>
+                            <constraint firstItem="b6E-7L-1lU" firstAttribute="top" secondItem="FZj-62-xgO" secondAttribute="top" id="gaL-Bh-uSg"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="leading" secondItem="FZj-62-xgO" secondAttribute="leading" id="hDL-IW-puJ"/>
+                            <constraint firstItem="b6E-7L-1lU" firstAttribute="trailing" secondItem="FZj-62-xgO" secondAttribute="trailing" id="inZ-QO-lbE"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="top" secondItem="FZj-62-xgO" secondAttribute="top" id="jJc-NS-iEN"/>
+                            <constraint firstItem="b6E-7L-1lU" firstAttribute="leading" secondItem="FZj-62-xgO" secondAttribute="leading" id="jTG-m4-Vs7"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="bottom" secondItem="iqu-se-WEv" secondAttribute="bottom" id="pMv-sj-BNL"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="trailing" secondItem="iqu-se-WEv" secondAttribute="trailing" id="s5Y-5z-Dvu"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="leading" secondItem="iqu-se-WEv" secondAttribute="leading" id="tMB-oM-BD8"/>
@@ -255,55 +265,20 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="4Cp-hI-jel"/>
-                    <navigationItem key="navigationItem" id="vN0-6F-e7E"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="monthContainerView" destination="FZj-62-xgO" id="yAe-5A-tWw"/>
-                        <outlet property="yearContainerView" destination="dRE-qA-xmD" id="yEc-eP-oX4"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZFu-j8-q6u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1878" y="72"/>
-        </scene>
-        <!--Item-->
-        <scene sceneID="aNf-Um-BxO">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OMv-Ah-Jev" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="eRr-XF-uac"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jta-lu-OXA">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="RmM-da-CSO" kind="relationship" relationship="rootViewController" id="RgX-dW-waF"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h3C-A6-0x2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="28.985507246376812" y="71.651785714285708"/>
-        </scene>
-        <!--Calendar Tab Bar Controller-->
-        <scene sceneID="Q1D-xU-4Jb">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="RmM-da-CSO" customClass="CalendarTabBarController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="2s2-4N-KfL">
+                    <navigationItem key="navigationItem" id="vN0-6F-e7E">
                         <nil key="title"/>
                         <leftBarButtonItems>
-                            <barButtonItem id="V2U-qb-o6M">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="l5M-qD-sJ1">
-                                    <rect key="frame" x="20" y="5" width="51" height="34"/>
+                            <barButtonItem id="OvH-ii-9bB">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="uNi-7W-FjT">
+                                    <rect key="frame" x="20" y="5" width="46.5" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="line.horizontal.3" catalog="system"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="szH-1a-Gz4">
                                 <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="2" id="3cH-ER-7eu" userLabel="Day, Week, Month, Year">
-                                    <rect key="frame" x="79" y="5.5" width="235" height="33"/>
+                                    <rect key="frame" x="74.5" y="5.5" width="235" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <segments>
                                         <segment title="Day"/>
@@ -313,19 +288,59 @@
                                     </segments>
                                     <connections>
                                         <action selector="didChangeIndex:" destination="RmM-da-CSO" eventType="valueChanged" id="Q2I-4M-d4a"/>
+                                        <action selector="didChangeIndex:" destination="P8F-jd-5YW" eventType="valueChanged" id="nxc-RF-k28"/>
                                     </connections>
                                 </segmentedControl>
                                 <color key="tintColor" systemColor="systemTealColor"/>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" id="OvH-ii-9bB">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="uNi-7W-FjT">
-                                <rect key="frame" x="347.5" y="5" width="46.5" height="34"/>
+                        <barButtonItem key="rightBarButtonItem" id="V2U-qb-o6M">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="l5M-qD-sJ1">
+                                <rect key="frame" x="343" y="5" width="51" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="line.horizontal.3" catalog="system"/>
                             </button>
                         </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="calendarViewSegmentedControl" destination="3cH-ER-7eu" id="pyK-7S-ncB"/>
+                        <outlet property="monthContainerView" destination="FZj-62-xgO" id="yAe-5A-tWw"/>
+                        <outlet property="weekContainerView" destination="b6E-7L-1lU" id="FFw-3g-Uji"/>
+                        <outlet property="yearContainerView" destination="dRE-qA-xmD" id="yEc-eP-oX4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZFu-j8-q6u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1878" y="72"/>
+        </scene>
+        <!--Calendar-->
+        <scene sceneID="aNf-Um-BxO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OMv-Ah-Jev" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="eRr-XF-uac"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jta-lu-OXA">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="P8F-jd-5YW" kind="relationship" relationship="rootViewController" id="rbv-nM-a9T"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h3C-A6-0x2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="957" y="72"/>
+        </scene>
+        <!--Calendar Tab Bar Controller-->
+        <scene sceneID="Q1D-xU-4Jb">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="RmM-da-CSO" customClass="CalendarTabBarController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="2s2-4N-KfL">
+                        <nil key="title"/>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3Xp-vi-BQq">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -334,7 +349,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="LP7-3J-eUD" kind="relationship" relationship="viewControllers" id="hII-PN-Xaq"/>
-                        <segue destination="P8F-jd-5YW" kind="relationship" relationship="viewControllers" id="bRt-Op-zDO"/>
+                        <segue destination="OMv-Ah-Jev" kind="relationship" relationship="viewControllers" id="V4P-If-C7W"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JjX-e9-5yA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -345,7 +360,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="939.13043478260875" y="71.651785714285708"/>
+            <point key="canvasLocation" x="-100" y="72"/>
         </scene>
         <!--Year View Controller-->
         <scene sceneID="j5Y-DE-rgo">
@@ -507,6 +522,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CJE-6U-wpI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2844.9275362318845" y="13.727678571428571"/>
+        </scene>
+        <!--Week View Controller-->
+        <scene sceneID="DcV-XF-dIf">
+            <objects>
+                <viewController id="G35-1g-V33" customClass="WeekViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YDc-Mq-1qU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="lad-mH-HOl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2849" y="648"/>
         </scene>
     </scenes>
     <resources>
