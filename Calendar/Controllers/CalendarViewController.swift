@@ -88,23 +88,6 @@ class CalendarViewController: UIViewController {
         default:
            break
         }
-        /*
-        // get a reference to the embedded PageViewController on load
-        if let vc = segue.destination as? MonthViewController,
-        segue.identifier == "infoViewEmbedSegue" {
-        self.infos = vc
-        // if you already have your data object
-        self.infos.otherUser = theDataDict
-        }
-
-        if let vc = segue.destination as? YearViewController,
-        segue.identifier == "feedViewEmbedSegue" {
-        self.feeds = vc
-        // if you already have your data object
-        self.feeds.otherUser = theDataDict
-        }
-        // etc
-        */
 
     }
     

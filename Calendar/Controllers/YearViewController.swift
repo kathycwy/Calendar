@@ -88,15 +88,21 @@ class YearViewController: UIViewController {
     
     func loadNextBatch(){
         
-        self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
-        self.collectionView.reloadData()
+        let lastCalendarYears = self.calendarYears.count
         
-        let reminingBatchCount = Int(ceil(Double((nextBatchCalendarMonthSize - loadingBatchSize) / loadingBatchSize)))
-        if reminingBatchCount > 0{
-            for _ in 1 ... reminingBatchCount{
-                self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
-            }
+        self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
+        
+        var indexSet:[Int] = []
+        var paths = [IndexPath]()
+        for month in lastCalendarYears ..< self.calendarYears.count {
+            indexSet.append(month)
+            let indexPath = IndexPath(row: 0, section: month)
+            paths.append(indexPath)
         }
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertSections(IndexSet(indexSet))
+            self.collectionView.insertItems(at: paths)
+        }, completion:nil)
     }
     
     func reloadCalendar(calendarYears: [CalendarYear]) {

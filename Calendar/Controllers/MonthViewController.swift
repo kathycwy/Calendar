@@ -79,7 +79,9 @@ class MonthViewController: UIViewController {
     }
     
     private func initCollectionView(){
+        self.collectionView.isPrefetchingEnabled = true
         self.collectionView.dataSource = self.collectionViewDataSource
+        self.collectionView.prefetchDataSource = self.collectionViewDataSource
         self.collectionView.delegate = self.collectionViewFlowLayout
         self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.alwaysBounceVertical = true
@@ -140,17 +142,42 @@ class MonthViewController: UIViewController {
       return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x:0, y:0, width: view.frame.size.width, height: 100))
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        return footerView
+    }
+    
     func loadNextBatch(){
+        let lastCalendarMonths = self.calendarMonths.count
         
         self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
-        self.collectionView.reloadData()
         
+        var indexSet:[Int] = []
+        var paths = [IndexPath]()
+        for month in lastCalendarMonths ..< self.calendarMonths.count {
+            indexSet.append(month)
+            for day in 0 ..< self.calendarMonths[month].calendarDays.count {
+                let indexPath = IndexPath(row: day, section: month)
+                paths.append(indexPath)
+            }
+        }
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertSections(IndexSet(indexSet))
+            self.collectionView.insertItems(at: paths)
+        }, completion:nil)
+        /*
         let reminingBatchCount = Int(ceil(Double((nextBatchCalendarMonthSize - loadingBatchSize) / loadingBatchSize)))
         if reminingBatchCount > 0{
             for _ in 1 ... reminingBatchCount{
                 self.calendarMonths = self.collectionViewDataSource.getExtendedCalendarMonths(numberOfMonths: loadingBatchSize)
             }
         }
+         */
     }
     
     func loadPrevBatch(){
@@ -191,9 +218,6 @@ class MonthViewController: UIViewController {
         reloadCalendar()
     }
      */
-    @IBAction func todayButton(_ sender: Any) {
-        scrollToToday()
-    }
     @objc func scrollToToday(_ notification: Notification) {
         scrollToToday()
     }

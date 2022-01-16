@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource/*, UICollectionViewDataSourcePrefetching*/ {
+class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
 
     //private var calendarRange: [CalendarDay] = []
@@ -199,9 +199,23 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource/*, UI
         return cell
     }
     
+    
+    func collectionView (_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if !calendarMonths.indices.contains(indexPath.section) {
+                let fetchCount = calendarMonths.count - indexPath.section - 1
+                self.calendarMonths = self.getExtendedCalendarMonths(numberOfMonths: fetchCount)
+            }
+        }
+    }
     /*
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        return
+    func collectionView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+          if let loader = operations[indexPath] {
+            loader.cancel()
+            operations[indexPath] = nil
+        }
+      }
     }
      */
 }
