@@ -39,7 +39,7 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
     func configLayout() {
         if isAsInnerCollectionView {
             itemSize = CGSize(width: 20, height: 20)
-            let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
+            //let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
             minimumLineSpacing = 1
             minimumInteritemSpacing = 1
         }
@@ -78,11 +78,11 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
- 
+    
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if indexPath.section == collectionView.numberOfSections - 6 {
+        if indexPath.section == collectionView.numberOfSections - 2 {
             if indexPath.row == 0 {
                 parentLoadNextBatch()
             }

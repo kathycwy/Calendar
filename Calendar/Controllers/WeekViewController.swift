@@ -1,8 +1,15 @@
 //
-//  WeekViewController.swift
+//  ViewController.swift
 //  Calendar
 //
-//  Created by C Chan on 14/1/2022.
+//  Created by C Chan on 17/12/2021.
 //
 
-import Foundation
+import UIKit
+import SwiftUI
+
+class WeekViewController: UIViewController, UITabBarDelegate {
+
+    @IBOutlet var contentView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+}

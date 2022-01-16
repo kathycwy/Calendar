@@ -73,10 +73,12 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                     for: indexPath) as? YearHeader else{
                     return UICollectionReusableView()
                 }
-            // Set header to year
-            header.backgroundColor = UIColor.appColor(.primary)
-            header.yearLabel.text = String(calendarYears[indexPath.section].year)
-            header.yearLabel.textColor = UIColor.appColor(.onPrimary)
+            if self.calendarYears.count > 0 {
+                // Set header to year
+                header.backgroundColor = UIColor.appColor(.primary)
+                header.yearLabel.text = String(calendarYears[indexPath.section].year)
+                header.yearLabel.textColor = UIColor.appColor(.onPrimary)
+            }
             return header
         default:
             fatalError("Invalid element type")
@@ -88,10 +90,12 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "yearCell", for: indexPath) as? YearCell else {
             return UICollectionViewCell()
         }
-        var tempMonth: [CalendarMonth] = []
-        tempMonth.append(self.calendarYears[indexPath.section].calendarMonths[indexPath.row])
-        cell.activateCell(calendarMonths: tempMonth)
-        cell.contentView.backgroundColor = .none
+        if self.calendarYears.count > 0 {
+            var tempMonth: [CalendarMonth] = []
+            tempMonth.append(self.calendarYears[indexPath.section].calendarMonths[indexPath.row])
+            cell.activateCell(calendarMonths: tempMonth)
+            cell.contentView.backgroundColor = .none
+        }
         
         return cell
     }

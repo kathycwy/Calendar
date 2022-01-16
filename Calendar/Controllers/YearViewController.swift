@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class YearViewController: UIViewController, UITabBarDelegate {
+class YearViewController: UIViewController {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -44,7 +44,7 @@ class YearViewController: UIViewController, UITabBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.reloadCalendar(calendarYears: [])
+        //self.reloadCalendar(calendarYears: [])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,37 +88,44 @@ class YearViewController: UIViewController, UITabBarDelegate {
     
     func loadNextBatch(){
         
-        self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
-        self.collectionView.reloadData()
+        let lastCalendarYears = self.calendarYears.count
         
-        let reminingBatchCount = Int(ceil(Double((nextBatchCalendarMonthSize - loadingBatchSize) / loadingBatchSize)))
-        if reminingBatchCount > 0{
-            for _ in 1 ... reminingBatchCount{
-                self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
-            }
+        self.calendarYears = self.collectionViewDataSource.getExtendedCalendarYears(numberOfYears: loadingBatchSize)
+        
+        var indexSet:[Int] = []
+        var paths = [IndexPath]()
+        for month in lastCalendarYears ..< self.calendarYears.count {
+            indexSet.append(month)
+            let indexPath = IndexPath(row: 0, section: month)
+            paths.append(indexPath)
         }
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertSections(IndexSet(indexSet))
+            self.collectionView.insertItems(at: paths)
+        }, completion:nil)
     }
     
     func reloadCalendar(calendarYears: [CalendarYear]) {
         self.calendarYears = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears, selectedDate: selectedDate)
-        self.collectionView.reloadData()
+        //self.collectionView.reloadData()
     }
     
     func scrollToToday(animated: Bool = true){
         let year = calendarHelper.getYear(for:selectedDate)
         self.calendarYears = self.collectionViewDataSource.getCalendarYears()
-
-        let idx = self.calendarYears.firstIndex(where: {$0.year == year})!
-        /*
-        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
-            var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
-            if #available(iOS 11.0, *) {
-                offsetY -= self.collectionView.safeAreaInsets.top
+        if self.calendarYears.count > 0 {
+            let idx = self.calendarYears.firstIndex(where: {$0.year == year})!
+            /*
+            if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
+                var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
+                if #available(iOS 11.0, *) {
+                    offsetY -= self.collectionView.safeAreaInsets.top
+                }
+                self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
             }
-            self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
+             */
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: idx), at: [.top, .centeredHorizontally], animated: animated)
         }
-         */
-        self.collectionView.scrollToItem(at: IndexPath(item: 0, section: idx), at: [.top, .centeredHorizontally], animated: animated)
     }
     
     @objc func scrollToToday(_ notification: Notification) {
