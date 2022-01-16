@@ -2,7 +2,7 @@ import UIKit
 
 class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    var freshLaunch = true
+    var freshLaunch:Bool = true
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
 

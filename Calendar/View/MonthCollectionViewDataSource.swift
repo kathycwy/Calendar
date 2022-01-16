@@ -46,6 +46,16 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource/*, UI
         return self.calendarMonths
     }
     
+    func getInitCalendar(calendarYears: [CalendarYear]) -> [CalendarMonth] {
+        if isAsInnerCollectionView == false {
+            self.calendarMonths.removeAll(keepingCapacity: false)
+        }
+        for calendarYear in calendarYears {
+            self.calendarMonths.append(contentsOf: calendarYear.calendarMonths)
+        }
+        return self.calendarMonths
+    }
+    
     func getInitCalendar(calendarMonths: [CalendarMonth], selectedDate: Date = Date()) -> [CalendarMonth] {
         if isAsInnerCollectionView == false {
             self.calendarMonths.removeAll(keepingCapacity: false)

@@ -7,6 +7,8 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var weekContainerView: UIView!
     @IBOutlet weak var calendarViewSegmentedControl: UISegmentedControl!
     
+    var freshLaunch: Bool = true
+    var weekViewController: WeekViewController!
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
     
@@ -15,9 +17,6 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //self.calendarYears = setCalendar()
-        //yearContainerView.reloadCalendar(calendarYears: self.calendarYears)
         
         weekContainerView.alpha = 0.0
         monthContainerView.alpha = 1.0
@@ -62,42 +61,52 @@ class CalendarViewController: UIViewController {
         }
         return self.calendarYears
     }
-    /*
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch (self.calendarViewSegmentedControl.selectedSegmentIndex)
-        {
-              case 0:
-              {
-                    UIView1 *view1 = (UIView1 *)segue.destinationViewController;
-                    // do other customization if needed
-                    break;
-              }
-              case 1:
-              {
-                    UIView2 *view2 = (UIView2 *)segue.destinationViewController;
-                    // do other customization if needed
-                    break;
-              }
-              default:
-                   break;
+        if freshLaunch == true {
+            freshLaunch = false
+            self.calendarYears = setCalendar()
         }
+        switch (segue.identifier)
+        {
+        case "DayViewSegue":
+            //self.monthViewController = (segue.destination as! MonthViewController)
+            //self.monthViewController.reloadCalendar()
+            break
+        case "WeekViewSegue":
+            self.weekViewController = (segue.destination as! WeekViewController)
+            //self.yearViewController.reloadCalendar()
+            break
+        case "MonthViewSegue":
+            self.monthViewController = (segue.destination as! MonthViewController)
+            self.monthViewController.reloadCalendar(calendarYears: self.calendarYears)
+            break
+        case "YearViewSegue":
+            self.yearViewController = (segue.destination as! YearViewController)
+            self.yearViewController.reloadCalendar(calendarYears: self.calendarYears)
+            break
+        default:
+           break
+        }
+        /*
         // get a reference to the embedded PageViewController on load
         if let vc = segue.destination as? MonthViewController,
-            segue.identifier == "infoViewEmbedSegue" {
-            self.infos = vc
-            // if you already have your data object
-            self.infos.otherUser = theDataDict
+        segue.identifier == "infoViewEmbedSegue" {
+        self.infos = vc
+        // if you already have your data object
+        self.infos.otherUser = theDataDict
         }
 
         if let vc = segue.destination as? YearViewController,
-            segue.identifier == "feedViewEmbedSegue" {
-            self.feeds = vc
-            // if you already have your data object
-            self.feeds.otherUser = theDataDict
+        segue.identifier == "feedViewEmbedSegue" {
+        self.feeds = vc
+        // if you already have your data object
+        self.feeds.otherUser = theDataDict
         }
         // etc
+        */
 
     }
-     */
+    
     
 }

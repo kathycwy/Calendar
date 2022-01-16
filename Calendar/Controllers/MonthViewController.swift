@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class MonthViewController: UIViewController, UITabBarDelegate {
+class MonthViewController: UIViewController {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -40,14 +40,14 @@ class MonthViewController: UIViewController, UITabBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.initCollectionView()
+        self.initView()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.initCollectionView()
-        self.initView()
-        self.reloadCalendar()
+        //self.reloadCalendar()
         //self.initSwipeSetting()
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
     }
@@ -160,9 +160,9 @@ class MonthViewController: UIViewController, UITabBarDelegate {
         self.collectionView.reloadData()
     }
     
-    func reloadCalendar() {
-        self.calendarMonths = self.collectionViewDataSource.getInitCalendar(calendarMonths: calendarMonths, selectedDate: selectedDate)
-        self.collectionView.reloadData()
+    func reloadCalendar(calendarYears: [CalendarYear]) {
+        self.calendarMonths = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears)
+        //self.collectionView.reloadData()
     }
     
     func scrollToToday(animated: Bool = true){

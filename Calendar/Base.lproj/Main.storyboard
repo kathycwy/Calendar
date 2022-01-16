@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="1873" y="-576"/>
         </scene>
-        <!--Calendar-->
+        <!--Month View-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MonthViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MonthView" title="Month View" id="BYZ-38-t0r" customClass="MonthViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -230,19 +230,19 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZj-62-xgO">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="embed" id="gD7-hF-azT"/>
+                                    <segue destination="BYZ-38-t0r" kind="embed" identifier="MonthViewSegue" id="gD7-hF-azT"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dRE-qA-xmD">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <connections>
-                                    <segue destination="pu0-il-KqJ" kind="embed" id="6Lz-yV-bg5"/>
+                                    <segue destination="pu0-il-KqJ" kind="embed" identifier="YearViewSegue" id="6Lz-yV-bg5"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6E-7L-1lU">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <connections>
-                                    <segue destination="G35-1g-V33" kind="embed" id="keQ-Kf-MgL"/>
+                                    <segue destination="G35-1g-V33" kind="embed" identifier="WeekViewSegue" id="keQ-Kf-MgL"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -365,7 +365,7 @@
         <!--Year View Controller-->
         <scene sceneID="j5Y-DE-rgo">
             <objects>
-                <viewController id="pu0-il-KqJ" customClass="YearViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="YearView" id="pu0-il-KqJ" customClass="YearViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sb7-Pg-7Cw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -526,7 +526,7 @@
         <!--Week View Controller-->
         <scene sceneID="DcV-XF-dIf">
             <objects>
-                <viewController id="G35-1g-V33" customClass="WeekViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WeekView" id="G35-1g-V33" customClass="WeekViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YDc-Mq-1qU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
