@@ -19,8 +19,11 @@ class EventListController: UITableViewController {
     
     var events: [NSManagedObject] = []
     
+    var selectedRow: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = UITableView.automaticDimension
     }
 
     //MARK: - Table view will appear
@@ -65,8 +68,28 @@ class EventListController: UITableViewController {
         cell.titleLable.text = event.value(forKeyPath: "title") as? String
         cell.startDateLable.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLable.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
-        cell.placeLable.text = event.value(forKeyPath: "place") as? String
+//        cell.placeLable.text = event.value(forKeyPath: "place") as? String
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedRow = indexPath.row
+        self.performSegue(withIdentifier: "eventCellTapped", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "eventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+            
+            if selectedRow != nil {
+                destinationVC.rowIndex = self.selectedRow
+                destinationVC.event = self.events[self.selectedRow!]
+                destinationVC.eventID = self.events[self.selectedRow!].objectID
+            }
+        }
+        
     }
 }
