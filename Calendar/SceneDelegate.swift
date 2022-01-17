@@ -17,6 +17,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        ///Init the UndoManager when app starts:
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        //get context
+        let managedContext = appDelegate.persistentContainer.viewContext
+        // the the undoManager and limit the undo up to 4
+        managedContext.undoManager = UndoManager()
+        managedContext.undoManager!.levelsOfUndo = 4
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

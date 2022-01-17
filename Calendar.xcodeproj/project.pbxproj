@@ -38,6 +38,8 @@
 		42EDD233278EB1D3008549A3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EDD232278EB1D3008549A3 /* UIColorExtension.swift */; };
 		F240D73E27945137006F5CD2 /* AddEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F240D73D27945137006F5CD2 /* AddEventController.swift */; };
 		F240D7402794519F006F5CD2 /* EventListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F240D73F2794519F006F5CD2 /* EventListController.swift */; };
+		F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */; };
+		F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,8 @@
 		42EDD232278EB1D3008549A3 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		F240D73D27945137006F5CD2 /* AddEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventController.swift; sourceTree = "<group>"; };
 		F240D73F2794519F006F5CD2 /* EventListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListController.swift; sourceTree = "<group>"; };
+		F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsController.swift; sourceTree = "<group>"; };
+		F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 				4236D905278F0FBD0034C01F /* CalendarTabBarController.swift */,
 				F240D73D27945137006F5CD2 /* AddEventController.swift */,
 				F240D73F2794519F006F5CD2 /* EventListController.swift */,
+				F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */,
+				F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -253,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */,
 				4236D912278F42B80034C01F /* CalendarYear.swift in Sources */,
 				4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */,
 				4236D904278EFB540034C01F /* CalendarViewController.swift in Sources */,
@@ -272,6 +279,7 @@
 				422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */,
 				422B2CCF276CC132002C8AED /* CalendarHelper.swift in Sources */,
 				4236D90E278F41520034C01F /* YearCollectionViewDataSource.swift in Sources */,
+				F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */,
 				4236D908278F29140034C01F /* PaddingLabel.swift in Sources */,
 				422B2D35276CF33F002C8AED /* CalendarDay.swift in Sources */,
 				4236D90A278F3A5A0034C01F /* YearViewController.swift in Sources */,

@@ -17,9 +17,10 @@ final class AddEventController: UIViewController {
     // MARK: - Properties
 
     @IBOutlet private var titleField: UITextField!
-    @IBOutlet private var placeField: UITextField!
     @IBOutlet private var startDateField: UIDatePicker!
     @IBOutlet private var endDateField: UIDatePicker!
+    @IBOutlet private var placeField: UITextField!
+    @IBOutlet private var remarksField: UITextField!
     // MARK: -
     var managedObjectContext: NSManagedObjectContext?
     var events: NSManagedObject?
@@ -43,11 +44,13 @@ final class AddEventController: UIViewController {
         let startDate = startDateField.date
         let endDate = endDateField.date
         let place = placeField.text
+        let remarks = remarksField.text
 
         event.setValue(title, forKeyPath: "title")
         event.setValue(startDate, forKeyPath: "startDate")
         event.setValue(endDate, forKeyPath: "endDate")
         event.setValue(place, forKeyPath: "place")
+        event.setValue(remarks, forKeyPath: "remarks")
 
         do {
             try managedContext.save()
