@@ -20,7 +20,7 @@ class MonthViewController: UIViewController {
     var selectedDate = Date()
     private var dowCount: Int = 7
     private var displayDates = [String]()
-    private let loadingBatchSize: Int = 2
+    private let loadingBatchSize: Int = 5
     private let nextBatchCalendarMonthSize: Int = 12
     private var isScrolled = false
     

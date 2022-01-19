@@ -15,6 +15,7 @@ struct CalendarDay {
     let isSelected: Bool
     let isDate: Bool
     let dayOfWeek: Int?
+    let month: Int
     
     init(date: Date? = nil,
          dayString: String,
@@ -22,7 +23,9 @@ struct CalendarDay {
          weekNumber: Int? = nil,
          isSelected: Bool = false,
          isDate: Bool,
-         dayOfWeek: Int? = nil) {
+         dayOfWeek: Int? = nil,
+         month: Int
+        ) {
         self.date = date
         self.dayString = dayString
         self.displayIndex = displayIndex
@@ -30,6 +33,7 @@ struct CalendarDay {
         self.isSelected = isSelected
         self.isDate = isDate
         self.dayOfWeek = dayOfWeek
+        self.month = month
     }
     
 }

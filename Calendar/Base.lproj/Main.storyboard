@@ -931,13 +931,75 @@
                     <view key="view" contentMode="scaleToFill" id="YDc-Mq-1qU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wa8-bb-VLJ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="68"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="STG-RN-obN">
+                                    <size key="itemSize" width="64" height="81"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="dayCell" id="j7R-7C-k8I" customClass="WeekDayCell" customModule="Calendar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="-6.5" width="45" height="81"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2Zg-F1-nrc">
+                                            <rect key="frame" x="0.0" y="0.0" width="45" height="81"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DoW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbZ-Ny-ACc" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="5" width="45" height="11"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
+                                                    <color key="textColor" name="Teal-navigationTitle"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2B-Sq-f09" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="55" width="45" height="16"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <color key="textColor" name="Teal-primary"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="leading" secondItem="2Zg-F1-nrc" secondAttribute="leading" id="1Bd-sx-ufe"/>
+                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="bottom" secondItem="2Zg-F1-nrc" secondAttribute="bottom" constant="-10" id="AlA-5l-M8N"/>
+                                                <constraint firstItem="hbZ-Ny-ACc" firstAttribute="leading" secondItem="2Zg-F1-nrc" secondAttribute="leading" id="KtY-nb-eUS"/>
+                                                <constraint firstItem="hbZ-Ny-ACc" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="Yhe-DD-FCy"/>
+                                                <constraint firstItem="hbZ-Ny-ACc" firstAttribute="top" secondItem="2Zg-F1-nrc" secondAttribute="top" constant="5" id="aXN-Au-sty"/>
+                                                <constraint firstItem="hbZ-Ny-ACc" firstAttribute="trailing" secondItem="2Zg-F1-nrc" secondAttribute="trailing" id="gOj-9p-JtD"/>
+                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="qfz-EH-AF1"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" name="Teal-background"/>
+                                        <color key="tintColor" name="Teal-primary"/>
+                                        <size key="customSize" width="45" height="81"/>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="Z2B-Sq-f09" id="gg1-2D-6C2"/>
+                                            <outlet property="dayOfWeekLabel" destination="hbZ-Ny-ACc" id="arK-Li-pm9"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="lad-mH-HOl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="top" secondItem="lad-mH-HOl" secondAttribute="top" id="172-Eb-YaB"/>
+                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="width" secondItem="lad-mH-HOl" secondAttribute="width" id="ATe-Po-Oz5"/>
+                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="height" secondItem="lad-mH-HOl" secondAttribute="height" multiplier="0.1" id="Djs-xS-rFS"/>
+                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="leading" secondItem="lad-mH-HOl" secondAttribute="leading" id="pIg-0J-iEM"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="wa8-bb-VLJ" id="5oQ-3q-FJd"/>
+                        <outlet property="contentView" destination="YDc-Mq-1qU" id="pl2-Tk-WDW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2849" y="648"/>
+            <point key="canvasLocation" x="2847.826086956522" y="647.87946428571422"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -17626,8 +17688,17 @@ AAAAD0GWA
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <namedColor name="Teal-background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Teal-navigationTitle">
+            <color red="0.0" green="0.30196078431372547" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Teal-onSurface">
             <color red="0.0" green="0.23921568627450981" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Teal-primary">
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Teal-surface">
             <color red="0.95899999141693115" green="0.97000002861022949" blue="0.96299999952316284" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

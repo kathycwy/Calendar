@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216DE4B2795BCD50045362A /* CalendarWeek.swift */; };
 		421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F70D327921984001ADEA0 /* WeekViewController.swift */; };
 		422B2CB7276CBF04002C8AED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB6276CBF04002C8AED /* AppDelegate.swift */; };
 		422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB8276CBF04002C8AED /* SceneDelegate.swift */; };
@@ -34,6 +35,11 @@
 		4248DA072790991700F13CD2 /* YearHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA062790991600F13CD2 /* YearHeader.swift */; };
 		4248DA092790C75300F13CD2 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA082790C75300F13CD2 /* UIFontExtension.swift */; };
 		4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA0A2790C9FA00F13CD2 /* FontHelper.swift */; };
+		42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C2279471ED009FB999 /* WeekDayCell.swift */; };
+		42D7E8C5279479E7009FB999 /* WeekTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */; };
+		42D7E8C7279479F9009FB999 /* WeekEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C6279479F9009FB999 /* WeekEventCell.swift */; };
+		42D7E8C927947E92009FB999 /* WeekCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */; };
+		42D7E8CB27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */; };
 		42EDD231278EAEF8008549A3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EDD230278EAEF8008549A3 /* Constants.swift */; };
 		42EDD233278EB1D3008549A3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EDD232278EB1D3008549A3 /* UIColorExtension.swift */; };
 		F240D73E27945137006F5CD2 /* AddEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F240D73D27945137006F5CD2 /* AddEventController.swift */; };
@@ -43,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4216DE4B2795BCD50045362A /* CalendarWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeek.swift; sourceTree = "<group>"; };
 		421F70D327921984001ADEA0 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
 		422B2CB3276CBF04002C8AED /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B2CB6276CBF04002C8AED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +79,11 @@
 		4248DA062790991600F13CD2 /* YearHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearHeader.swift; sourceTree = "<group>"; };
 		4248DA082790C75300F13CD2 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		4248DA0A2790C9FA00F13CD2 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		42D7E8C2279471ED009FB999 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
+		42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTimeCell.swift; sourceTree = "<group>"; };
+		42D7E8C6279479F9009FB999 /* WeekEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekEventCell.swift; sourceTree = "<group>"; };
+		42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		42EDD230278EAEF8008549A3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		42EDD232278EB1D3008549A3 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		F240D73D27945137006F5CD2 /* AddEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventController.swift; sourceTree = "<group>"; };
@@ -129,6 +141,7 @@
 		422B2CCD276CC0D4002C8AED /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4216DE4B2795BCD50045362A /* CalendarWeek.swift */,
 				4236D911278F42B80034C01F /* CalendarYear.swift */,
 				422B2CDC276CCFA0002C8AED /* CalendarMonth.swift */,
 				422B2D34276CF33F002C8AED /* CalendarDay.swift */,
@@ -158,6 +171,11 @@
 			isa = PBXGroup;
 			children = (
 				4236D907278F29140034C01F /* PaddingLabel.swift */,
+				42D7E8C2279471ED009FB999 /* WeekDayCell.swift */,
+				42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */,
+				42D7E8C6279479F9009FB999 /* WeekEventCell.swift */,
+				42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */,
+				42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */,
 				422B2CD7276CCC87002C8AED /* MonthCell.swift */,
 				422B2CDA276CCCCD002C8AED /* MonthHeader.swift */,
 				422B2CD5276CCB8F002C8AED /* MonthCollectionViewDataSource.swift */,
@@ -263,24 +281,30 @@
 				4236D912278F42B80034C01F /* CalendarYear.swift in Sources */,
 				4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */,
 				4236D904278EFB540034C01F /* CalendarViewController.swift in Sources */,
+				42D7E8CB27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift in Sources */,
 				F240D73E27945137006F5CD2 /* AddEventController.swift in Sources */,
 				422B2CD4276CC205002C8AED /* MonthCollectionViewFlowLayout.swift in Sources */,
 				42EDD233278EB1D3008549A3 /* UIColorExtension.swift in Sources */,
 				F240D7402794519F006F5CD2 /* EventListController.swift in Sources */,
+				42D7E8C927947E92009FB999 /* WeekCollectionViewDataSource.swift in Sources */,
 				4236D90C278F3E710034C01F /* YearCell.swift in Sources */,
 				4236D906278F0FBD0034C01F /* CalendarTabBarController.swift in Sources */,
 				422B2CBB276CBF04002C8AED /* ViewController.swift in Sources */,
+				42D7E8C5279479E7009FB999 /* WeekTimeCell.swift in Sources */,
 				422B2CDB276CCCCD002C8AED /* MonthHeader.swift in Sources */,
 				422B2CDF276CD617002C8AED /* MonthViewController.swift in Sources */,
 				422B2CDD276CCFA0002C8AED /* CalendarMonth.swift in Sources */,
 				4248DA092790C75300F13CD2 /* UIFontExtension.swift in Sources */,
 				422B2CB7276CBF04002C8AED /* AppDelegate.swift in Sources */,
 				4236D910278F41650034C01F /* YearCollectionViewFlowLayout.swift in Sources */,
+				4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */,
 				422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */,
 				422B2CCF276CC132002C8AED /* CalendarHelper.swift in Sources */,
+				42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */,
 				4236D90E278F41520034C01F /* YearCollectionViewDataSource.swift in Sources */,
 				F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */,
 				4236D908278F29140034C01F /* PaddingLabel.swift in Sources */,
+				42D7E8C7279479F9009FB999 /* WeekEventCell.swift in Sources */,
 				422B2D35276CF33F002C8AED /* CalendarDay.swift in Sources */,
 				4236D90A278F3A5A0034C01F /* YearViewController.swift in Sources */,
 				422B2CD6276CCB8F002C8AED /* MonthCollectionViewDataSource.swift in Sources */,
