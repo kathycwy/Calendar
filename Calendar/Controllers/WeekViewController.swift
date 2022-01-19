@@ -12,4 +12,219 @@ class WeekViewController: UIViewController, UITabBarDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    private var calendarWeeks: [CalendarWeek] = []
+    private var displayWeeks: [CalendarWeek] = []
+    private var isLoaded = false
+    private var isScrolled = false
+    private var selectedDate: Date = Date()
+    private var todayIndexPath: IndexPath? = nil
+    
+    let calendarHelper = CalendarHelper()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.initCollectionView()
+        self.initView()
+        self.initGestureRecognizer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !isScrolled && self.collectionView.visibleCells.count > 0 {
+            isScrolled = true
+            self.scrollToToday(animated: false)
+            self.isLoaded = true
+            self.collectionViewFlowLayout.setLoaded(isLoaded: self.isLoaded)
+        }
+    }
+    
+    private func initView(){
+        self.view.tintColor = UIColor.appColor(.primary)
+    }
+    
+    private func initCollectionView(){
+        self.collectionView.isPrefetchingEnabled = true
+        self.collectionView.dataSource = self.collectionViewDataSource
+        self.collectionView.delegate = self.collectionViewFlowLayout
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.alwaysBounceVertical = false
+        self.collectionView.backgroundColor = UIColor.appColor(.background)
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView.isPagingEnabled = false
+        //self.collectionView.contentInsetAdjustmentBehavior = .never
+        //if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
+        self.collectionView.isScrollEnabled = false
+    }
+    
+    func initGestureRecognizer(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.collectionView.addGestureRecognizer(tap)
+        
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+        leftSwipe.direction = .left
+        rightSwipe.direction = .right
+        self.collectionView.addGestureRecognizer(leftSwipe)
+        self.collectionView.addGestureRecognizer(rightSwipe)
+         
+    }
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
+            if indexPath.item > 0 {
+                self.setSelectedCell(indexPath: indexPath)
+            }
+        }
+    }
+        
+    
+    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
+        if sender.direction == .left {
+            let contentOffsetX = collectionView.contentOffset.x + collectionView.frame.width - collectionViewFlowLayout.minimumInteritemSpacing
+            UIView.animate(withDuration: 0.6){
+                let newOffset = CGPoint(x: contentOffsetX, y: self.collectionView.contentOffset.y)
+                self.collectionView.setContentOffset(newOffset, animated: true)
+            }
+            
+        } else if sender.direction == .right {
+            let contentOffsetX = collectionView.contentOffset.x - collectionView.frame.width + collectionViewFlowLayout.minimumInteritemSpacing
+            UIView.animate(withDuration: 0.6){
+                let newOffset = CGPoint(x: contentOffsetX, y: self.collectionView.contentOffset.y)
+                self.collectionView.setContentOffset(newOffset, animated: true)
+            }
+        }
+    }
+     
+    
+    lazy var collectionViewFlowLayout : WeekCollectionViewFlowLayout = {
+        let layout = WeekCollectionViewFlowLayout()
+        layout.parentLoadNextBatch = loadNextBatch
+        layout.setSelectedCell = setSelectedCell
+        layout.parentLoadPrevBatch = loadPrevBatch
+        return layout
+    }()
+
+    lazy var collectionViewDataSource: WeekCollectionViewDataSource = {
+        let collectionView = WeekCollectionViewDataSource(calendarWeeks: self.calendarWeeks)
+        return collectionView
+    }()
+    
+    func calculateIndexPathsToReload(from newcalendarMonths: [CalendarMonth]) -> [IndexPath] {
+        let startIndex = self.calendarWeeks.count - newcalendarMonths.count
+        let endIndex = startIndex + newcalendarMonths.count
+        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x:0, y:0, width: view.frame.size.width, height: 100))
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        return footerView
+    }
+    
+    func loadNextBatch(){
+        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
+        let lastCalendarWeeks = self.displayWeeks.count
+        
+        self.displayWeeks = self.collectionViewDataSource.getExtendedDisplayWeeks(numberOfWeeks: 1)
+        
+        var indexSet:[Int] = []
+        var paths = [IndexPath]()
+        for week in lastCalendarWeeks ..< self.displayWeeks.count {
+            indexSet.append(week)
+            for day in 0 ..< self.displayWeeks[week].calendarDays.count {
+                let indexPath = IndexPath(row: day, section: week)
+                paths.append(indexPath)
+            }
+        }
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertSections(IndexSet(indexSet))
+            self.collectionView.insertItems(at: paths)
+        }, completion:nil)
+        
+    }
+    
+    func loadPrevBatch(){
+        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
+        let lastCalendarWeeks = self.displayWeeks.count
+        
+        self.displayWeeks = self.collectionViewDataSource.getExtendedDisplayWeeks(numberOfWeeks: -1)
+        
+        var indexSet:[Int] = []
+        var paths = [IndexPath]()
+        for week in 0 ..< self.displayWeeks.count - lastCalendarWeeks {
+            indexSet.append(week)
+            for day in 0 ..< self.displayWeeks[week].calendarDays.count {
+                let indexPath = IndexPath(row: day, section: week)
+                paths.append(indexPath)
+            }
+        }
+        collectionView.performBatchUpdates({ () -> Void in
+            self.collectionView.insertSections(IndexSet(indexSet))
+            self.collectionView.insertItems(at: paths)
+        }, completion:nil)
+        
+    }
+    
+    func setSelectedCell(indexPath: IndexPath) {
+        let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath()
+        self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
+        self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+        
+        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
+        let rollingWeekNumber = self.displayWeeks[indexPath.section].rollingWeekNumber
+        self.collectionViewDataSource.setSelectedCell(item: indexPath.item, rollingWeekNumber: rollingWeekNumber)
+    }
+    
+    func reloadCalendar(calendarYears: [CalendarYear]) {
+        self.calendarWeeks = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears)
+        //self.collectionView.reloadData()
+    }
+    
+    func scrollToToday(animated: Bool = true){
+        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
+        if todayIndexPath == nil {
+            todayIndexPath = self.collectionViewDataSource.getSelectedIndexPath()
+        }
+        
+        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: todayIndexPath!) {
+            var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
+            var offsetX = attributes.frame.origin.x - self.collectionView.contentInset.left
+            if #available(iOS 11.0, *) {
+                offsetY -= self.collectionView.safeAreaInsets.top
+                offsetX -= self.collectionView.safeAreaInsets.left
+            }
+            self.collectionView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: animated) // or animated: false
+        }
+    }
+    
+    /*
+    @IBAction func prevMonth(_ sender: Any) {
+        selectedDate = calendarHelper.previousMonth(date: selectedDate)
+        reloadCalendar()
+    }
+    
+    @IBAction func nextMonth(_ sender: Any) {
+        selectedDate = calendarHelper.nextMonth(date: selectedDate)
+        reloadCalendar()
+    }
+     */
+    @objc func scrollToToday(_ notification: Notification) {
+        scrollToToday()
+    }
 }
+
+
+

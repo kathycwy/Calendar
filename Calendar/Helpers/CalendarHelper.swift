@@ -18,8 +18,29 @@ struct CalendarHelper {
         return calendar.date(byAdding: .month, value: -1, to: date)!
     }
     
+    func addDay(date: Date, n: Int) -> Date{
+        return calendar.date(byAdding: .day, value: n, to: date)!
+    }
+    
     func addMonth(date: Date, n: Int) -> Date{
         return calendar.date(byAdding: .month, value: n, to: date)!
+    }
+    
+    func dayOfWeekString(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        return dateFormatter.string(from: date)
+    }
+    
+    func monthStringShort(monthNum: Int) -> String{
+        let dateFormatter = DateFormatter()
+        return dateFormatter.shortMonthSymbols[monthNum - 1]
+    }
+    
+    func monthStringShort(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM"
+        return dateFormatter.string(from: date)
     }
     
     func monthStringFull(date: Date) -> String{
@@ -82,7 +103,7 @@ struct CalendarHelper {
         let displayIndexBuffer: Int = startDOW == 1 ? month.firstDayOfWeek : ((month.firstDayOfWeek == 7 ? 0 : month.firstDayOfWeek))
 
         var result: [CalendarDay] = []
-        var firstWeekNumber: Int = weekOfYear(date: month.firstDayOfMonth)
+        let firstWeekNumber: Int = weekOfYear(date: month.firstDayOfMonth)
         
         if displayIndexBuffer > 0{
             for i in 0 ... displayIndexBuffer - 1 {
@@ -90,7 +111,8 @@ struct CalendarHelper {
                     dayString: "",
                     displayIndex: i,
                     weekNumber: (i%7==0) ? firstWeekNumber : nil,
-                    isDate: false)
+                    isDate: false,
+                    month: month.month)
                 )
             }
         }
@@ -110,11 +132,70 @@ struct CalendarHelper {
                 weekNumber: (displayIdx % 7==1) ? weekOfYear(date: date) : nil,
                 isSelected: false,
                 isDate: true,
-                dayOfWeek: weekDay(date:date))
+                dayOfWeek: weekDay(date:date),
+                month: month.month)
             )
         }
         
         return result
+    }
+    
+    func getCalendarWeek(calendarMonth: CalendarMonth, lastRollingWeekNumber: Int) -> [CalendarWeek]{
+        var calendarWeeks: [CalendarWeek] = []
+        var rollingWeekNumber = lastRollingWeekNumber
+        var weekNumber: Int = 0
+        var week: CalendarWeek?
+        var firstElement: Bool = true
+        
+        for calendarDay in calendarMonth.calendarDays {
+            if calendarDay.isDate {
+                var days: [CalendarDay] = []
+                
+                // Create new week
+                let curWeekNum = self.weekOfYear(date: calendarDay.date!)
+                if curWeekNum != weekNumber {
+                    weekNumber = curWeekNum
+                    if rollingWeekNumber != 0 && firstElement {
+                        let lastDay = self.addDay(date: calendarDay.date!, n: -1)
+                        if self.weekOfYear(date: lastDay) != weekNumber {
+                            rollingWeekNumber += 1
+                        }
+                    }
+                    else if rollingWeekNumber == 0 && firstElement {
+                        for i in 0 ... (calendarDay.dayOfWeek ?? 0 ) - 1 {
+                            days.append(CalendarDay(
+                                dayString: "",
+                                displayIndex: i,
+                                weekNumber: (i%7==0) ? calendarDay.weekNumber : nil,
+                                isDate: false,
+                                month: calendarDay.month)
+                            )
+                        }
+                    }
+                    days.append(calendarDay)
+                        
+                    if firstElement {
+                        firstElement = false
+                    }
+                    week.map { calendarWeeks.append($0) }
+                    week = CalendarWeek(
+                        month: calendarMonth.month,
+                        toMonth: calendarMonth.month,
+                        year: calendarMonth.year,
+                        weekNumber: weekNumber,
+                        rollingWeekNumber: rollingWeekNumber,
+                        calendarDays: days
+                    )
+                    rollingWeekNumber += 1
+                }
+                // Add to last week
+                else {
+                    week?.addDays(calendarDays: [calendarDay])
+                }
+            }
+        }
+        week.map { calendarWeeks.append($0) }
+        return calendarWeeks
     }
     
     func getCalendarMonthWithoutDay(for date: Date) -> CalendarMonth{
