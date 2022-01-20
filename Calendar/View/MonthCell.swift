@@ -11,8 +11,10 @@ import UIKit
 class MonthCell: UICollectionViewCell {
 
     @IBOutlet weak var dateLabel : PaddingLabel!
+    @IBOutlet weak var taskLabel : PaddingLabel!
     @IBOutlet weak var weekLabel : UILabel!
     @IBOutlet weak var isSelectedLabel : UILabel!
+    var cellDate: Date? = nil
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -25,7 +27,17 @@ class MonthCell: UICollectionViewCell {
         weekLabel.textColor = nil
         dateLabel.text = ""
         weekLabel.text = ""
-        dateLabel.padding(15, 15, 15, 15)
+        dateLabel.padding(10, 10, 10, 10)
+        self.cellDate = nil
+        layer.borderWidth = 0
+        taskLabel.backgroundColor = UIColor.appColor(.background)
+    }
+    
+    // Call this function if there are events on this day
+    func setTaskIndicator(){
+        taskLabel.layer.masksToBounds = true
+        taskLabel.backgroundColor = UIColor.appColor(.primary)
+        taskLabel.layer.cornerRadius = taskLabel.frame.width/2
     }
 /*
     static let reuseIdentifier = "monthCell"

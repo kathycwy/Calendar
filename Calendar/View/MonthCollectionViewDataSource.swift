@@ -17,6 +17,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
     private let numOfCells: Int = 42 // 7 cols * 6 rows
     private let defNumOfMonths: Int = 12
     private let defNumOfCells: Int = 42
+    private var selectedIndexPath: IndexPath? = nil
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date, isAsInnerCollectionView: Bool = false){
         super.init()
@@ -99,6 +100,25 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
         return self.calendarMonths
     }
     
+    func getSelectedIndexPath() -> IndexPath?{
+        return self.selectedIndexPath
+    }
+    
+    func getIndexPathBySelectedDate(date: Date) -> IndexPath?{
+        let year = self.calendarHelper.getYear(for: date)
+        let month = self.calendarHelper.getMonth(for: date)
+        if let section = self.calendarMonths.firstIndex(where: {$0.year == year && $0.month == month}) {
+            if let item = self.calendarMonths[section].calendarDays.firstIndex(where: {$0.date == date}) {
+                self.selectedIndexPath = IndexPath(row: item, section: section)
+            }
+        }
+        return self.selectedIndexPath
+    }
+    
+    func setSelectedIndexPath(indexPath: IndexPath) {
+        self.selectedIndexPath = indexPath
+    }
+    
     // Contrusting the header of the collection view - Showing Month
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
@@ -174,22 +194,31 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
             let isDisplayWeekNumber: Bool = UserDefaults.standard.bool(forKey: "DisplayWeekNumber")
             
             DispatchQueue.main.async {
+                cell.cellDate = calendarRange[indexPath.row].date
                 cell.dateLabel.text = displayStr
                 cell.weekLabel.text = isDisplayWeekNumber && !self.isAsInnerCollectionView ? displayWeekNum : ""
                 //cell.weekLabel.text = String(indexPath.row)
-                if isSunday{
+                if isSunday {
                     cell.dateLabel.textColor = UIColor.red
                 }
-                else if calendarRange[indexPath.row].date == self.calendarHelper.getCurrentDate(){
+                else {
+                    cell.dateLabel.textColor = UIColor.appColor(.primary)
+                }
+                    
+                if calendarRange[indexPath.row].date == self.calendarHelper.getCurrentDate(){
                     //cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
                     //cell.layer.borderWidth = 2
-                    cell.dateLabel.layer.cornerRadius = 8.0
+                    cell.dateLabel.layer.cornerRadius = cell.dateLabel.frame.width/2
                     cell.dateLabel.layer.masksToBounds = true
                     cell.dateLabel.backgroundColor = UIColor.appColor(.primary)
                     cell.dateLabel.textColor = UIColor.appColor(.onPrimary)
+                    if self.selectedIndexPath == nil {
+                        self.selectedIndexPath = indexPath
+                    }
                 }
-                else{
-                    cell.dateLabel.textColor = UIColor.appColor(.onSurface)
+                if indexPath == self.selectedIndexPath{
+                    cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                    cell.layer.borderWidth = 2
                 }
                 let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
                 cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)

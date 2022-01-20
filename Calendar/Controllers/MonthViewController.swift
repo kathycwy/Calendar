@@ -13,11 +13,11 @@ class MonthViewController: UIViewController {
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var dowStackView: UIStackView!
-    @IBOutlet weak var todayButton: UIButton!
     
     private var tabBarReference: CalendarTabBarController!
     private var calendarMonths: [CalendarMonth] = []
     var selectedDate = Date()
+    var selectedIndexPath: IndexPath? = nil
     private var dowCount: Int = 7
     private var displayDates = [String]()
     private let loadingBatchSize: Int = 5
@@ -42,6 +42,7 @@ class MonthViewController: UIViewController {
         super.viewDidLoad()
         self.initCollectionView()
         self.initView()
+        self.initGestureRecognizer()
         
     }
     
@@ -50,6 +51,12 @@ class MonthViewController: UIViewController {
         //self.reloadCalendar()
         //self.initSwipeSetting()
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    deinit {
+         NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,12 +64,26 @@ class MonthViewController: UIViewController {
         //self.view.layoutIfNeeded()
     }
     
+    @objc func rotated() {
+        if UIDevice.current.orientation.isLandscape {
+            self.scrollToDate(date: self.selectedDate, animated: false)
+        } else {
+            self.scrollToDate(date: self.selectedDate, animated: false)
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if isScrolled && self.collectionView.visibleCells.count > 0 {
+            self.collectionView.collectionViewLayout.invalidateLayout()
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         if !isScrolled && self.collectionView.visibleCells.count > 0 {
-            isScrolled = true
-            self.scrollToToday(animated: false)
+            self.scrollToDate(date: self.selectedDate, animated: false)
         }
     }
     
@@ -92,37 +113,32 @@ class MonthViewController: UIViewController {
         
     }
     
-    
-    /*
-    func initSwipeSetting(){
-        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-        leftSwipe.direction = .up
-        rightSwipe.direction = .right
-        self.view.addGestureRecognizer(leftSwipe)
-        self.view.addGestureRecognizer(rightSwipe)
+    func initGestureRecognizer(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.collectionView.addGestureRecognizer(tap)
+         
     }
-    
-    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
-        if sender.direction == .left {
-            var frame = collectionView.frame
-            frame.origin.x -= collectionView.frame.width
-            UIView.animate(withDuration: 0.6){
-                self.collectionView.frame = frame
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
+            if indexPath.item > 0 {
+                self.setSelectedCell(indexPath: indexPath)
             }
-            selectedDate = calendarHelper.nextMonth(date: selectedDate)
-        } else if sender.direction == .right {
-            var frame = collectionView.frame
-            frame.origin.x += collectionView.frame.width
-            UIView.animate(withDuration: 0.6){
-                self.collectionView.frame = frame
-            }
-            selectedDate = calendarHelper.previousMonth(date: selectedDate)
         }
-        reloadCalendar()
-        self.collectionView.reloadData()
     }
-     */
+    
+    func setSelectedCell(indexPath: IndexPath) {
+        self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
+        if self.calendarMonths[indexPath.section].calendarDays[indexPath.item].isDate == true {
+            self.selectedIndexPath = indexPath
+            self.selectedDate = self.calendarMonths[indexPath.section].calendarDays[indexPath.item].date!
+            if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath(){
+                self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderWidth = 0
+            }
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderWidth = 2
+            self.collectionViewDataSource.setSelectedIndexPath(indexPath: indexPath)
+        }
+    }
     
     lazy var collectionViewFlowLayout : MonthCollectionViewFlowLayout = {
         let layout = MonthCollectionViewFlowLayout()
@@ -193,10 +209,27 @@ class MonthViewController: UIViewController {
     }
     
     func scrollToToday(animated: Bool = true){
-        let year = calendarHelper.getYear(for:selectedDate)
-        let month = calendarHelper.getMonth(for:selectedDate)
+        self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
+    }
+    
+    func scrollToDate(date: Date?, animated: Bool = true){
+        if date != nil {
+            self.selectedDate = date!
+        }
+        let year = calendarHelper.getYear(for: self.selectedDate)
+        let month = calendarHelper.getMonth(for: self.selectedDate)
         self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
-        let idx = self.calendarMonths.firstIndex(where: {$0.month == month && $0.year == year})!
+        
+        var idx = self.calendarMonths.firstIndex(where: {$0.month == month && $0.year == year}) ?? -1
+        
+        while idx == -1 {
+            // Extend and load the date
+            self.loadNextBatch()
+            idx = self.calendarMonths.firstIndex(where: {$0.month == month && $0.year == year}) ?? -1
+        }
+        let item = self.calendarMonths[idx].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) ?? 0
+        let newSelectedIP: IndexPath = IndexPath(item: item, section: idx)
+        self.setSelectedCell(indexPath: newSelectedIP)
         
         if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
             var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
@@ -204,6 +237,13 @@ class MonthViewController: UIViewController {
                 offsetY -= self.collectionView.safeAreaInsets.top
             }
             self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
+            isScrolled = true
+        }
+        else {
+            if isScrolled == true {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: idx), at: [.top, .right], animated: animated)
+                
+            }
         }
     }
     
@@ -219,7 +259,15 @@ class MonthViewController: UIViewController {
     }
      */
     @objc func scrollToToday(_ notification: Notification) {
-        scrollToToday()
+        self.scrollToDate(date: self.calendarHelper.getCurrentDate())
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           if self.calendarHelper.getYear(for: selectedDate) >= 1970{
+               self.scrollToDate(date: selectedDate, animated: false)
+           }
+       }
     }
 }
 
