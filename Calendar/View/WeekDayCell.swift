@@ -29,6 +29,7 @@ class WeekDayCell: UICollectionViewCell {
         dayOfWeekLabel.padding(3, 3, 3, 3)
         rollingWeekNumber = -1
     }
+    
     func initMonthLabel(){
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.appColor(.surface)?.cgColor
@@ -44,4 +45,5 @@ class WeekDayCell: UICollectionViewCell {
         dayOfWeekLabel.padding(3, 3, 3, 3)
         rollingWeekNumber = -1
     }
+    
 }

@@ -32,6 +32,33 @@ class YearCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.initGestureRecognizer()
+    }
+    
+    func initGestureRecognizer(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.monthCollectionView.isUserInteractionEnabled = true
+        self.monthCollectionView.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if let indexPath = self.monthCollectionView?.indexPathForItem(at: sender.location(in: self.monthCollectionView)) {
+            /*
+            let prevIndexPath = self.collectionViewDataSource.getSelectedCell()
+            if prevIndexPath != nil {
+                self.monthCollectionView.cellForItem(at: prevIndexPath!)!.layer.borderWidth = 0
+                self.monthCollectionView.cellForItem(at: prevIndexPath!)!.isSelected = false
+            }
+            self.monthCollectionView.cellForItem(at: indexPath)!.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+            self.monthCollectionView.cellForItem(at: indexPath)!.layer.borderWidth = 2
+            self.monthCollectionView.cellForItem(at: indexPath)!.isSelected = true
+            self.collectionViewDataSource.setSelectedCell(indexPath: indexPath)
+             */
+            let cell: MonthCell = self.monthCollectionView.cellForItem(at: indexPath) as! MonthCell
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "switchSegment"),
+                                            object: nil,
+                                            userInfo: ["date": cell.cellDate as Any, "view":"m"])
+        }
     }
     
     func initCell() {

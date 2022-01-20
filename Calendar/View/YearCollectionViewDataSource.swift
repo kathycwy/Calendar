@@ -14,6 +14,8 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private let numOfCells: Int = 12
     private let defNumOfYears: Int = 50
     private let defNumOfCells: Int = 12
+    private var selectedIndexPath: IndexPath? = nil
+    private var selectedInnerIndexPath: IndexPath? = nil
 
     // Number of years shown
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -48,6 +50,10 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
             self.calendarYears = calendarYears
         }
         return self.calendarYears
+    }
+    
+    func getSelectedInnerCell() -> IndexPath? {
+        return self.selectedInnerIndexPath
     }
     
     func getExtendedCalendarYears(numberOfYears: Int) -> [CalendarYear] {

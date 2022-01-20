@@ -102,8 +102,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="55" height="134"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbx-bD-5l1" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
-                                                    <rect key="frame" x="8.5" y="15" width="38" height="23"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbx-bD-5l1" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="8.5" y="5" width="38" height="38"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="rbx-bD-5l1" secondAttribute="height" multiplier="1:1" id="pIa-aJ-dYH"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -114,16 +117,29 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvS-QW-eDQ" userLabel="Tasks Label" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="25" y="48" width="5" height="5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="wvS-QW-eDQ" secondAttribute="height" multiplier="1:1" id="DOH-9t-xAy"/>
+                                                        <constraint firstAttribute="width" constant="5" id="Gwh-1g-37M"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rbx-bD-5l1" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" constant="15" id="D4Y-Wx-3Hd"/>
+                                                <constraint firstItem="rbx-bD-5l1" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" priority="750" constant="5" id="D4Y-Wx-3Hd"/>
+                                                <constraint firstItem="wvS-QW-eDQ" firstAttribute="centerX" secondItem="Cks-mf-XH8" secondAttribute="centerX" id="OMz-Hc-px1"/>
                                                 <constraint firstItem="bhE-Q0-PZh" firstAttribute="top" secondItem="Cks-mf-XH8" secondAttribute="top" id="Pqw-Dv-C6h"/>
+                                                <constraint firstItem="wvS-QW-eDQ" firstAttribute="top" secondItem="rbx-bD-5l1" secondAttribute="bottom" constant="5" id="vLe-bB-ulQ"/>
                                                 <constraint firstItem="rbx-bD-5l1" firstAttribute="centerX" secondItem="Cks-mf-XH8" secondAttribute="centerX" id="wif-U7-OSI"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="55" height="134"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="rbx-bD-5l1" id="lQH-jx-3Gs"/>
+                                            <outlet property="taskLabel" destination="wvS-QW-eDQ" id="tau-kh-Dgs"/>
                                             <outlet property="weekLabel" destination="bhE-Q0-PZh" id="P47-Cm-ara"/>
                                         </connections>
                                     </collectionViewCell>
@@ -811,9 +827,19 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-QS-RoW">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-QS-RoW">
                                                                         <rect key="frame" x="0.0" y="0.0" width="31" height="17"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKA-s1-yTy" userLabel="Tasks Label" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                                        <rect key="frame" x="9" y="-3" width="4.5" height="20.5"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="QKA-s1-yTy" secondAttribute="height" multiplier="1:1" id="aBq-vc-t9y"/>
+                                                                            <constraint firstAttribute="width" id="pcs-O1-FIl"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
@@ -828,6 +854,7 @@
                                                             <size key="customSize" width="23" height="16"/>
                                                             <connections>
                                                                 <outlet property="dateLabel" destination="jLP-Em-Ow4" id="LZG-5a-OBw"/>
+                                                                <outlet property="taskLabel" destination="QKA-s1-yTy" id="baJ-gn-ZZX"/>
                                                                 <outlet property="weekLabel" destination="wP9-QS-RoW" id="1P2-Go-tk7"/>
                                                             </connections>
                                                         </collectionViewCell>
@@ -935,6 +962,9 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wa8-bb-VLJ">
                                 <rect key="frame" x="0.0" y="44" width="414" height="68"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="dBg-wt-UlS"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="STG-RN-obN">
                                     <size key="itemSize" width="64" height="81"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -956,19 +986,21 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2B-Sq-f09" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="55" width="45" height="16"/>
+                                                    <rect key="frame" x="10" y="19" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Z2B-Sq-f09" secondAttribute="height" multiplier="1:1" id="rdA-jQ-Jh6"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" name="Teal-primary"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="leading" secondItem="2Zg-F1-nrc" secondAttribute="leading" id="1Bd-sx-ufe"/>
-                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="bottom" secondItem="2Zg-F1-nrc" secondAttribute="bottom" constant="-10" id="AlA-5l-M8N"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="leading" secondItem="2Zg-F1-nrc" secondAttribute="leading" id="KtY-nb-eUS"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="Yhe-DD-FCy"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="top" secondItem="2Zg-F1-nrc" secondAttribute="top" constant="5" id="aXN-Au-sty"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="trailing" secondItem="2Zg-F1-nrc" secondAttribute="trailing" id="gOj-9p-JtD"/>
+                                                <constraint firstItem="Z2B-Sq-f09" firstAttribute="top" secondItem="hbZ-Ny-ACc" secondAttribute="bottom" constant="3" id="mts-bq-qku"/>
                                                 <constraint firstItem="Z2B-Sq-f09" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="qfz-EH-AF1"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -988,7 +1020,7 @@
                         <constraints>
                             <constraint firstItem="wa8-bb-VLJ" firstAttribute="top" secondItem="lad-mH-HOl" secondAttribute="top" id="172-Eb-YaB"/>
                             <constraint firstItem="wa8-bb-VLJ" firstAttribute="width" secondItem="lad-mH-HOl" secondAttribute="width" id="ATe-Po-Oz5"/>
-                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="height" secondItem="lad-mH-HOl" secondAttribute="height" multiplier="0.1" id="Djs-xS-rFS"/>
+                            <constraint firstItem="wa8-bb-VLJ" firstAttribute="height" secondItem="lad-mH-HOl" secondAttribute="height" multiplier="0.1" priority="250" id="Djs-xS-rFS"/>
                             <constraint firstItem="wa8-bb-VLJ" firstAttribute="leading" secondItem="lad-mH-HOl" secondAttribute="leading" id="pIg-0J-iEM"/>
                         </constraints>
                     </view>

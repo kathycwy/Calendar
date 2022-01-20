@@ -16,8 +16,9 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     private var displayWeeks: [CalendarWeek] = []
     private var isLoaded = false
     private var isScrolled = false
-    private var selectedDate: Date = Date()
     private var todayIndexPath: IndexPath? = nil
+    private var selectedDate: Date = Date()
+    private var selectedIndexPath: IndexPath? = nil
     
     let calendarHelper = CalendarHelper()
     
@@ -31,21 +32,29 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if isScrolled && self.collectionView.visibleCells.count > 0 {
+            self.collectionView.collectionViewLayout.invalidateLayout()
+            //self.scrollToDate(date: self.selectedDate)
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         if !isScrolled && self.collectionView.visibleCells.count > 0 {
-            isScrolled = true
-            self.scrollToToday(animated: false)
+            //self.scrollToToday(animated: false)
             self.isLoaded = true
             self.collectionViewFlowLayout.setLoaded(isLoaded: self.isLoaded)
         }
+        self.scrollToToday(animated: false)
     }
     
     private func initView(){
@@ -179,12 +188,21 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     }
     
     func setSelectedCell(indexPath: IndexPath) {
-        let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath()
-        self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-        self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+        self.selectedIndexPath = indexPath
         
+        if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath() {
+            self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+        }
         self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
         let rollingWeekNumber = self.displayWeeks[indexPath.section].rollingWeekNumber
+        if let date = self.displayWeeks[indexPath.section].calendarDays[indexPath.item - 1].date{
+            if let cell: WeekDayCell = self.collectionView.cellForItem(at: IndexPath(row: 0, section: indexPath.section)) as? WeekDayCell{
+                cell.dayOfWeekLabel.text = String(self.calendarHelper.getYear(for: date))
+                cell.dateLabel.text = self.calendarHelper.monthStringShort(date: date)
+            }
+        }
+        
         self.collectionViewDataSource.setSelectedCell(item: indexPath.item, rollingWeekNumber: rollingWeekNumber)
     }
     
@@ -198,8 +216,43 @@ class WeekViewController: UIViewController, UITabBarDelegate {
         if todayIndexPath == nil {
             todayIndexPath = self.collectionViewDataSource.getSelectedIndexPath()
         }
+        self.scrollToDate(date: self.calendarHelper.getCurrentDate(), indexPath: todayIndexPath, animated: animated)
+    }
+    
+    func scrollToDate(date: Date?, indexPath: IndexPath! = nil, animated: Bool = true){
+        var newSelectedIP: IndexPath! = indexPath
+        if newSelectedIP == nil{
+            if date != nil {
+                self.selectedDate = date!
+            }
+            let year = calendarHelper.getYear(for: self.selectedDate)
+            let month = calendarHelper.getMonth(for: self.selectedDate)
+            let weekNumber = calendarHelper.weekOfYear(date: self.selectedDate)
+            self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
+            
+            var idx = self.displayWeeks.firstIndex(
+                where: {($0.month == month || $0.toMonth == month) &&
+                    ($0.year == year || $0.toYear == year) &&
+                    $0.weekNumber == weekNumber &&
+                    $0.calendarDays.contains(where: {$0.date == self.selectedDate})
+                }) ?? -1
+            
+            while idx == -1 {
+                // Extend and load the date
+                self.loadNextBatch()
+                idx = self.displayWeeks.firstIndex(
+                    where: {($0.month == month || $0.toMonth == month) &&
+                        ($0.year == year || $0.toYear == year) &&
+                        $0.weekNumber == weekNumber &&
+                        $0.calendarDays.contains(where: {$0.date == self.selectedDate})
+                    }) ?? -1
+            }
+            let item = self.displayWeeks[idx].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) ?? 0
+            newSelectedIP = IndexPath(item: item + 1, section: idx)
+        }
+        self.setSelectedCell(indexPath: newSelectedIP)
         
-        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: todayIndexPath!) {
+        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: newSelectedIP.section)) {
             var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
             var offsetX = attributes.frame.origin.x - self.collectionView.contentInset.left
             if #available(iOS 11.0, *) {
@@ -207,6 +260,11 @@ class WeekViewController: UIViewController, UITabBarDelegate {
                 offsetX -= self.collectionView.safeAreaInsets.left
             }
             self.collectionView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: animated) // or animated: false
+            isScrolled = true
+        }
+        else {
+            self.collectionView.scrollToItem(at: IndexPath(row: 0, section: newSelectedIP.section), at: [.top, .left], animated: animated)
+            isScrolled = true
         }
     }
     
@@ -223,6 +281,14 @@ class WeekViewController: UIViewController, UITabBarDelegate {
      */
     @objc func scrollToToday(_ notification: Notification) {
         scrollToToday()
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           if self.calendarHelper.getYear(for: selectedDate) >= 1970{
+               self.scrollToDate(date: selectedDate, animated: false)
+           }
+       }
     }
 }
 

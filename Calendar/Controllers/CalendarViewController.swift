@@ -21,6 +21,8 @@ class CalendarViewController: UIViewController {
         weekContainerView.alpha = 0.0
         monthContainerView.alpha = 1.0
         yearContainerView.alpha = 0.0
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(switchSegment(_:)), name: Notification.Name(rawValue: "switchSegment"), object: nil)
     }
     
     @IBAction func didChangeIndex(_ sender: UISegmentedControl) {
@@ -89,6 +91,32 @@ class CalendarViewController: UIViewController {
            break
         }
 
+    }
+    
+    @objc func switchSegment(_ notification: Notification) {
+        let selectedDate: Date? = (notification.userInfo?["date"] ?? nil) as? Date
+        let switchToView: String? = notification.userInfo?["view"] as? String
+        switch (switchToView)
+        {
+        case "d":
+            self.calendarViewSegmentedControl.selectedSegmentIndex = 0
+            break
+        case "w":
+            self.calendarViewSegmentedControl.selectedSegmentIndex = 1
+            break
+        case "m":
+            self.monthViewController.scrollToDate(date: selectedDate)
+            self.calendarViewSegmentedControl.selectedSegmentIndex = 2
+            break
+        case "y":
+            self.calendarViewSegmentedControl.selectedSegmentIndex = 3
+            break
+        default:
+           break
+        }
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": selectedDate])
+        self.calendarViewSegmentedControl.sendActions(for: UIControl.Event.valueChanged)
+        
     }
     
     

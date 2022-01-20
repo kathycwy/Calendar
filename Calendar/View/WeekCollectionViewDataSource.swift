@@ -158,23 +158,34 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                     
                     // Show date
                     var displayStr: String = ""
-                    displayStr = String(calendarRange[indexPath.row - 1].dayString)
-                    if calendarRange[indexPath.row - 1].dayOfWeek == 0 {
-                        isSunday = true
+                    if calendarRange.count < indexPath.row {
+                        cell.dateLabel.text = "#"
+                        cell.dayOfWeekLabel.text = "#"
                     }
-                    DispatchQueue.main.async {
-                        cell.dateLabel.text = displayStr
-                        cell.dayOfWeekLabel.text = calendarRange[indexPath.row - 1].isDate ? self.calendarHelper.dayOfWeekString(date: calendarRange[indexPath.row - 1].date!) : ""
-                        cell.dateLabel.textColor = UIColor.appColor(.primary)
-                        
-                        if isSunday{
-                            cell.dateLabel.textColor = UIColor.red
+                    else {
+                        displayStr = String(calendarRange[indexPath.row - 1].dayString)
+                        if calendarRange[indexPath.row - 1].dayOfWeek == 0 {
+                            isSunday = true
                         }
-                        else if curRollingWeekNumber == self.selectedRollingWeekNumber && indexPath.row == self.selectedItem {
-                            cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                        DispatchQueue.main.async {
+                            cell.dateLabel.text = displayStr
+                            cell.dayOfWeekLabel.text = calendarRange[indexPath.row - 1].isDate ? self.calendarHelper.dayOfWeekString(date: calendarRange[indexPath.row - 1].date!) : ""
+                            
+                            if isSunday{
+                                cell.dateLabel.textColor = UIColor.red
+                            }
+                            if calendarRange[indexPath.row - 1].date == self.calendarHelper.getCurrentDate(){
+                                cell.dateLabel.layer.cornerRadius = cell.dateLabel.frame.size.width/2
+                                cell.dateLabel.layer.masksToBounds = true
+                                cell.dateLabel.backgroundColor = UIColor.appColor(.primary)
+                                cell.dateLabel.textColor = UIColor.appColor(.onPrimary)
+                            }
+                            if curRollingWeekNumber == self.selectedRollingWeekNumber && indexPath.row == self.selectedItem {
+                                cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                            }
+                            let fontsize: CGFloat = UIFont.appFontSize(.collectionViewHeader)!
+                            cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
                         }
-                        let fontsize: CGFloat = UIFont.appFontSize(.collectionViewHeader)!
-                        cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
                     }
                 }
                 
@@ -183,9 +194,11 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         return cell
     }
     
-    func getSelectedIndexPath() -> IndexPath{
-        let section = self.displayWeeks.firstIndex(where: {$0.rollingWeekNumber == selectedRollingWeekNumber})!
-        return IndexPath(row: selectedItem, section: section)
+    func getSelectedIndexPath() -> IndexPath?{
+        if let section = self.displayWeeks.firstIndex(where: {$0.rollingWeekNumber == selectedRollingWeekNumber}){
+            return IndexPath(row: selectedItem, section: section)
+        }
+        else {return nil}
     }
     
     func setSelectedCell(item: Int, rollingWeekNumber: Int) {

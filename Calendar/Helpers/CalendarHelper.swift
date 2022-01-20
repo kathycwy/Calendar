@@ -163,13 +163,29 @@ struct CalendarHelper {
                     }
                     else if rollingWeekNumber == 0 && firstElement {
                         for i in 0 ... (calendarDay.dayOfWeek ?? 0 ) - 1 {
-                            days.append(CalendarDay(
-                                dayString: "",
-                                displayIndex: i,
-                                weekNumber: (i%7==0) ? calendarDay.weekNumber : nil,
-                                isDate: false,
-                                month: calendarDay.month)
-                            )
+                            if let day = calendarDay.date
+                            {
+                                let date = addDay(date: day, n: ((calendarDay.dayOfWeek ?? 0) - i) * -1)
+                                days.append(CalendarDay(
+                                    date: date,
+                                    dayString: String(self.getDay(for: date)),
+                                    displayIndex: i,
+                                    weekNumber: (i%7==0) ? calendarDay.weekNumber : nil,
+                                    isSelected: false,
+                                    isDate: true,
+                                    dayOfWeek: weekDay(date:date),
+                                    month: calendarDay.month)
+                                )
+                            }
+                            else{
+                                days.append(CalendarDay(
+                                    dayString: "",
+                                    displayIndex: i,
+                                    weekNumber: (i%7==0) ? calendarDay.weekNumber : nil,
+                                    isDate: false,
+                                    month: calendarDay.month)
+                                )
+                            }
                         }
                     }
                     days.append(calendarDay)
