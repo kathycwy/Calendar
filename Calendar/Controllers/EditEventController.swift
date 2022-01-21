@@ -13,8 +13,9 @@ class EditEventController: UIViewController {
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var startDateField: UIDatePicker!
     @IBOutlet weak var endDateField: UIDatePicker!
-    @IBOutlet weak var placeField: UITextField!
-    @IBOutlet weak var remarksField: UITextField!
+    @IBOutlet weak var locationField: UITextField!
+    @IBOutlet weak var urlField: UITextField!
+    @IBOutlet weak var notesField: UITextField!
     
     var rowIndex: Int?
     var eventID: NSManagedObjectID?
@@ -30,11 +31,12 @@ class EditEventController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     
-        titleField.text = String(event!.value(forKeyPath: "title") as? String ?? "")
-        startDateField.date =  event!.value(forKeyPath: "startDate") as? Date ?? Date.now
-        endDateField.date = event!.value(forKeyPath: "endDate") as? Date ?? Date.now
-        placeField.text = String(event!.value(forKeyPath: "place") as? String ?? "")
-        remarksField.text = String(event!.value(forKeyPath: "remarks") as? String ?? "")
+        titleField.text = String(event!.value(forKeyPath: EventsStruct.titleAttribute) as? String ?? "")
+        startDateField.date =  event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now
+        endDateField.date = event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now
+        locationField.text = String(event!.value(forKeyPath: EventsStruct.locationAttribute) as? String ?? "")
+        urlField.text = String(event!.value(forKeyPath: EventsStruct.urlAttribute) as? String ?? "")
+        notesField.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
         
     }
     
@@ -51,14 +53,16 @@ class EditEventController: UIViewController {
             let title = titleField.text
             let startDate = startDateField.date
             let endDate = endDateField.date
-            let place = placeField.text
-            let remarks = remarksField.text
+            let place = locationField.text
+            let url = urlField.text
+            let remarks = notesField.text
 
-            updatingEvent.setValue(title, forKeyPath: "title")
-            updatingEvent.setValue(startDate, forKeyPath: "startDate")
-            updatingEvent.setValue(endDate, forKeyPath: "endDate")
-            updatingEvent.setValue(place, forKeyPath: "place")
-            updatingEvent.setValue(remarks, forKeyPath: "remarks")
+            updatingEvent.setValue(title, forKeyPath: EventsStruct.titleAttribute)
+            updatingEvent.setValue(startDate, forKeyPath: EventsStruct.startDateAttribute)
+            updatingEvent.setValue(endDate, forKeyPath: EventsStruct.endDateAttribute)
+            updatingEvent.setValue(place, forKeyPath: EventsStruct.locationAttribute)
+            updatingEvent.setValue(url, forKeyPath: EventsStruct.urlAttribute)
+            updatingEvent.setValue(remarks, forKeyPath: EventsStruct.notesAttribute)
 
             try managedContext.save()
             

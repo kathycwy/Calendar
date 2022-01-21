@@ -7,14 +7,16 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 class EventDetailsController: UIViewController {
     
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var startDate: UILabel!
     @IBOutlet weak var endDate: UILabel!
-    @IBOutlet weak var place: UILabel!
-    @IBOutlet weak var remarks: UILabel!
+    @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var url: UITextView!
+    @IBOutlet weak var notes: UILabel!
     
     var rowIndex: Int?
     var eventID: NSManagedObjectID?
@@ -32,12 +34,21 @@ class EventDetailsController: UIViewController {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
-    
-        eventTitle.text = String(event!.value(forKeyPath: "title") as? String ?? "")
-        startDate.text = formatter.string(from: event!.value(forKeyPath: "startDate") as? Date ?? Date.now)
-        endDate.text = formatter.string(from: event!.value(forKeyPath: "endDate") as? Date ?? Date.now)
-        place.text = String(event!.value(forKeyPath: "place") as? String ?? "")
-        remarks.text = String(event!.value(forKeyPath: "remarks") as? String ?? "")
+        
+        // set event url to the corresponding textView
+        let urlString = String(event!.value(forKeyPath: EventsStruct.urlAttribute) as? String ?? "")
+        let attributedUrlString = NSAttributedString(string: urlString, attributes:[NSAttributedString.Key.link: URL(string: urlString)!])
+        url.attributedText = attributedUrlString
+        url.textAlignment = NSTextAlignment.right
+        url.isUserInteractionEnabled = true
+        url.isEditable = false
+        
+        // set remaining event details to corresponding labels
+        eventTitle.text = String(event!.value(forKeyPath: EventsStruct.titleAttribute) as? String ?? "")
+        startDate.text = formatter.string(from: event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now)
+        endDate.text = formatter.string(from: event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now)
+        location.text = String(event!.value(forKeyPath: EventsStruct.locationAttribute) as? String ?? "")
+        notes.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
         
     }
     
@@ -61,13 +72,11 @@ class EventDetailsController: UIViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
         
         do {
             // fetch the entitiy
             fetchedEvents = try managedContext.fetch(fetchRequest)
-            print("print(fetchedEvents[0])")
-            print(fetchedEvents[0])
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
