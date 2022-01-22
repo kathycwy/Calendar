@@ -7,11 +7,20 @@
 
 import UIKit
 import SwiftUI
+import CoreData
 
-class WeekViewController: UIViewController, UITabBarDelegate {
+class WeeklyEventCell: UITableViewCell {
+    @IBOutlet weak var eventTitle: UILabel!
+    @IBOutlet weak var eventStartDate: UILabel!
+    @IBOutlet weak var eventEndDate: UILabel!
+}
+
+class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var tableView: UITableView!
+    
     private var calendarWeeks: [CalendarWeek] = []
     private var displayWeeks: [CalendarWeek] = []
     private var isLoaded = false
@@ -19,6 +28,8 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     private var todayIndexPath: IndexPath? = nil
     private var selectedDate: Date = Date()
     private var selectedIndexPath: IndexPath? = nil
+    private var allEvents: [NSManagedObject] = []
+    var selectedRow: Int? = 0
     
     let calendarHelper = CalendarHelper()
     
@@ -31,6 +42,7 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
     }
@@ -87,6 +99,7 @@ class WeekViewController: UIViewController, UITabBarDelegate {
         self.collectionView.addGestureRecognizer(rightSwipe)
          
     }
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
@@ -208,7 +221,6 @@ class WeekViewController: UIViewController, UITabBarDelegate {
     
     func reloadCalendar(calendarYears: [CalendarYear]) {
         self.calendarWeeks = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears)
-        //self.collectionView.reloadData()
     }
     
     func scrollToToday(animated: Bool = true){
@@ -268,6 +280,68 @@ class WeekViewController: UIViewController, UITabBarDelegate {
         }
     }
     
+    func updateView(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
+        
+        do {
+            // fetch the entitiy
+            allEvents = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return self.allEvents.count
+        return 2
+    }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+//        let event = self.allEvents[indexPath.row]
+//        let calendarDays = self.calendarWeeks[self.selectedRow!].calendarDays
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
+        
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "d MMM y, HH:mm"
+//
+//        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
+//        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+//        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        
+        cell.eventTitle.text = "hello"
+        cell.eventStartDate.text = "yoyo"
+        cell.eventEndDate.text = "sghs"
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedRow = indexPath.row
+        self.performSegue(withIdentifier: "eventCellTapped", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "eventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+            
+            if selectedRow != nil {
+                destinationVC.rowIndex = self.selectedRow
+                destinationVC.event = self.allEvents[self.selectedRow!]
+                destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
+            }
+        }
+    }
+
     /*
     @IBAction func prevMonth(_ sender: Any) {
         selectedDate = calendarHelper.previousMonth(date: selectedDate)
@@ -291,6 +365,3 @@ class WeekViewController: UIViewController, UITabBarDelegate {
        }
     }
 }
-
-
-

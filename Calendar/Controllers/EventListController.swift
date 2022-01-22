@@ -32,6 +32,11 @@ class EventListController: UITableViewController {
         self.updateView()
     }
     
+    func getEvents() -> [NSManagedObject] {
+        fetchEvents()
+        return events
+    }
+    
     func updateView(){
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -50,6 +55,26 @@ class EventListController: UITableViewController {
         
         self.tableView.reloadData()
     
+    }
+    
+    func fetchEvents(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
+        
+        do {
+            // fetch the entitiy
+            events = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func getEventsByWeek(dates: [CalendarDay]) {
+        
     }
 
     //MARK: - Standard Tableview methods
