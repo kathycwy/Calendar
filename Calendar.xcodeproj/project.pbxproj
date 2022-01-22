@@ -35,6 +35,7 @@
 		4248DA072790991700F13CD2 /* YearHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA062790991600F13CD2 /* YearHeader.swift */; };
 		4248DA092790C75300F13CD2 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA082790C75300F13CD2 /* UIFontExtension.swift */; };
 		4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4248DA0A2790C9FA00F13CD2 /* FontHelper.swift */; };
+		42BBE021279C8B0C00FAAED0 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BBE020279C8B0C00FAAED0 /* DayViewController.swift */; };
 		42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C2279471ED009FB999 /* WeekDayCell.swift */; };
 		42D7E8C5279479E7009FB999 /* WeekTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */; };
 		42D7E8C7279479F9009FB999 /* WeekEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C6279479F9009FB999 /* WeekEventCell.swift */; };
@@ -79,6 +80,7 @@
 		4248DA062790991600F13CD2 /* YearHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearHeader.swift; sourceTree = "<group>"; };
 		4248DA082790C75300F13CD2 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		4248DA0A2790C9FA00F13CD2 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		42BBE020279C8B0C00FAAED0 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
 		42D7E8C2279471ED009FB999 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
 		42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTimeCell.swift; sourceTree = "<group>"; };
 		42D7E8C6279479F9009FB999 /* WeekEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekEventCell.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				422B2CBA276CBF04002C8AED /* ViewController.swift */,
+				42BBE020279C8B0C00FAAED0 /* DayViewController.swift */,
 				421F70D327921984001ADEA0 /* WeekViewController.swift */,
 				422B2CDE276CD617002C8AED /* MonthViewController.swift */,
 				4236D909278F3A5A0034C01F /* YearViewController.swift */,
@@ -280,6 +283,7 @@
 				F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */,
 				4236D912278F42B80034C01F /* CalendarYear.swift in Sources */,
 				4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */,
+				42BBE021279C8B0C00FAAED0 /* DayViewController.swift in Sources */,
 				4236D904278EFB540034C01F /* CalendarViewController.swift in Sources */,
 				42D7E8CB27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift in Sources */,
 				F240D73E27945137006F5CD2 /* AddEventController.swift in Sources */,

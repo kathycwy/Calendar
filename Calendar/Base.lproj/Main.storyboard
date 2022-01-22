@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RmM-da-CSO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RmM-da-CSO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -25,6 +25,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jyM-kf-XSU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1873" y="-576"/>
+        </scene>
+        <!--Day View Controller-->
+        <scene sceneID="DWY-Ds-uAC">
+            <objects>
+                <viewController id="lqX-Od-M18" customClass="DayViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="brX-on-mFB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="test" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCh-Ml-zdN">
+                                <rect key="frame" x="186" y="352" width="30" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zXZ-Aj-HCG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZG9-E1-XWp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2833" y="-1181"/>
         </scene>
         <!--Month View-->
         <scene sceneID="tne-QT-ifu">
@@ -261,6 +285,12 @@
                                     <segue destination="G35-1g-V33" kind="embed" identifier="WeekViewSegue" id="keQ-Kf-MgL"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4YI-11-ywV">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <connections>
+                                    <segue destination="lqX-Od-M18" kind="embed" id="l8b-O0-Vwj"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iqu-se-WEv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -269,14 +299,18 @@
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="bottom" secondItem="FZj-62-xgO" secondAttribute="bottom" id="3w3-g1-c2e"/>
                             <constraint firstItem="b6E-7L-1lU" firstAttribute="bottom" secondItem="FZj-62-xgO" secondAttribute="bottom" id="6zP-a1-DCI"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="trailing" secondItem="FZj-62-xgO" secondAttribute="trailing" id="Rcl-QP-Wle"/>
+                            <constraint firstItem="4YI-11-ywV" firstAttribute="top" secondItem="FZj-62-xgO" secondAttribute="top" id="UUa-qW-9sK"/>
+                            <constraint firstItem="4YI-11-ywV" firstAttribute="bottom" secondItem="FZj-62-xgO" secondAttribute="bottom" id="aWR-Dc-SOe"/>
                             <constraint firstItem="b6E-7L-1lU" firstAttribute="top" secondItem="FZj-62-xgO" secondAttribute="top" id="gaL-Bh-uSg"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="leading" secondItem="FZj-62-xgO" secondAttribute="leading" id="hDL-IW-puJ"/>
                             <constraint firstItem="b6E-7L-1lU" firstAttribute="trailing" secondItem="FZj-62-xgO" secondAttribute="trailing" id="inZ-QO-lbE"/>
                             <constraint firstItem="dRE-qA-xmD" firstAttribute="top" secondItem="FZj-62-xgO" secondAttribute="top" id="jJc-NS-iEN"/>
                             <constraint firstItem="b6E-7L-1lU" firstAttribute="leading" secondItem="FZj-62-xgO" secondAttribute="leading" id="jTG-m4-Vs7"/>
+                            <constraint firstItem="4YI-11-ywV" firstAttribute="trailing" secondItem="FZj-62-xgO" secondAttribute="trailing" id="k4u-cD-aV4"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="bottom" secondItem="iqu-se-WEv" secondAttribute="bottom" id="pMv-sj-BNL"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="trailing" secondItem="iqu-se-WEv" secondAttribute="trailing" id="s5Y-5z-Dvu"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="leading" secondItem="iqu-se-WEv" secondAttribute="leading" id="tMB-oM-BD8"/>
+                            <constraint firstItem="4YI-11-ywV" firstAttribute="leading" secondItem="FZj-62-xgO" secondAttribute="leading" id="v5R-dB-XXs"/>
                             <constraint firstItem="FZj-62-xgO" firstAttribute="top" secondItem="iqu-se-WEv" secondAttribute="top" id="vyc-UN-DUu"/>
                         </constraints>
                     </view>
@@ -325,6 +359,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="calendarViewSegmentedControl" destination="3cH-ER-7eu" id="pyK-7S-ncB"/>
+                        <outlet property="dayContainerView" destination="4YI-11-ywV" id="s3I-S0-w7Q"/>
                         <outlet property="monthContainerView" destination="FZj-62-xgO" id="yAe-5A-tWw"/>
                         <outlet property="weekContainerView" destination="b6E-7L-1lU" id="FFw-3g-Uji"/>
                         <outlet property="yearContainerView" destination="dRE-qA-xmD" id="yEc-eP-oX4"/>
@@ -563,7 +598,7 @@
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WX6-4U-VEu" id="VAg-1k-GzR">
-                                    <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="385.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUP-Cw-kr6">
@@ -1080,7 +1115,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="RGH-8S-iJ9"/>
-        <segue reference="S9M-9Q-vD3"/>
+        <segue reference="gX7-MR-c65"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>

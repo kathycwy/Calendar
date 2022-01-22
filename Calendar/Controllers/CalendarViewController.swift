@@ -1,13 +1,14 @@
 import UIKit
 
 class CalendarViewController: UIViewController {
-    
+    @IBOutlet weak var dayContainerView: UIView!
     @IBOutlet weak var monthContainerView: UIView!
     @IBOutlet weak var yearContainerView: UIView!
     @IBOutlet weak var weekContainerView: UIView!
     @IBOutlet weak var calendarViewSegmentedControl: UISegmentedControl!
     
     var freshLaunch: Bool = true
+    var dayViewController: DayViewController!
     var weekViewController: WeekViewController!
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
@@ -18,6 +19,7 @@ class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dayContainerView.alpha = 0.0
         weekContainerView.alpha = 0.0
         monthContainerView.alpha = 1.0
         yearContainerView.alpha = 0.0
@@ -29,18 +31,22 @@ class CalendarViewController: UIViewController {
         let selectedIndex = sender.selectedSegmentIndex
         switch selectedIndex {
         case 0:
+            dayContainerView.alpha = 1.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 0.0
             yearContainerView.alpha = 0.0
         case 1:
+            dayContainerView.alpha = 0.0
             weekContainerView.alpha = 1.0
             monthContainerView.alpha = 0.0
             yearContainerView.alpha = 0.0
         case 2:
+            dayContainerView.alpha = 0.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 1.0
             yearContainerView.alpha = 0.0
         case 3:
+            dayContainerView.alpha = 0.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 0.0
             yearContainerView.alpha = 1.0
@@ -72,8 +78,8 @@ class CalendarViewController: UIViewController {
         switch (segue.identifier)
         {
         case "DayViewSegue":
-            //self.monthViewController = (segue.destination as! MonthViewController)
-            //self.monthViewController.reloadCalendar()
+            self.dayViewController = (segue.destination as! DayViewController)
+            //self.dayViewController.reloadCalendar()
             break
         case "WeekViewSegue":
             self.weekViewController = (segue.destination as! WeekViewController)
