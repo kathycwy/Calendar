@@ -17,7 +17,7 @@ class WeekDayCell: UICollectionViewCell {
     func initDateLabel(){
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-        dateLabel.textColor = UIColor.appColor(.primary)
+        dateLabel.textColor = UIColor.appColor(.tertiary)
         dateLabel.backgroundColor = UIColor.appColor(.background)
         dateLabel.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 12)
         dateLabel.text = ""
@@ -33,7 +33,7 @@ class WeekDayCell: UICollectionViewCell {
     func initMonthLabel(){
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-        dateLabel.textColor = UIColor.appColor(.primary)
+        dateLabel.textColor = UIColor.appColor(.onSurface)
         dateLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 12)
         dateLabel.backgroundColor = UIColor.appColor(.background)
         dateLabel.text = ""

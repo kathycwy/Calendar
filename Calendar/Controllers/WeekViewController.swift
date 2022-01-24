@@ -214,7 +214,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         
         if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath() {
             self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
         }
         self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
         let rollingWeekNumber = self.displayWeeks[indexPath.section].rollingWeekNumber

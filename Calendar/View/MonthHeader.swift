@@ -20,6 +20,8 @@ class MonthHeader: UICollectionReusableView {
         monthLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         monthLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         monthLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        backgroundColor = UIColor.appColor(.primary)
+        monthLabel.textColor = UIColor.appColor(.onPrimary)
     }
 
 }

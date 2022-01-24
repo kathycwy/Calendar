@@ -206,7 +206,6 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemTealColor"/>
                                             <constraints>
                                                 <constraint firstItem="IUx-Fr-Cck" firstAttribute="trailing" secondItem="j7o-Ak-FwO" secondAttribute="leading" id="Bcv-lo-HIv"/>
                                                 <constraint firstItem="IUx-Fr-Cck" firstAttribute="bottom" secondItem="ehm-an-oKH" secondAttribute="bottom" id="FQ6-kz-YFx"/>
@@ -947,7 +946,7 @@
                                                                 <rect key="frame" x="0.0" y="3" width="114" height="18"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="IWl-cC-3Ph">
-                                                                        <rect key="frame" x="8" y="-6" width="106" height="25"/>
+                                                                        <rect key="frame" x="8" y="-4" width="106" height="25"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
                                                                         <color key="textColor" name="Teal-onSurface"/>
@@ -997,7 +996,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemTealColor"/>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemTealColor"/>
@@ -17854,10 +17852,10 @@ AAAAD0GWA
             <color red="0.0" green="0.23921568627450981" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Teal-primary">
-            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Teal-surface">
-            <color red="0.95899999141693115" green="0.97000002861022949" blue="0.96299999952316284" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.97143100500106816" green="0.97145264148712163" blue="0.97144101858139043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

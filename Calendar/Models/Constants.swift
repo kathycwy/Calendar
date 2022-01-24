@@ -13,6 +13,8 @@ struct Constants {
     
     struct ColourThemes {
         static let teal = "Teal"
+        static let orange = "Orange"
+        static let blue = "Blue"
     }
     
     struct FontSize{

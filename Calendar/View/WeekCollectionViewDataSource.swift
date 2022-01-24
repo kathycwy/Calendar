@@ -181,7 +181,7 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                                 cell.dateLabel.textColor = UIColor.appColor(.onPrimary)
                             }
                             if curRollingWeekNumber == self.selectedRollingWeekNumber && indexPath.row == self.selectedItem {
-                                cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                                cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                             }
                             let fontsize: CGFloat = UIFont.appFontSize(.collectionViewHeader)!
                             cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
