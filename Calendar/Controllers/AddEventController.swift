@@ -29,7 +29,7 @@ final class AddEventController: UIViewController {
 
     // MARK: - Actions
     
-    ///////////// CoreDate //////////
+    ///////////// CoreData //////////
     @IBAction func addEvent(_ sender: Any) {
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

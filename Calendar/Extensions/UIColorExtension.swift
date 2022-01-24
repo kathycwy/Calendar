@@ -8,6 +8,8 @@ enum AssetsColor : String{
     case onPrimary
     case secondary
     case onSecondary
+    case tertiary
+    case onTertiary
     case surface
     case onSurface
 }

@@ -18,6 +18,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
     private let defNumOfMonths: Int = 12
     private let defNumOfCells: Int = 42
     private var selectedIndexPath: IndexPath? = nil
+    private var events: [NSObject]? = nil
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date, isAsInnerCollectionView: Bool = false){
         super.init()
@@ -176,6 +177,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
         }
         
         cell.initLabel()
+        self.events = EventListController().getEvents()
         
         if (calendarMonths.count > 0) {
             let calendarRange = calendarMonths[indexPath.section].calendarDays
@@ -193,16 +195,32 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
             
             let isDisplayWeekNumber: Bool = UserDefaults.standard.bool(forKey: "DisplayWeekNumber")
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 cell.cellDate = calendarRange[indexPath.row].date
                 cell.dateLabel.text = displayStr
                 cell.weekLabel.text = isDisplayWeekNumber && !self.isAsInnerCollectionView ? displayWeekNum : ""
+                
+                if let currentDate = cell.cellDate {
+                    for event in self.events! {
+                        let event_start_date = event.value(forKeyPath: "startDate") as! Date
+                        let event_end_date = event.value(forKeyPath: "endDate") as! Date
+                        
+                        let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
+                        if fallsBetween {
+                            cell.setTaskIndicator()
+                            break;
+                        }
+                    }
+                } else {
+                }
+                
+                
                 //cell.weekLabel.text = String(indexPath.row)
                 if isSunday {
                     cell.dateLabel.textColor = UIColor.red
                 }
                 else {
-                    cell.dateLabel.textColor = UIColor.appColor(.primary)
+                    cell.dateLabel.textColor = UIColor.appColor(.tertiary)
                 }
                     
                 if calendarRange[indexPath.row].date == self.calendarHelper.getCurrentDate(){
@@ -216,8 +234,8 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                         self.selectedIndexPath = indexPath
                     }
                 }
-                if indexPath == self.selectedIndexPath{
-                    cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                if !self.isAsInnerCollectionView && indexPath == self.selectedIndexPath{
+                    cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                     cell.layer.borderWidth = 2
                 }
                 let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
@@ -247,4 +265,13 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
       }
     }
      */
+}
+
+extension Date {
+    public var removeTimeStamp : Date? {
+       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+        return nil
+       }
+       return date
+   }
 }
