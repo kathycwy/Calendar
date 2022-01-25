@@ -13,8 +13,10 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
     
     @IBOutlet weak var hourTableView: UITableView!
     
-    
+    var calendarDays: [CalendarDay] = []
     var hours = [Int]()
+    
+    let calendarHelper = CalendarHelper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,52 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
          for hour in 0 ... 23 {
              hours.append(hour)
          }
+    }
+    
+    func reloadCalendar(calendarYears: [CalendarYear]) {
+        self.calendarDays.removeAll(keepingCapacity: false)
+        self.calendarDays = self.getInitCalendar(calendarYears: calendarYears)
+    }
+    
+    func getInitCalendar(calendarYears: [CalendarYear]) -> [CalendarDay] {
+        var calDays: [CalendarDay] = []
+        
+        if calendarYears.count ==  0{
+            let year = Calendar.current.component(.year, from: Date())
+            for tempYear in 1970 ... year {
+                for tempMonth in 1 ... 12 {
+                    let monthDays: [CalendarDay] = calendarHelper.getCalendarDays(
+                        withStartDate: calendarHelper.getFirstDayOfMonth(year: tempYear, month: tempMonth),
+                        withBuffer: false)
+                    calDays.append(contentsOf: monthDays)
+                }
+            }
+        }
+        else {
+            for calYear in calendarYears {
+                for calMonth in calYear.calendarMonths {
+                    calDays.append(contentsOf: calMonth.calendarDays.filter({$0.isDate == true}) )
+                }
+            }
+        }
+        return calDays
+    }
+    
+    func getExtendedCalendarDays(numberOfMonths: Int) -> [CalendarDay] {
+        var calDays: [CalendarDay] = []
+        if numberOfMonths > 0 {
+            let lastCalDay = (self.calendarDays.last?.date)!
+            for i in 1 ... numberOfMonths {
+                let tempDate = calendarHelper.addMonth(date: lastCalDay, n: i)
+                let tempYear = calendarHelper.getYear(for: tempDate)
+                let tempMonth = calendarHelper.getMonth(for: tempDate)
+                    let monthDays: [CalendarDay] = calendarHelper.getCalendarDays(
+                        withStartDate: calendarHelper.getFirstDayOfMonth(year: tempYear, month: tempMonth),
+                        withBuffer: false)
+                    calDays.append(contentsOf: monthDays)
+            }
+        }
+        return calDays
     }
     
     func setDayView() {
