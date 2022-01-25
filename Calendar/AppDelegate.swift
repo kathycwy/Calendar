@@ -33,9 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             UINavigationBar.appearance().backgroundColor = .appColor(.navigationBackground)
             UINavigationBar.appearance().barTintColor = .appColor(.navigationBackground)
-            UIBarButtonItem.appearance().tintColor = .appColor(.primary)
-            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onPrimary)!], for: .selected)
-            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.primary)!], for: .normal)
+            UIBarButtonItem.appearance().tintColor = .appColor(.surface)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.surface)!], for: .selected)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onSurface)!], for: .normal)
             
             UINavigationBar.appearance().isTranslucent = false
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
@@ -56,12 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().tintColor = .appColor(.navigationTitle)
             UITabBar.appearance().tintColor = .appColor(.navigationTitle)
         }
-        UISegmentedControl.appearance().selectedSegmentTintColor = .appColor(.primary)
-        UISegmentedControl.appearance().backgroundColor = .appColor(.onPrimary)
-        UISegmentedControl.appearance().tintColor = .appColor(.onPrimary)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onPrimary)!], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.primary)!], for: .normal)
-        UIButton.appearance().tintColor = UIColor.appColor(.primary)!
+        UISegmentedControl.appearance().selectedSegmentTintColor = .appColor(.onSurface)
+        UISegmentedControl.appearance().backgroundColor = .appColor(.surface)
+        UISegmentedControl.appearance().tintColor = .appColor(.surface)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.surface)!], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onSurface)!], for: .normal)
+        UIButton.appearance().tintColor = UIColor.appColor(.navigationTitle)!
         UISwitch.appearance().onTintColor = .appColor(.navigationTitle)
         UIRefreshControl.appearance().tintColor = .appColor(.navigationTitle)
         UIToolbar.appearance().tintColor = .appColor(.navigationTitle)

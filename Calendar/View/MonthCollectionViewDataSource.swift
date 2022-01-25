@@ -220,7 +220,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                     cell.dateLabel.textColor = UIColor.red
                 }
                 else {
-                    cell.dateLabel.textColor = UIColor.appColor(.primary)
+                    cell.dateLabel.textColor = UIColor.appColor(.tertiary)
                 }
                     
                 if calendarRange[indexPath.row].date == self.calendarHelper.getCurrentDate(){
@@ -234,8 +234,8 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                         self.selectedIndexPath = indexPath
                     }
                 }
-                if indexPath == self.selectedIndexPath{
-                    cell.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+                if !self.isAsInnerCollectionView && indexPath == self.selectedIndexPath{
+                    cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                     cell.layer.borderWidth = 2
                 }
                 let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!

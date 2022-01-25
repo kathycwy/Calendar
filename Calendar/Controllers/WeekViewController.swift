@@ -36,6 +36,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initCollectionView()
+        self.initTableView()
         self.initView()
         self.initGestureRecognizer()
     }
@@ -85,6 +86,14 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         //self.collectionView.contentInsetAdjustmentBehavior = .never
         //if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
         self.collectionView.isScrollEnabled = false
+    }
+    
+    private func initTableView(){
+        self.tableView.isPrefetchingEnabled = true
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.backgroundColor = UIColor.appColor(.background)
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func initGestureRecognizer(){
@@ -205,7 +214,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         
         if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath() {
             self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
         }
         self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
         let rollingWeekNumber = self.displayWeeks[indexPath.section].rollingWeekNumber
@@ -298,6 +307,10 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         tableView.reloadData()
     }
     
+    // Number of months shown
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return self.allEvents.count

@@ -134,7 +134,7 @@ class MonthViewController: UIViewController {
             if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath(){
                 self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderWidth = 0
             }
-            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.primary)?.cgColor
+            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
             self.collectionView.cellForItem(at: indexPath)?.layer.borderWidth = 2
             self.collectionViewDataSource.setSelectedIndexPath(indexPath: indexPath)
         }
