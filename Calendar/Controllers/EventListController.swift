@@ -32,9 +32,19 @@ class EventListController: UITableViewController {
         self.updateView()
     }
     
-    func getEvents() -> [NSManagedObject] {
+    func getEventsByDate(currentDate: Date) -> [NSManagedObject] {
         fetchEvents()
-        return events
+        var eventsPerDate: [NSManagedObject] = []
+        for event in events {
+            let event_start_date = event.value(forKeyPath: "startDate") as! Date
+            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            
+            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
+            if fallsBetween {
+                eventsPerDate.append(event)
+            }
+        }
+        return eventsPerDate
     }
     
     func updateView(){
@@ -71,10 +81,6 @@ class EventListController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func getEventsByWeek(dates: [CalendarDay]) {
-        
     }
 
     //MARK: - Standard Tableview methods
@@ -117,4 +123,13 @@ class EventListController: UITableViewController {
         }
         
     }
+}
+
+extension Date {
+    public var removeTimeStamp : Date? {
+       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+        return nil
+       }
+       return date
+   }
 }
