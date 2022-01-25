@@ -32,6 +32,27 @@ class EventListController: UITableViewController {
         self.updateView()
     }
     
+    func getEventsByDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
+        fetchEvents()
+        var eventsPerHour = [NSManagedObject]()
+        for event in events
+        {
+            let event_start_date = event.value(forKeyPath: "startDate") as! Date
+            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date)
+            if fallsBetween
+            {
+                let eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                let eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
+                if  hour >= eventStartHour || hour <= eventEndHour
+                {
+                    eventsPerHour.append(event)
+                }
+            }
+        }
+        return eventsPerHour
+    }
+    
     func getEventsByDate(currentDate: Date) -> [NSManagedObject] {
         fetchEvents()
         var eventsPerDate: [NSManagedObject] = []

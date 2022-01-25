@@ -323,22 +323,22 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.selectedRow = indexPath.row
-//        self.performSegue(withIdentifier: "eventCellTapped", sender: self)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedRow = indexPath.row
+        self.performSegue(withIdentifier: "weeklyEventCellTapped", sender: self)
+    }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if (segue.identifier == "eventCellTapped") {
-//            let destinationVC = segue.destination as! EventDetailsController
-//
-//            if selectedRow != nil {
-//                destinationVC.rowIndex = self.selectedRow
-//                destinationVC.event = self.allEvents[self.selectedRow!]
-//                destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "weeklyEventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+
+            if selectedRow != nil {
+                destinationVC.rowIndex = self.selectedRow
+                destinationVC.event = self.allEvents[self.selectedRow!]
+                destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
+            }
+        }
+    }
 
     /*
     @IBAction func prevMonth(_ sender: Any) {
