@@ -1,12 +1,14 @@
 import UIKit
 
-class CalendarViewController: UIViewController {
+class CalendarViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet weak var dayContainerView: UIView!
     @IBOutlet weak var monthContainerView: UIView!
     @IBOutlet weak var yearContainerView: UIView!
     @IBOutlet weak var weekContainerView: UIView!
     @IBOutlet weak var calendarViewSegmentedControl: UISegmentedControl!
-    
+    @IBOutlet var sideMenuView: UIView!
+    @IBOutlet var sideMenuTableView: UITableView!
     var freshLaunch: Bool = true
     var dayViewController: DayViewController!
     var weekViewController: WeekViewController!
@@ -16,8 +18,14 @@ class CalendarViewController: UIViewController {
     let calendarHelper = CalendarHelper()
     private var calendarYears: [CalendarYear] = []
     
+    var arrLabels = ["Search"]
+    var isSideMenuOpen: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        sideMenuView.isHidden = true
+        sideMenuTableView.backgroundColor = UIColor.systemGroupedBackground
+        isSideMenuOpen = false
         
         dayContainerView.alpha = 0.0
         weekContainerView.alpha = 0.0
@@ -125,5 +133,50 @@ class CalendarViewController: UIViewController {
         
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrLabels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:TableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
+        cell.label.text = arrLabels[indexPath.row]
+        var image = UIImage(systemName: "magnifyingglass")
+        switch (indexPath.row)
+        {
+        case 0:
+            image = UIImage(systemName: "magnifyingglass")
+            break
+        default:
+           break
+        }
+        cell.icon.image = image
+        return cell
+    }
+    
+    @IBAction func sideMenuButton(_ sender: Any) {
+        sideMenuView.isHidden = false
+        sideMenuTableView.isHidden = false
+        self.view.bringSubviewToFront(sideMenuView)
+        if !isSideMenuOpen {
+            isSideMenuOpen = true
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+            }
+        } else {
+            sideMenuView.isHidden = true
+            sideMenuTableView.isHidden = true
+            isSideMenuOpen = false
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+            }
+        }
+        
+    }
     
 }

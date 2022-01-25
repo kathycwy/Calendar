@@ -48,6 +48,7 @@
 		F27B65D5279A0F5600BFF8BC /* EventsStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27B65D4279A0F5600BFF8BC /* EventsStruct.swift */; };
 		F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */; };
 		F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */; };
+		FBE5029E27A06CC6001FEAEA /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE5029D27A06CC6001FEAEA /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		F27B65D4279A0F5600BFF8BC /* EventsStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsStruct.swift; sourceTree = "<group>"; };
 		F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsController.swift; sourceTree = "<group>"; };
 		F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventController.swift; sourceTree = "<group>"; };
+		FBE5029D27A06CC6001FEAEA /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				422B2CDA276CCCCD002C8AED /* MonthHeader.swift */,
 				422B2CD5276CCB8F002C8AED /* MonthCollectionViewDataSource.swift */,
 				422B2CD3276CC205002C8AED /* MonthCollectionViewFlowLayout.swift */,
+				FBE5029D27A06CC6001FEAEA /* TableViewCell.swift */,
 				4236D90B278F3E710034C01F /* YearCell.swift */,
 				4248DA062790991600F13CD2 /* YearHeader.swift */,
 				4236D90D278F41520034C01F /* YearCollectionViewDataSource.swift */,
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBE5029E27A06CC6001FEAEA /* TableViewCell.swift in Sources */,
 				F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */,
 				4236D912278F42B80034C01F /* CalendarYear.swift in Sources */,
 				4248DA0B2790C9FA00F13CD2 /* FontHelper.swift in Sources */,
