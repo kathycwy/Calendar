@@ -27,6 +27,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     private var isScrolled = false
     private var todayIndexPath: IndexPath? = nil
     private var selectedDate: Date = Date()
+    private var selectedCurrentDate: Date = Date()
     private var selectedIndexPath: IndexPath? = nil
     private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
@@ -154,7 +155,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         let endIndex = startIndex + newcalendarMonths.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
-    
+//
     private func createSpinnerFooter() -> UIView {
         let footerView = UIView(frame: CGRect(x:0, y:0, width: view.frame.size.width, height: 100))
         
@@ -226,6 +227,14 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         }
         
         self.collectionViewDataSource.setSelectedCell(item: indexPath.item, rollingWeekNumber: rollingWeekNumber)
+        
+        if let section = self.displayWeeks.first(where: {$0.rollingWeekNumber == rollingWeekNumber}) {
+            if let selectedDateToSet = section.calendarDays[indexPath.item - 1].date {
+                self.selectedCurrentDate = selectedDateToSet
+            }
+        }
+        
+        tableView.reloadData()
     }
     
     func reloadCalendar(calendarYears: [CalendarYear]) {
@@ -289,64 +298,40 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         }
     }
     
-    func updateView(){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
-        
-        do {
-            // fetch the entitiy
-            allEvents = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        tableView.reloadData()
-    }
-    
     // Number of months shown
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.allEvents.count
-        return 2
+        return EventListController().getEventsByDate(currentDate: self.selectedCurrentDate).count
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-//        let event = self.allEvents[indexPath.row]
-//        let calendarDays = self.calendarWeeks[self.selectedRow!].calendarDays
+        let event = EventListController().getEventsByDate(currentDate: self.selectedCurrentDate)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "d MMM y, HH:mm"
-//
-//        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
-//        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
-//        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
-        
-        cell.eventTitle.text = "hello"
-        cell.eventStartDate.text = "yoyo"
-        cell.eventEndDate.text = "sghs"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, HH:mm"
+
+        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
+        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedRow = indexPath.row
-        self.performSegue(withIdentifier: "eventCellTapped", sender: self)
+        self.performSegue(withIdentifier: "weeklyEventCellTapped", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "eventCellTapped") {
+        if (segue.identifier == "weeklyEventCellTapped") {
             let destinationVC = segue.destination as! EventDetailsController
-            
+
             if selectedRow != nil {
                 destinationVC.rowIndex = self.selectedRow
                 destinationVC.event = self.allEvents[self.selectedRow!]
