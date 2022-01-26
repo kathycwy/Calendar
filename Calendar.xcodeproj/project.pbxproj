@@ -49,6 +49,7 @@
 		F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */; };
 		F2FFF7EC2795B9B8009F7CA1 /* EditEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */; };
 		FBE5029E27A06CC6001FEAEA /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE5029D27A06CC6001FEAEA /* TableViewCell.swift */; };
+		FBE502A227A0A27C001FEAEA /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE502A127A0A27C001FEAEA /* SearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsController.swift; sourceTree = "<group>"; };
 		F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventController.swift; sourceTree = "<group>"; };
 		FBE5029D27A06CC6001FEAEA /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		FBE502A127A0A27C001FEAEA /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				F240D73F2794519F006F5CD2 /* EventListController.swift */,
 				F2FFF7E92795B991009F7CA1 /* EventDetailsController.swift */,
 				F2FFF7EB2795B9B8009F7CA1 /* EditEventController.swift */,
+				FBE502A127A0A27C001FEAEA /* SearchTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				42BBE021279C8B0C00FAAED0 /* DayViewController.swift in Sources */,
 				4236D904278EFB540034C01F /* CalendarViewController.swift in Sources */,
 				F27B65D5279A0F5600BFF8BC /* EventsStruct.swift in Sources */,
+				FBE502A227A0A27C001FEAEA /* SearchTableViewController.swift in Sources */,
 				42D7E8CB27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift in Sources */,
 				F240D73E27945137006F5CD2 /* AddEventController.swift in Sources */,
 				422B2CD4276CC205002C8AED /* MonthCollectionViewFlowLayout.swift in Sources */,

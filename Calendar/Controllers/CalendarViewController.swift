@@ -137,6 +137,13 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
         return arrLabels.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let search:SearchTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "search") as! SearchTableViewController
+            self.navigationController?.pushViewController(search, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:TableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
         cell.label.text = arrLabels[indexPath.row]
