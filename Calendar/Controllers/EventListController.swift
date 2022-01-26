@@ -43,6 +43,9 @@ class EventListController: UITableViewController {
             {
                 let eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
                 let eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
+                print(eventStartHour)
+                print(eventEndHour)
+                print(hour)
                 if  hour >= eventStartHour || hour <= eventEndHour
                 {
                     eventsPerHour.append(event)

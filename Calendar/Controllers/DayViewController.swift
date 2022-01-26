@@ -12,7 +12,10 @@ import CoreData
 class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var hourTableView: UITableView!
+    @IBOutlet var dayLabel: UILabel!
+    @IBOutlet var dowLabel: UILabel!
     
+    var selectedDay: Date = Date()
     var calendarDays: [CalendarDay] = []
     var hours = [Int]()
     
@@ -33,6 +36,7 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
     func reloadCalendar(calendarYears: [CalendarYear]) {
         self.calendarDays.removeAll(keepingCapacity: false)
         self.calendarDays = self.getInitCalendar(calendarYears: calendarYears)
+        hourTableView.reloadData()
     }
     
     func getInitCalendar(calendarYears: [CalendarYear]) -> [CalendarDay] {
@@ -76,11 +80,14 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         return calDays
     }
     
+    
     func setDayView() {
-//        dayLabel.text = CalendarHelper().monthDayString(date: selectedDate)
-//        dowLabel.text = CalendarHelper().weekDayAsString(date: selectedDate)
+//        dayLabel.text = CalendarHelper().monthDayString(date: selectedDay)
+//        dowLabel.text = CalendarHelper().weekDayAsString(date: selectedDay)
         hourTableView.reloadData()
     }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hours.count
