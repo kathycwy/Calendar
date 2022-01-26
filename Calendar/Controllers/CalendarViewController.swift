@@ -82,7 +82,8 @@ class CalendarViewController: UIViewController {
             break
         case "WeekViewSegue":
             self.weekViewController = (segue.destination as! WeekViewController)
-            self.weekViewController.reloadCalendar(calendarYears: self.calendarYears)
+            //self.weekViewController.reloadCalendar(calendarYears: self.calendarYears)
+            self.weekViewController.reloadCalendar(newSelectedDate: calendarHelper.getCurrentDate())
             break
         case "MonthViewSegue":
             self.monthViewController = (segue.destination as! MonthViewController)

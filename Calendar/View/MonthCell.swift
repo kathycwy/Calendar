@@ -31,13 +31,18 @@ class MonthCell: UICollectionViewCell {
         self.cellDate = nil
         layer.borderWidth = 0
         taskLabel.backgroundColor = UIColor.appColor(.background)
+        taskLabel.text = ""
     }
     
     // Call this function if there are events on this day
-    func setTaskIndicator(){
+    func setTaskIndicator(numberOfTasks: Int = 10){
+        taskLabel.text = "10"//String(numberOfTasks)
+        taskLabel.textColor = UIColor.appColor(.surface)
         taskLabel.layer.masksToBounds = true
         taskLabel.backgroundColor = UIColor.appColor(.onSurface)
         taskLabel.layer.cornerRadius = taskLabel.frame.width/2
+        taskLabel.font = taskLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 8)
+        
     }
 /*
     static let reuseIdentifier = "monthCell"

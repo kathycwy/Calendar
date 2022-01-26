@@ -196,11 +196,11 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvS-QW-eDQ" userLabel="Tasks Label" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
-                                                    <rect key="frame" x="25" y="48" width="5" height="5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvS-QW-eDQ" userLabel="Tasks Label" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="17.5" y="48" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="wvS-QW-eDQ" secondAttribute="height" multiplier="1:1" id="DOH-9t-xAy"/>
-                                                        <constraint firstAttribute="width" constant="5" id="Gwh-1g-37M"/>
+                                                        <constraint firstAttribute="width" constant="20" id="Gwh-1g-37M"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>

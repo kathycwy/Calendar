@@ -184,6 +184,37 @@ struct CalendarHelper {
         return result
     }
     
+    func genCalendarWeek(selectedDate: Date) -> [CalendarWeek] {
+        var calendarWeeks: [CalendarWeek] = []
+        var days: [CalendarDay] = []
+        let selectedDOW = weekDay(date: selectedDate)
+        let firstSunday = addDay(date: selectedDate, n: selectedDOW * -1)
+        
+        for weekday in 0 ... 6 {
+            let date = addDay(date: firstSunday, n: weekday)
+            days.append(CalendarDay(
+                date: date,
+                dayString: String(self.getDay(for: date)),
+                displayIndex: weekday + 1,
+                weekNumber: weekOfYear(date: date),
+                isSelected: false,
+                isDate: true,
+                dayOfWeek: weekDay(date:date),
+                month: getMonth(for: date))
+            )
+        }
+        let week = CalendarWeek(
+            month: days.first!.month,
+            toMonth: days.last!.month,
+            year: getYear(for: days.first!.date!) ,
+            weekNumber: days.first!.weekNumber ?? -1,
+            rollingWeekNumber: days.first!.weekNumber ?? -1,
+            calendarDays: days
+        )
+        calendarWeeks.append(week)
+        return calendarWeeks
+    }
+    
     func getCalendarWeek(calendarMonth: CalendarMonth, lastRollingWeekNumber: Int) -> [CalendarWeek]{
         var calendarWeeks: [CalendarWeek] = []
         var rollingWeekNumber = lastRollingWeekNumber

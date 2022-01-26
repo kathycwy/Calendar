@@ -79,6 +79,7 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
         return 1
     }
     
+    /*
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
@@ -88,7 +89,6 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
                 parentLoadNextBatch()
             }
         }
-        /*
         else if isLoaded && indexPath.section == 0 {
             if indexPath.row == 1 {
                 contentSizeWhenInsertingToTop = collectionViewContentSize
@@ -96,8 +96,8 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
                 isInsertingCellsToTop = true
             }
         }
-         */
     }
+     */
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
