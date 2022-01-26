@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RmM-da-CSO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RmM-da-CSO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -96,6 +96,12 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="IdO-VY-BQb"/>
+                        <constraints>
+                            <constraint firstItem="Wxt-CD-ahS" firstAttribute="bottom" secondItem="IdO-VY-BQb" secondAttribute="bottom" id="bJx-n3-BxA"/>
+                            <constraint firstItem="Wxt-CD-ahS" firstAttribute="leading" secondItem="IdO-VY-BQb" secondAttribute="leading" id="hoM-Pl-lNk"/>
+                            <constraint firstItem="Wxt-CD-ahS" firstAttribute="trailing" secondItem="IdO-VY-BQb" secondAttribute="trailing" id="mPX-ps-cCS"/>
+                            <constraint firstItem="Wxt-CD-ahS" firstAttribute="top" secondItem="IdO-VY-BQb" secondAttribute="top" id="uL3-wZ-2kD"/>
+                        </constraints>
                     </stackView>
                     <connections>
                         <outlet property="hourTableView" destination="Wxt-CD-ahS" id="uCh-nm-7ga"/>
@@ -680,7 +686,7 @@
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WX6-4U-VEu" id="VAg-1k-GzR">
-                                    <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="385.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUP-Cw-kr6">
@@ -1093,10 +1099,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wa8-bb-VLJ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="68"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="dBg-wt-UlS"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="dBg-wt-UlS"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="STG-RN-obN">
                                     <size key="itemSize" width="64" height="81"/>
@@ -1106,7 +1112,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="dayCell" id="j7R-7C-k8I" customClass="WeekDayCell" customModule="Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-6.5" width="45" height="81"/>
+                                        <rect key="frame" x="0.0" y="-0.5" width="45" height="81"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2Zg-F1-nrc">
                                             <rect key="frame" x="0.0" y="0.0" width="45" height="81"/>
@@ -1127,13 +1133,26 @@
                                                     <color key="textColor" name="Teal-primary"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVt-F3-6wG" userLabel="Tasks Label" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="15" y="47" width="15" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="15" id="rID-jT-2EA"/>
+                                                        <constraint firstAttribute="width" secondItem="JVt-F3-6wG" secondAttribute="height" multiplier="1:1" id="zCP-5m-XDn"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="JVt-F3-6wG" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="75T-Zy-Lr1"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="leading" secondItem="2Zg-F1-nrc" secondAttribute="leading" id="KtY-nb-eUS"/>
+                                                <constraint firstItem="JVt-F3-6wG" firstAttribute="width" secondItem="JVt-F3-6wG" secondAttribute="height" multiplier="1:1" id="Url-tL-Hli"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="Yhe-DD-FCy"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="top" secondItem="2Zg-F1-nrc" secondAttribute="top" constant="5" id="aXN-Au-sty"/>
                                                 <constraint firstItem="hbZ-Ny-ACc" firstAttribute="trailing" secondItem="2Zg-F1-nrc" secondAttribute="trailing" id="gOj-9p-JtD"/>
                                                 <constraint firstItem="Z2B-Sq-f09" firstAttribute="top" secondItem="hbZ-Ny-ACc" secondAttribute="bottom" constant="3" id="mts-bq-qku"/>
+                                                <constraint firstItem="JVt-F3-6wG" firstAttribute="top" secondItem="Z2B-Sq-f09" secondAttribute="bottom" constant="3" id="nve-7i-ZnN"/>
                                                 <constraint firstItem="Z2B-Sq-f09" firstAttribute="centerX" secondItem="2Zg-F1-nrc" secondAttribute="centerX" id="qfz-EH-AF1"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -1143,6 +1162,7 @@
                                         <connections>
                                             <outlet property="dateLabel" destination="Z2B-Sq-f09" id="gg1-2D-6C2"/>
                                             <outlet property="dayOfWeekLabel" destination="hbZ-Ny-ACc" id="arK-Li-pm9"/>
+                                            <outlet property="taskLabel" destination="JVt-F3-6wG" id="6mp-Ry-ggl"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
