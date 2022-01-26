@@ -25,6 +25,7 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         super.viewDidLoad()
         initTime()
         setDayView()
+        initGestureRecognizer()
         hourTableView.register(DayHeader.self, forHeaderFooterViewReuseIdentifier: "dayHeader")
     }
     
@@ -32,6 +33,34 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
          for hour in 0 ... 23 {
              hours.append(hour)
          }
+    }
+    
+    func initGestureRecognizer(){
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+        leftSwipe.direction = .left
+        rightSwipe.direction = .right
+        self.hourTableView.addGestureRecognizer(leftSwipe)
+        self.hourTableView.addGestureRecognizer(rightSwipe)
+    }
+    
+    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
+        if sender.direction == .left {
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
+            UIView.transition(with: self.hourTableView,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { self.hourTableView.reloadData() })
+            
+            
+        }
+        else if sender.direction == .right {
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
+            UIView.transition(with: self.hourTableView,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { self.hourTableView.reloadData() })
+        }
     }
     
     func reloadCalendar(calendarYears: [CalendarYear]) {

@@ -11,6 +11,8 @@ import UIKit
 class DayHeader : UITableViewHeaderFooterView {
     let dayLabel = UILabel()
     let dowLabel = UILabel()
+    let prevButton = UIButton()
+    let nextButton = UIButton()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -24,9 +26,14 @@ class DayHeader : UITableViewHeaderFooterView {
     func configureContents() {
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         dowLabel.translatesAutoresizingMaskIntoConstraints = false
+        dayLabel.textColor = UIColor.appColor(.onPrimary)
+        dowLabel.textColor = UIColor.appColor(.onPrimary)
+        dayLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 15)
+        dowLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 15)
 
         contentView.addSubview(dayLabel)
         contentView.addSubview(dowLabel)
+        contentView.backgroundColor = UIColor.appColor(.primary)
 
         NSLayoutConstraint.activate([
             dayLabel.heightAnchor.constraint(equalToConstant: 30),
@@ -35,7 +42,7 @@ class DayHeader : UITableViewHeaderFooterView {
         
             dowLabel.heightAnchor.constraint(equalToConstant: 30),
             dowLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: 10),
-            dowLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            dowLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
 }
