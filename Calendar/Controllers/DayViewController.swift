@@ -98,8 +98,7 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         let hour = hours[indexPath.row]
         
         cell.timeLabel.text = formatHour(hour: hour)
-        let  currentDate = CalendarHelper().getCurrentDate() // DONOT DO THIS, WE NEED TO SET DATES
-        let events = EventListController().getEventsByDateAndTime(date: currentDate, hour: hour)
+        let events = EventListController().getEventsByDateAndTime(date: self.selectedDay, hour: hour)
                 setEvents(cell, events)
         return cell
         
