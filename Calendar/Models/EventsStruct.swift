@@ -9,6 +9,7 @@ struct EventsStruct {
     
     // entity and attribute names in CoreData
     static let entityName: String = "Events"
+    static let allDayAttribute: String = "allDay"
     static let titleAttribute: String = "title"
     static let startDateAttribute: String = "startDate"
     static let endDateAttribute: String = "endDate"

@@ -17,6 +17,7 @@ final class AddEventController: UIViewController {
     // MARK: - Properties
 
     @IBOutlet private var titleField: UITextField!
+    @IBOutlet private var allDaySwitch: UISwitch!
     @IBOutlet private var startDateField: UIDatePicker!
     @IBOutlet private var endDateField: UIDatePicker!
     @IBOutlet private var locationField: UITextField!
@@ -28,6 +29,26 @@ final class AddEventController: UIViewController {
     var fetchedEvents: [NSManagedObject] = []
 
     // MARK: - Actions
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        endDateField.minimumDate = startDateField.date
+    }
+    
+    @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
+        if allDaySwitch.isOn {
+            startDateField.datePickerMode = .date
+            endDateField.datePickerMode = .date
+        } else {
+            startDateField.datePickerMode = .dateAndTime
+            endDateField.datePickerMode = .dateAndTime
+        }
+    }
+    
+    @IBAction func updateEndDatePicker (_ sender: UIDatePicker) {
+        endDateField.minimumDate = startDateField.date
+    }
+    
     
     ///////////// CoreData //////////
     @IBAction func addEvent(_ sender: Any) {
@@ -42,13 +63,30 @@ final class AddEventController: UIViewController {
         let event = NSManagedObject(entity: entity, insertInto: managedContext)
 
         let title = titleField.text
-        let startDate = startDateField.date
-        let endDate = endDateField.date
+        let allDaySwitchState = allDaySwitch.isOn
+        var startDate = startDateField.date
+        var endDate = endDateField.date
         let location = locationField.text
         let url = urlField.text
         let notes = notesField.text
+        
+        // set all-day event to 00:00 - 23:59
+        if allDaySwitchState {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "d MMM y"
+            
+            let calender = Calendar.current
+            let startDateComponents = calender.dateComponents([.year, .month, .day], from: startDate)
+            var endDateComponents = calender.dateComponents([.year, .month, .day, .hour, .minute], from: endDate)
+            endDateComponents.hour = 23
+            endDateComponents.minute = 59
+            
+            startDate = calender.date(from: startDateComponents) ?? startDate
+            endDate = calender.date(from: endDateComponents) ?? endDate
+        }
 
         event.setValue(title, forKeyPath: EventsStruct.titleAttribute)
+        event.setValue(allDaySwitchState, forKeyPath: EventsStruct.allDayAttribute)
         event.setValue(startDate, forKeyPath: EventsStruct.startDateAttribute)
         event.setValue(endDate, forKeyPath: EventsStruct.endDateAttribute)
         event.setValue(location, forKeyPath: EventsStruct.locationAttribute)
