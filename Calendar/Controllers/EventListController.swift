@@ -38,15 +38,20 @@ class EventListController: UITableViewController {
         {
             let event_start_date = event.value(forKeyPath: "startDate") as! Date
             let event_end_date = event.value(forKeyPath: "endDate") as! Date
-            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date)
+            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
             if fallsBetween
             {
-                let eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
-                let eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
-                print(eventStartHour)
-                print(eventEndHour)
-                print(hour)
-                if  hour >= eventStartHour || hour <= eventEndHour
+                var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                if event_start_date.removeTimeStamp != date.removeTimeStamp {
+                    eventStartHour = 0
+                }
+                
+                var eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
+                if event_end_date.removeTimeStamp != date.removeTimeStamp {
+                    eventEndHour = 23
+                }
+      
+                if  hour >= eventStartHour && hour <= eventEndHour
                 {
                     eventsPerHour.append(event)
                 }
