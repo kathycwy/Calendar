@@ -31,9 +31,48 @@ class EventListController: UITableViewController {
         self.updateView()
     }
     
-    func getEvents() -> [NSManagedObject] {
+    func getEventsByDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
         fetchEvents()
-        return events
+        var eventsPerHour = [NSManagedObject]()
+        for event in events
+        {
+            let event_start_date = event.value(forKeyPath: "startDate") as! Date
+            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
+            if fallsBetween
+            {
+                var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                if event_start_date.removeTimeStamp != date.removeTimeStamp {
+                    eventStartHour = 0
+                }
+                
+                var eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
+                if event_end_date.removeTimeStamp != date.removeTimeStamp {
+                    eventEndHour = 23
+                }
+      
+                if  hour >= eventStartHour && hour <= eventEndHour
+                {
+                    eventsPerHour.append(event)
+                }
+            }
+        }
+        return eventsPerHour
+    }
+    
+    func getEventsByDate(currentDate: Date) -> [NSManagedObject] {
+        fetchEvents()
+        var eventsPerDate: [NSManagedObject] = []
+        for event in events {
+            let event_start_date = event.value(forKeyPath: "startDate") as! Date
+            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            
+            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
+            if fallsBetween {
+                eventsPerDate.append(event)
+            }
+        }
+        return eventsPerDate
     }
     
     func updateView(){
@@ -70,10 +109,6 @@ class EventListController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func getEventsByWeek(dates: [CalendarDay]) {
-        
     }
 
     //MARK: - Standard Tableview methods
@@ -115,4 +150,13 @@ class EventListController: UITableViewController {
         }
         
     }
+}
+
+extension Date {
+    public var removeTimeStamp : Date? {
+       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+        return nil
+       }
+       return date
+   }
 }

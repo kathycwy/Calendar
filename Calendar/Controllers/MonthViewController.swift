@@ -121,7 +121,14 @@ class MonthViewController: UIViewController {
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
-                self.setSelectedCell(indexPath: indexPath)
+                //self.setSelectedCell(indexPath: indexPath)
+                self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
+                if self.calendarMonths[indexPath.section].calendarDays[indexPath.item].isDate == true {
+                    if let date = self.calendarMonths[indexPath.section].calendarDays[indexPath.item].date {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": date as Any])
+                        
+                    }
+                }
             }
         }
     }

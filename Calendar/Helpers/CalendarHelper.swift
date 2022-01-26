@@ -32,6 +32,24 @@ struct CalendarHelper {
         return dateFormatter.string(from: date)
     }
     
+    func dateStringShort(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func dateStringFull(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func monthDayString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd"
+        return dateFormatter.string(from: date)
+    }
+    
     func monthStringShort(monthNum: Int) -> String{
         let dateFormatter = DateFormatter()
         return dateFormatter.shortMonthSymbols[monthNum - 1]
@@ -81,6 +99,32 @@ struct CalendarHelper {
         return components.weekday! - 1
     }
     
+    func weekDayAsString(date: Date) -> String{
+        switch weekDay(date: date) {
+        case 0:
+            return "Sunday"
+        case 1:
+            return "Monday"
+        case 2:
+            return "Tuesday"
+        case 3:
+            return "Wednesday"
+        case 4:
+            return "Thrusday"
+        case 5:
+            return "Friday"
+        case 6:
+            return "Saturday"
+        default:
+            return ""
+        }
+    }
+    
+    func hourFromDate(date: Date) -> Int {
+        let components = calendar.dateComponents([.hour], from: date)
+        return components.hour!
+    }
+    
     func weekOfYear(date: Date) -> Int{
         let components = calendar.dateComponents([.weekOfYear], from: date)
         return components.weekOfYear!
@@ -96,7 +140,7 @@ struct CalendarHelper {
         return Calendar.current.date(byAdding: DateComponents(day: -1), to: date)!
     }
     
-    func getCalendarDays(withStartDate startDate: Date) -> [CalendarDay] {
+    func getCalendarDays(withStartDate startDate: Date, withBuffer: Bool = true) -> [CalendarDay] {
         let startDOW: Int = UserDefaults.standard.integer(forKey: "StartDayOfWeek")
         let month = getCalendarMonthWithoutDay(for: startDate)
         let endDate = self.getLastDayOfMonth(year: month.year, month: month.month)
@@ -105,7 +149,7 @@ struct CalendarHelper {
         var result: [CalendarDay] = []
         let firstWeekNumber: Int = weekOfYear(date: month.firstDayOfMonth)
         
-        if displayIndexBuffer > 0{
+        if withBuffer && displayIndexBuffer > 0{
             for i in 0 ... displayIndexBuffer - 1 {
                 result.append(CalendarDay(
                     dayString: "",

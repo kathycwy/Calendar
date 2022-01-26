@@ -133,7 +133,7 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         }
         return self.calendarWeeks
     }
-        
+    
     // Contrusting the cells of the collection view - Showing dates
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dayCell", for: indexPath) as? WeekDayCell else {
@@ -205,6 +205,16 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         self.selectedRollingWeekNumber = rollingWeekNumber
         self.selectedItem = item
     }
+    
+    func getCalendarDayByIndexPath (indexPath: IndexPath) -> CalendarDay? {
+        var result: CalendarDay?
+        let week = self.displayWeeks[safe: indexPath.section]
+        if week != nil {
+            result = week?.calendarDays[safe: indexPath.row - 1]
+        }
+        return result
+    }
+    
     
     /*
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
