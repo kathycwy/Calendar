@@ -80,6 +80,13 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                             cell.dateLabel.text = displayStr
                             cell.dayOfWeekLabel.text = calendarRange[indexPath.row - 1].isDate ? self.calendarHelper.dayOfWeekString(date: calendarRange[indexPath.row - 1].date!) : ""
                             
+                            if let currentDate = calendarRange[indexPath.row - 1].date {
+                                let eventsForToday = EventListController().getEventsByDate(currentDate: currentDate)
+                                if !eventsForToday.isEmpty {
+                                    cell.setTaskIndicator(numberOfTasks: eventsForToday.count)
+                                }
+                            }
+                            
                             if isSunday{
                                 cell.dateLabel.textColor = UIColor.red
                             }

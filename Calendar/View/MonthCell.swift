@@ -36,7 +36,7 @@ class MonthCell: UICollectionViewCell {
     
     // Call this function if there are events on this day
     func setTaskIndicator(numberOfTasks: Int = 10){
-        taskLabel.text = "10"//String(numberOfTasks)
+        taskLabel.text = String(numberOfTasks)
         taskLabel.textColor = UIColor.appColor(.surface)
         taskLabel.layer.masksToBounds = true
         taskLabel.backgroundColor = UIColor.appColor(.onSurface)
