@@ -205,7 +205,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                 
                 if let eventsForToday = self.eventsPerDate {
                     if !eventsForToday.isEmpty {
-                        cell.setTaskIndicator()
+                        cell.setTaskIndicator(numberOfTasks: eventsForToday.count)
                     }
                 }
                 
@@ -233,7 +233,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                     cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                     cell.layer.borderWidth = 2
                 }
-                let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
+                let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewCell)! : UIFont.appFontSize(.collectionViewCell)!
                 cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
             }
             

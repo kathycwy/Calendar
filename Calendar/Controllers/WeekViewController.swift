@@ -25,8 +25,6 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     private var isLoaded = false
     private var isScrolled = false
     private var selectedDate: Date = Date()
-    private var prevIndexPath: IndexPath? = nil
-    private var selectedIndexPath: IndexPath? = nil
     private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
     
@@ -124,21 +122,19 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -7)
             
             UIView.transition(with: self.view,
-                              duration: 0.5,
+                              duration: 0.3,
                               options: .transitionCurlDown,
                               animations: {
-                self.reloadCalendar(newSelectedDate: self.selectedDate)
-                self.collectionView.reloadData() })
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
             
         } else if sender.direction == .right {
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
             
             UIView.transition(with: self.view,
-                              duration: 0.5,
+                              duration: 0.3,
                               options: .transitionCurlUp,
                               animations: {
-                self.reloadCalendar(newSelectedDate: self.selectedDate)
-                self.collectionView.reloadData() })
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
         }
     }
      
@@ -157,15 +153,16 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     }()
     
     func setSelectedCell() {
-        for indexPath in self.collectionView.indexPathsForVisibleItems {
-            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
+        if self.isLoaded {
+            for indexPath in self.collectionView.indexPathsForVisibleItems {
+                self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
+            }
+            
+            if let idx = self.displayWeeks[0].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) {
+                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))!.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
+            }
+            self.tableView.reloadData()
         }
-        
-        if let idx = self.displayWeeks[0].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) {
-            self.prevIndexPath = IndexPath(row:idx+1, section:0)
-            self.collectionView.cellForItem(at: self.prevIndexPath!)!.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
-        }
-        self.tableView.reloadData()
     }
     
     func reloadCalendar(newSelectedDate: Date) {
@@ -173,23 +170,45 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         self.displayWeeks = self.collectionViewDataSource.loadDisplayWeek(newSelectedDate: self.selectedDate)
         if isScrolled {
             self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
         isScrolled = true
     }
     
     func scrollToToday(animated: Bool = true) {
-        self.selectedDate = self.calendarHelper.getCurrentDate()
-        self.scrollToDate(date: self.selectedDate, animated: animated)
+        self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
+        self.isLoaded = true
     }
     
     func scrollToDate(date: Date?, animated: Bool = true) {
-        self.selectedDate = date!
         let idx = self.displayWeeks[0].calendarDays.firstIndex(
-            where: {($0.date == self.selectedDate)
+            where: {($0.date == date!)
             }) ?? -1
         
         if idx == -1 {
-            self.reloadCalendar(newSelectedDate: self.selectedDate)
+            if animated {
+                if self.selectedDate > date! {
+                    UIView.transition(with: self.view,
+                                      duration: 0.3,
+                                      options: .transitionCurlDown,
+                                      animations: {
+                        self.reloadCalendar(newSelectedDate: date!) })
+                }
+                else{
+                    UIView.transition(with: self.view,
+                                      duration: 0.3,
+                                      options: .transitionCurlUp,
+                                      animations: {
+                        self.reloadCalendar(newSelectedDate: date!) })
+                }
+            }
+            else{
+                self.reloadCalendar(newSelectedDate: date!)
+            }
+        }
+        else {
+            self.selectedDate = date!
+            self.setSelectedCell()
         }
     }
     
