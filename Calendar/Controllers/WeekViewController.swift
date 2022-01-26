@@ -282,7 +282,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
             newSelectedIP = IndexPath(item: item + 1, section: idx)
         }
         self.setSelectedCell(indexPath: newSelectedIP)
-        
+        /*
         if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: newSelectedIP.section)) {
             var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
             var offsetX = attributes.frame.origin.x - self.collectionView.contentInset.left
@@ -294,9 +294,10 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
             isScrolled = true
         }
         else {
-            self.collectionView.scrollToItem(at: IndexPath(row: 0, section: newSelectedIP.section), at: [.top, .left], animated: animated)
-            isScrolled = true
-        }
+         */
+        self.collectionView.scrollToItem(at: IndexPath(row: 0, section: newSelectedIP.section), at: [.top, .left], animated: animated)
+        isScrolled = true
+        //}
     }
     
     // Number of months shown

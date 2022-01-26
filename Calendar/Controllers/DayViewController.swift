@@ -58,7 +58,7 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
                               duration: 0.5,
                               options: .transitionCrossDissolve,
                               animations: { self.hourTableView.reloadData() })
-            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDay as Any])
             
         }
         else if sender.direction == .right {
@@ -67,7 +67,9 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
                               duration: 0.5,
                               options: .transitionCrossDissolve,
                               animations: { self.hourTableView.reloadData() })
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDay as Any])
         }
+        
     }
     
     func setDayView() {

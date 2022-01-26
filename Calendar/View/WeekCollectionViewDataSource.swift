@@ -109,6 +109,7 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         return self.displayWeeks
     }
     
+    
     func getExtendedCalendarWeeks(numberOfMonths: Int) -> [CalendarWeek] {
         if numberOfMonths > 0 {
             let lastCalDay = (self.calendarWeeks.last?.calendarDays.last?.date)!
