@@ -9,10 +9,8 @@ import Foundation
 import UIKit
 
 class DayHeader : UITableViewHeaderFooterView {
-    let dayLabel = UILabel()
-    let dowLabel = UILabel()
-    let prevButton = UIButton()
-    let nextButton = UIButton()
+    let dayLabel = PaddingLabel()
+    let dowLabel = PaddingLabel()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -30,19 +28,23 @@ class DayHeader : UITableViewHeaderFooterView {
         dowLabel.textColor = UIColor.appColor(.onPrimary)
         dayLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 15)
         dowLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 15)
-
+        dayLabel.font = UIFont.boldSystemFont(ofSize: dayLabel.font.pointSize)
+        dayLabel.padding(3, 3, 3, 3)
+        dowLabel.padding(3, 3, 3, 3)
+        
         contentView.addSubview(dayLabel)
         contentView.addSubview(dowLabel)
         contentView.backgroundColor = UIColor.appColor(.primary)
 
         NSLayoutConstraint.activate([
-            dayLabel.heightAnchor.constraint(equalToConstant: 30),
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10),
-            dayLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 60),
+            dayLabel.heightAnchor.constraint(equalToConstant: 20),
+            dayLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 0),
+            dayLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         
-            dowLabel.heightAnchor.constraint(equalToConstant: 30),
-            dowLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: 10),
-            dowLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            dowLabel.heightAnchor.constraint(equalToConstant: 20),
+            dowLabel.topAnchor.constraint(equalTo: dayLabel.bottomAnchor, constant: 5),
+            dowLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
 }

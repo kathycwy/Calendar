@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216DE4B2795BCD50045362A /* CalendarWeek.swift */; };
 		421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F70D327921984001ADEA0 /* WeekViewController.swift */; };
+		4220748927A1979F007D43AA /* UICollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220748827A1979F007D43AA /* UICollection.swift */; };
 		422B2CB7276CBF04002C8AED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB6276CBF04002C8AED /* AppDelegate.swift */; };
 		422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CB8276CBF04002C8AED /* SceneDelegate.swift */; };
 		422B2CBB276CBF04002C8AED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B2CBA276CBF04002C8AED /* ViewController.swift */; };
@@ -55,6 +56,7 @@
 /* Begin PBXFileReference section */
 		4216DE4B2795BCD50045362A /* CalendarWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeek.swift; sourceTree = "<group>"; };
 		421F70D327921984001ADEA0 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
+		4220748827A1979F007D43AA /* UICollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollection.swift; sourceTree = "<group>"; };
 		422B2CB3276CBF04002C8AED /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		422B2CB6276CBF04002C8AED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		422B2CB8276CBF04002C8AED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			children = (
 				42EDD232278EB1D3008549A3 /* UIColorExtension.swift */,
 				4248DA082790C75300F13CD2 /* UIFontExtension.swift */,
+				4220748827A1979F007D43AA /* UICollection.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				422B2CBB276CBF04002C8AED /* ViewController.swift in Sources */,
 				42D7E8C5279479E7009FB999 /* WeekTimeCell.swift in Sources */,
 				422B2CDB276CCCCD002C8AED /* MonthHeader.swift in Sources */,
+				4220748927A1979F007D43AA /* UICollection.swift in Sources */,
 				422B2CDF276CD617002C8AED /* MonthViewController.swift in Sources */,
 				422B2CDD276CCFA0002C8AED /* CalendarMonth.swift in Sources */,
 				4248DA092790C75300F13CD2 /* UIFontExtension.swift in Sources */,

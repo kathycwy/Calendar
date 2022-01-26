@@ -113,12 +113,13 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
-                self.setSelectedCell(indexPath: indexPath)
+                //self.setSelectedCell(indexPath: indexPath)
+                let calendarDay = self.collectionViewDataSource.getCalendarDayByIndexPath(indexPath: indexPath)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": calendarDay?.date as Any])
             }
         }
     }
         
-    
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             let contentOffsetX = collectionView.contentOffset.x + collectionView.frame.width - collectionViewFlowLayout.minimumInteritemSpacing

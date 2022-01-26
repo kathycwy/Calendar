@@ -23,13 +23,20 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hourTableView.register(DayHeader.self, forHeaderFooterViewReuseIdentifier: "dayHeader")
         initTime()
         setDayView()
         initGestureRecognizer()
-        hourTableView.register(DayHeader.self, forHeaderFooterViewReuseIdentifier: "dayHeader")
     }
     
-     func initTime() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
+    }
+    
+    func initTime() {
          for hour in 0 ... 23 {
              hours.append(hour)
          }
@@ -63,61 +70,9 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         }
     }
     
-    func reloadCalendar(calendarYears: [CalendarYear]) {
-        self.calendarDays.removeAll(keepingCapacity: false)
-        self.calendarDays = self.getInitCalendar(calendarYears: calendarYears)
-        hourTableView.reloadData()
-    }
-    
-    func getInitCalendar(calendarYears: [CalendarYear]) -> [CalendarDay] {
-        var calDays: [CalendarDay] = []
-        
-        if calendarYears.count ==  0{
-            let year = Calendar.current.component(.year, from: Date())
-            for tempYear in 1970 ... year {
-                for tempMonth in 1 ... 12 {
-                    let monthDays: [CalendarDay] = calendarHelper.getCalendarDays(
-                        withStartDate: calendarHelper.getFirstDayOfMonth(year: tempYear, month: tempMonth),
-                        withBuffer: false)
-                    calDays.append(contentsOf: monthDays)
-                }
-            }
-        }
-        else {
-            for calYear in calendarYears {
-                for calMonth in calYear.calendarMonths {
-                    calDays.append(contentsOf: calMonth.calendarDays.filter({$0.isDate == true}) )
-                }
-            }
-        }
-        return calDays
-    }
-    
-    func getExtendedCalendarDays(numberOfMonths: Int) -> [CalendarDay] {
-        var calDays: [CalendarDay] = []
-        if numberOfMonths > 0 {
-            let lastCalDay = (self.calendarDays.last?.date)!
-            for i in 1 ... numberOfMonths {
-                let tempDate = calendarHelper.addMonth(date: lastCalDay, n: i)
-                let tempYear = calendarHelper.getYear(for: tempDate)
-                let tempMonth = calendarHelper.getMonth(for: tempDate)
-                    let monthDays: [CalendarDay] = calendarHelper.getCalendarDays(
-                        withStartDate: calendarHelper.getFirstDayOfMonth(year: tempYear, month: tempMonth),
-                        withBuffer: false)
-                    calDays.append(contentsOf: monthDays)
-            }
-        }
-        return calDays
-    }
-    
-    
     func setDayView() {
-//        dayLabel.text = CalendarHelper().monthDayString(date: selectedDay)
-//        dowLabel.text = CalendarHelper().weekDayAsString(date: selectedDay)
         hourTableView.reloadData()
     }
-    
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hours.count
@@ -125,10 +80,14 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = self.hourTableView.dequeueReusableHeaderFooterView(withIdentifier: "dayHeader") as! DayHeader
-        //header.dayLabel.text = self.calendarHelper.dateStringShort(date: self.calendarDays[section].date!)
-        //header.dowLabel.text = self.calendarHelper.dayOfWeekString(date: self.calendarDays[section].date!)
-        header.dayLabel.text = self.calendarHelper.dateStringShort(date: self.selectedDay)
-        header.dowLabel.text = self.calendarHelper.dayOfWeekString(date: self.selectedDay)
+        header.dayLabel.text = self.calendarHelper.dateStringFull(date: self.selectedDay)
+        header.dowLabel.text = self.calendarHelper.weekDayAsString(date: self.selectedDay)
+        /*if (self.calendarHelper.weekDay(date: self.selectedDay) == 0) {
+            header.dowLabel.textColor = UIColor.red
+        }
+        else {
+            header.dowLabel.textColor = UIColor.appColor(.onPrimary)
+        }*/
 
        return header
     }
@@ -185,6 +144,25 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         return String(format: "%02d:%02d", hour, 0)
     }
     
+    func scrollToToday(){
+        self.selectedDay = self.calendarHelper.getCurrentDate()
+        self.hourTableView.reloadData()
+    }
+    
+    func scrollToDate(date: Date){
+        self.selectedDay = date
+        self.hourTableView.reloadData()
+    }
+    
+    @objc func scrollToToday(_ notification: Notification) {
+        scrollToToday()
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           self.scrollToDate(date: selectedDate)
+       }
+    }
     
 }
 
