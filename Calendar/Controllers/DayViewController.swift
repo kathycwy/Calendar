@@ -25,6 +25,7 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
         super.viewDidLoad()
         initTime()
         setDayView()
+        hourTableView.register(DayHeader.self, forHeaderFooterViewReuseIdentifier: "dayHeader")
     }
     
      func initTime() {
@@ -91,6 +92,16 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hours.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = self.hourTableView.dequeueReusableHeaderFooterView(withIdentifier: "dayHeader") as! DayHeader
+        //header.dayLabel.text = self.calendarHelper.dateStringShort(date: self.calendarDays[section].date!)
+        //header.dowLabel.text = self.calendarHelper.dayOfWeekString(date: self.calendarDays[section].date!)
+        header.dayLabel.text = self.calendarHelper.dateStringShort(date: self.selectedDay)
+        header.dowLabel.text = self.calendarHelper.dayOfWeekString(date: self.selectedDay)
+
+       return header
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
