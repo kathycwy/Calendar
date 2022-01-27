@@ -83,6 +83,8 @@ class EventListController: UITableViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
 
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
+        let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
+        fetchRequest.sortDescriptors = [sort]
         
         do {
             // fetch the entitiy
@@ -101,7 +103,9 @@ class EventListController: UITableViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
 
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
+        let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
+        fetchRequest.sortDescriptors = [sort]
         
         do {
             // fetch the entitiy
