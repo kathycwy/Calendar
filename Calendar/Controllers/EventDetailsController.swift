@@ -55,11 +55,12 @@ class EventDetailsController: UIViewController {
         // set remaining event details to corresponding labels
         eventTitle.text = String(event!.value(forKeyPath: EventsStruct.titleAttribute) as? String ?? "")
         if (event!.value(forKeyPath: EventsStruct.allDayAttribute) as? Bool ?? true) {
+            allDayLabel.isHidden = false
             allDayLabel.text = "All-day event"
             startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now)
         } else {
-            allDayLabel.text = ""
+            allDayLabel.isHidden = true
             startDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now)
         }
@@ -80,25 +81,44 @@ class EventDetailsController: UIViewController {
         }
     }
         
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
         
-    @IBAction func deleteEvent(_ sender: UIButton) {
+        let dialogMessage = UIAlertController(title: "Are you sure you want to delete this event?", message: nil, preferredStyle: .actionSheet)
         
+        // Create OK button with action handler
+        let ok = UIAlertAction(title: "Delete Event", style: .destructive, handler: { (action) -> Void in
+            self.deleteEvent()
+        })
+        
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+        }
+        
+        //Add OK and Cancel button to dialog message
+        dialogMessage.addAction(ok)
+        dialogMessage.addAction(cancel)
+        
+        // Present dialog message to user
+        self.present(dialogMessage, animated: true, completion: nil)
+    }
+    
+    func deleteEvent() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
-        
+
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
         let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
         fetchRequest.sortDescriptors = [sort]
-        
+
         do {
             // fetch the entitiy
             fetchedEvents = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
+
         managedContext.undoManager!.registerUndo(withTarget: self) { target in
             //simply save the hohle table view. A bit uniffcient but simple
             self.fetchedEvents = target.fetchedEvents
@@ -107,14 +127,14 @@ class EventDetailsController: UIViewController {
         managedContext.delete(fetchedEvents[self.rowIndex!])
         // delete it from the arrays
         fetchedEvents.remove(at: rowIndex!)
-        
+
         // finally save the current state of Core data
         do {
             try managedContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-        
+
         // go back to previous controller
         navigationController?.popViewController(animated: true)
     }
