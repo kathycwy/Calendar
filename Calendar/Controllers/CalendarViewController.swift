@@ -79,11 +79,11 @@ class CalendarViewController: UIViewController {
         {
         case "DayViewSegue":
             self.dayViewController = (segue.destination as! DayViewController)
-            //self.dayViewController.reloadCalendar()
             break
         case "WeekViewSegue":
             self.weekViewController = (segue.destination as! WeekViewController)
-            self.weekViewController.reloadCalendar(calendarYears: self.calendarYears)
+            //self.weekViewController.reloadCalendar(calendarYears: self.calendarYears)
+            self.weekViewController.reloadCalendar(newSelectedDate: calendarHelper.getCurrentDate())
             break
         case "MonthViewSegue":
             self.monthViewController = (segue.destination as! MonthViewController)
@@ -120,7 +120,7 @@ class CalendarViewController: UIViewController {
         default:
            break
         }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": selectedDate])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": selectedDate as Any])
         self.calendarViewSegmentedControl.sendActions(for: UIControl.Event.valueChanged)
         
     }

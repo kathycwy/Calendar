@@ -12,6 +12,7 @@ class WeekDayCell: UICollectionViewCell {
 
     @IBOutlet weak var dayOfWeekLabel : PaddingLabel!
     @IBOutlet weak var dateLabel : PaddingLabel!
+    @IBOutlet weak var taskLabel : PaddingLabel!
     var rollingWeekNumber: Int = -1
     
     func initDateLabel(){
@@ -28,6 +29,8 @@ class WeekDayCell: UICollectionViewCell {
         dayOfWeekLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 8)
         dayOfWeekLabel.padding(3, 3, 3, 3)
         rollingWeekNumber = -1
+        taskLabel.backgroundColor = UIColor.appColor(.background)
+        taskLabel.text = ""
     }
     
     func initMonthLabel(){
@@ -44,6 +47,19 @@ class WeekDayCell: UICollectionViewCell {
         dayOfWeekLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 8)
         dayOfWeekLabel.padding(3, 3, 3, 3)
         rollingWeekNumber = -1
+        taskLabel.backgroundColor = UIColor.appColor(.background)
+        taskLabel.text = ""
+    }
+    
+    // Call this function if there are events on this day
+    func setTaskIndicator(numberOfTasks: Int = 10){
+        taskLabel.text = String(numberOfTasks)
+        taskLabel.textColor = UIColor.appColor(.surface)
+        taskLabel.layer.masksToBounds = true
+        taskLabel.backgroundColor = UIColor.appColor(.onSurface)
+        taskLabel.layer.cornerRadius = taskLabel.frame.width/2
+        taskLabel.font = taskLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewCell) ?? 8)
+        
     }
     
 }
