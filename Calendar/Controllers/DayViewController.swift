@@ -9,11 +9,9 @@ import UIKit
 import SwiftUI
 import CoreData
 
-class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var hourTableView: UITableView!
-    @IBOutlet var dayLabel: UILabel!
-    @IBOutlet var dowLabel: UILabel!
     
     var selectedDay: Date = Date()
     var calendarDays: [CalendarDay] = []
@@ -165,5 +163,9 @@ class DayViewController: UIViewController, UITabBarDelegate, UITableViewDataSour
        }
     }
     
+    override func reloadUI() {
+        super.reloadUI()
+        self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
+    }
 }
 
