@@ -44,9 +44,11 @@ class ThemeHelper {
             UINavigationBar.appearance().compactScrollEdgeAppearance = navigationBarAppearance
             UINavigationBar.appearance().isTranslucent = true
             
+            UITabBar.appearance().isTranslucent = false
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
             UITabBar.appearance().barTintColor = .appColor(.navigationBackground)
+            UITabBar.appearance().backgroundColor = .appColor(.navigationBackground)
             UITabBar.appearance().tintColor = .appColor(.navigationTitle)
             UITabBar.appearance().standardAppearance = tabBarAppearance
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance

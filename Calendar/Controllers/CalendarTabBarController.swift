@@ -42,12 +42,16 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
                 object.setNeedsDisplay()
             }
         }
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
-        self.tabBar.barTintColor = .appColor(.navigationBackground)
-        self.tabBar.tintColor = .appColor(.navigationTitle)
-        self.tabBar.standardAppearance = tabBarAppearance
-        self.tabBar.scrollEdgeAppearance = tabBarAppearance
+        DispatchQueue.main.async { [weak self] in
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
+            self?.tabBar.backgroundColor = .appColor(.navigationBackground)
+            self?.tabBar.barTintColor = .appColor(.navigationBackground)
+            self?.tabBar.tintColor = .appColor(.navigationTitle)
+            self?.tabBar.standardAppearance = tabBarAppearance
+            self?.tabBar.scrollEdgeAppearance = tabBarAppearance
+            self?.tabBar.isTranslucent = false
+        }
         
     }
     

@@ -15,12 +15,15 @@ class PreferenceCell: UITableViewCell {
     @IBOutlet weak var label: PaddingLabel!
     @IBOutlet weak var prefSegControl: UISegmentedControl!
     @IBOutlet weak var prefSwitch: UISwitch!
+    @IBOutlet weak var appIconRImageView: UIImageView!
+    @IBOutlet weak var appIconGImageView: UIImageView!
     var myIndexPath = IndexPath(row: 0, section: 0)
+    let appIconHelper = AppIconHelper()
     
     // MARK: - Init
     
     func initCell(indexPath: IndexPath) {
-        self.label.padding(0, 0, 10, 3)
+        self.label.padding(0, 0, 10, 0)
         self.label.text = ""
         self.label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
         self.label.textColor = UIColor.appColor(.onSurface)
@@ -39,8 +42,16 @@ class PreferenceCell: UITableViewCell {
         
         self.prefSwitch.onTintColor = .appColor(.onSurface)
         
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
+        
+        
         switch(indexPath.section)
         {
+        case 0:
+            // App Icon
+            initAppIcon()
+            break
         case 1:
             switch(indexPath.row)
             {
@@ -91,6 +102,8 @@ class PreferenceCell: UITableViewCell {
         self.label.text = "Colour Theme"
         self.prefSwitch.isHidden = true
         self.prefSegControl.isHidden = false
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
         self.prefSegControl.setTitle(Constants.ColourThemes.teal, forSegmentAt: 0)
         self.prefSegControl.setTitle(Constants.ColourThemes.orange, forSegmentAt: 1)
         self.prefSegControl.setTitle(Constants.ColourThemes.blue, forSegmentAt: 2)
@@ -108,6 +121,8 @@ class PreferenceCell: UITableViewCell {
         self.prefSwitch.isHidden = false
         self.prefSwitch.isOn = false
         self.prefSegControl.isHidden = true
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
         let choice = UserDefaults.standard.bool(forKey: Constants.UserDefaults.DarkMode)
         self.prefSwitch.isOn = choice
     }
@@ -116,6 +131,8 @@ class PreferenceCell: UITableViewCell {
         self.label.text = "Font Size"
         self.prefSwitch.isHidden = true
         self.prefSegControl.isHidden = false
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
         self.prefSegControl.setTitle(Constants.FontSize.large, forSegmentAt: 0)
         self.prefSegControl.setTitle(Constants.FontSize.normal, forSegmentAt: 1)
         self.prefSegControl.setTitle(Constants.FontSize.small, forSegmentAt: 2)
@@ -133,6 +150,8 @@ class PreferenceCell: UITableViewCell {
         self.prefSwitch.isHidden = false
         self.prefSwitch.isOn = false
         self.prefSegControl.isHidden = true
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
         let choice = UserDefaults.standard.bool(forKey: Constants.UserDefaults.DisplayWeekNumber)
         self.prefSwitch.isOn = choice
     }
@@ -142,9 +161,44 @@ class PreferenceCell: UITableViewCell {
         self.prefSwitch.isHidden = false
         self.prefSwitch.isOn = false
         self.prefSegControl.isHidden = true
+        self.appIconGImageView.isHidden = true
+        self.appIconRImageView.isHidden = true
+    }
+    
+    func initAppIcon() {
+        self.label.text = ""
+        self.prefSwitch.isHidden = true
+        self.prefSegControl.isHidden = true
+        self.appIconGImageView.isHidden = false
+        self.appIconRImageView.isHidden = false
+        
+        self.appIconGImageView.isUserInteractionEnabled = true
+        var tap = UITapGestureRecognizer(target: self, action: #selector(self.greenAppIconTapped(_:)))
+        self.appIconGImageView.addGestureRecognizer(tap)
+        
+        self.appIconRImageView.isUserInteractionEnabled = true
+        tap = UITapGestureRecognizer(target: self, action: #selector(self.redAppIconTapped(_:)))
+        self.appIconRImageView.addGestureRecognizer(tap)
+
+        /*
+        self.appIconGImageView.contentMode = UIView.ContentMode.scaleAspectFit
+        self.appIconGImageView.image = UIImage(named: "AppIcon283.5x83.5.png")
+        
+        self.appIconGImageView.contentMode = UIView.ContentMode.scaleAspectFit
+        self.appIconRImageView.image = UIImage(named: "AppIcon83.5x83.5.png")
+         */
     }
     
     // MARK: - Selectors
+    
+    @objc func greenAppIconTapped(_ sender: UITapGestureRecognizer) {
+        appIconHelper.changeAppIcon(appIcon: .AppIconPrimary)
+    }
+    
+    @objc func redAppIconTapped(_ sender: UITapGestureRecognizer) {
+        appIconHelper.changeAppIcon(appIcon: .AppIconR)
+    }
+
     
     @objc func handleSwitchAction(sender: UISwitch) {
         let value = sender.isOn
