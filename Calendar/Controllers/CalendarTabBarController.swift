@@ -28,4 +28,23 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
        }
        return true
    }
+    
+    func reloadUI() {
+        self.view.setNeedsDisplay()
+        for objects in self.view.subviews {
+            if let object = objects as? UIButton {
+                object.setNeedsDisplay()
+            }
+            if let object = objects as? UILabel {
+                object.setNeedsDisplay()
+            }
+            if let object = objects as? UIView {
+                object.setNeedsDisplay()
+            }
+        }
+    }
+    
+    @objc func reloadUI(_ notification: Notification) {
+        reloadUI()
+    }
 }

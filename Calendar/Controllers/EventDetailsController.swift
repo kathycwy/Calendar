@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 import SwiftUI
 
-class EventDetailsController: UIViewController {
+class EventDetailsController: CalendarUIViewController {
     
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var allDayLabel: UILabel!

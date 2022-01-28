@@ -21,6 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 "StartDayOfWeek": 7
             ]
         )
+        
+        if !UserDefaults.exists(key: "DarkMode") {
+            UserDefaults.standard.set(false, forKey: "DarkMode")
+            if #available(iOS 13.0, *) {
+                if UITraitCollection.current.userInterfaceStyle == .dark {
+                    UserDefaults.standard.set(true, forKey: "DarkMode")
+                }
+            }
+        }
+        
         // Initialise colour theme
         if #available(iOS 13.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
