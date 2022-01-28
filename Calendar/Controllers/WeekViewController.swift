@@ -15,7 +15,7 @@ class WeeklyEventCell: UITableViewCell {
     @IBOutlet weak var eventEndDate: UILabel!
 }
 
-class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,7 +24,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     private var displayWeeks: [CalendarWeek] = []
     private var isLoaded = false
     private var isScrolled = false
-    private var selectedDate: Date = Date()
+    //private var selectedDate: Date = Date()
     private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
     
@@ -159,7 +159,9 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
             }
             
             if let idx = self.displayWeeks[0].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) {
-                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))!.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
+                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
+                self.collectionViewDataSource.setSelectedCell(newSelectedDate: self.selectedDate)
+                self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
             }
             self.tableView.reloadData()
         }
@@ -180,7 +182,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         self.isLoaded = true
     }
     
-    func scrollToDate(date: Date?, animated: Bool = true) {
+    override func scrollToDate(date: Date?, animated: Bool = true) {
         let idx = self.displayWeeks[0].calendarDays.firstIndex(
             where: {($0.date == date!)
             }) ?? -1

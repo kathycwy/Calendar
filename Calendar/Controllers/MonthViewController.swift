@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class MonthViewController: UIViewController {
+class MonthViewController: CalendarUIViewController {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -16,7 +16,7 @@ class MonthViewController: UIViewController {
     
     private var tabBarReference: CalendarTabBarController!
     private var calendarMonths: [CalendarMonth] = []
-    var selectedDate = Date()
+    //var selectedDate = Date()
     var selectedIndexPath: IndexPath? = nil
     private var dowCount: Int = 7
     private var displayDates = [String]()
@@ -219,7 +219,7 @@ class MonthViewController: UIViewController {
         self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
     }
     
-    func scrollToDate(date: Date?, animated: Bool = true){
+    override func scrollToDate(date: Date?, animated: Bool = true){
         if date != nil {
             self.selectedDate = date!
         }
@@ -275,6 +275,11 @@ class MonthViewController: UIViewController {
                self.scrollToDate(date: selectedDate, animated: false)
            }
        }
+    }
+    override func reloadUI() {
+        self.collectionView.reloadData()
+        self.dowStackView.backgroundColor = .appColor(.primary)
+        self.scrollToDate(date: self.selectedDate)
     }
 }
 

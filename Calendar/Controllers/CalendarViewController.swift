@@ -1,6 +1,6 @@
 import UIKit
 
-class CalendarViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var dayContainerView: UIView!
     @IBOutlet weak var monthContainerView: UIView!
@@ -9,6 +9,7 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var calendarViewSegmentedControl: UISegmentedControl!
     @IBOutlet var sideMenuView: UIView!
     @IBOutlet var sideMenuTableView: UITableView!
+    
     var freshLaunch: Bool = true
     var dayViewController: DayViewController!
     var weekViewController: WeekViewController!
@@ -18,7 +19,7 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
     let calendarHelper = CalendarHelper()
     private var calendarYears: [CalendarYear] = []
     
-    var arrLabels = ["Search"]
+    var arrLabels = ["Search", "Preferences"]
     var isSideMenuOpen: Bool = false
     
     override func viewDidLoad() {
@@ -26,6 +27,8 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
         sideMenuView.isHidden = true
         sideMenuTableView.backgroundColor = UIColor.systemGroupedBackground
         isSideMenuOpen = false
+        
+        self.sideMenuTableView.layer.cornerRadius = 10.0
         
         dayContainerView.alpha = 0.0
         weekContainerView.alpha = 0.0
@@ -138,25 +141,39 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        switch indexPath.row {
+        case 0:
             let search:SearchTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "search") as! SearchTableViewController
             self.navigationController?.pushViewController(search, animated: true)
+            break
+        case 1:
+            let search: PreferencesViewController = self.storyboard?.instantiateViewController(withIdentifier: "preferences") as! PreferencesViewController
+            self.navigationController?.pushViewController(search, animated: true)
+            break
+        default:
+            break
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:TableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
         cell.label.text = arrLabels[indexPath.row]
+        cell.label.font = cell.label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 13)
+        cell.label.textColor = .appColor(.primary)
         var image = UIImage(systemName: "magnifyingglass")
         switch (indexPath.row)
         {
         case 0:
             image = UIImage(systemName: "magnifyingglass")
             break
+        case 1:
+            image = UIImage(systemName: "gearshape")
+            break
         default:
            break
         }
-        cell.icon.image = image
+        cell.icon.image = image?.tinted(with: UIColor.appColor(.primary)!)
+
         return cell
     }
     
@@ -184,6 +201,11 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
+    }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        self.sideMenuTableView.reloadData()
     }
     
 }

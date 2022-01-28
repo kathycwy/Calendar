@@ -10,7 +10,7 @@ import CoreData
 import EventKit
 import EventKitUI
 
-final class AddEventController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var savedEventId : String = ""
     

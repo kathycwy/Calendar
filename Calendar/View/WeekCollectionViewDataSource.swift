@@ -55,8 +55,14 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         if self.displayWeeks.count > 0 {
             if indexPath.item == 0 {
                 cell.initMonthLabel()
-                cell.dateLabel.text = self.calendarHelper.monthStringShort(monthNum: self.displayWeeks[indexPath.section].month)
-                cell.dayOfWeekLabel.text = String(self.displayWeeks[indexPath.section].year)
+                if self.selectedDate == nil {
+                    cell.dateLabel.text = self.calendarHelper.monthStringShort(monthNum: self.displayWeeks[indexPath.section].month)
+                    cell.dayOfWeekLabel.text = String(self.displayWeeks[indexPath.section].year)
+                }
+                else{
+                    cell.dateLabel.text = self.calendarHelper.monthStringShort(monthNum: self.calendarHelper.getMonth(for: self.selectedDate) )
+                    cell.dayOfWeekLabel.text = String(self.calendarHelper.getYear(for: self.selectedDate))
+                }
             }
             else {
                 cell.initDateLabel()
