@@ -147,7 +147,6 @@ class EventListController: UITableViewController {
             let destinationVC = segue.destination as! EventDetailsController
             
             if selectedRow != nil {
-                destinationVC.rowIndex = self.selectedRow
                 destinationVC.event = self.events[self.selectedRow!]
                 destinationVC.eventID = self.events[self.selectedRow!].objectID
             }

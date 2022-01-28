@@ -19,7 +19,6 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var url: UITextView!
     @IBOutlet weak var notes: UILabel!
     
-    var rowIndex: Int?
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
@@ -123,10 +122,12 @@ class EventDetailsController: CalendarUIViewController {
             //simply save the hohle table view. A bit uniffcient but simple
             self.fetchedEvents = target.fetchedEvents
         }
+        // Find the index of the event that is to be deleted from the array
+        let index = fetchedEvents.firstIndex(where: {$0.objectID  == eventID})!
         // delete it from Core data
-        managedContext.delete(fetchedEvents[self.rowIndex!])
+        managedContext.delete(fetchedEvents[index])
         // delete it from the arrays
-        fetchedEvents.remove(at: rowIndex!)
+        fetchedEvents.remove(at: index)
 
         // finally save the current state of Core data
         do {
