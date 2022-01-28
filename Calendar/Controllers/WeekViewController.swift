@@ -249,7 +249,6 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
             let destinationVC = segue.destination as! EventDetailsController
 
             if selectedRow != nil {
-                destinationVC.rowIndex = self.selectedRow
                 destinationVC.event = self.allEvents[self.selectedRow!]
                 destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
             }

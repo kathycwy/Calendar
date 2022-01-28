@@ -18,7 +18,6 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var notesField: UITextField!
     
-    var rowIndex: Int?
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
