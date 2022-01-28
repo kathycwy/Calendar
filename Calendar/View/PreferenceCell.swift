@@ -20,15 +20,24 @@ class PreferenceCell: UITableViewCell {
     // MARK: - Init
     
     func initCell(indexPath: IndexPath) {
-        self.label.padding(3, 3, 10, 3)
+        self.label.padding(0, 0, 10, 3)
         self.label.text = ""
         self.label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        self.label.textColor = UIColor.appColor(.primary)
+        self.label.textColor = UIColor.appColor(.onSurface)
         self.prefSwitch.isHidden = true
         self.prefSegControl.isHidden = true
         self.myIndexPath = indexPath
         self.prefSwitch.addTarget(self, action: #selector(handleSwitchAction), for: .valueChanged)
         self.prefSegControl.addTarget(self, action: #selector(handelSegAction), for: .valueChanged)
+        
+        
+        self.prefSegControl.selectedSegmentTintColor = .appColor(.onSurface)
+        self.prefSegControl.backgroundColor = .appColor(.surface)
+        self.prefSegControl.tintColor = .appColor(.surface)
+        self.prefSegControl.setTitleTextAttributes([.foregroundColor: UIColor.appColor(.surface)!], for: .selected)
+        self.prefSegControl.setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onSurface)!], for: .normal)
+        
+        self.prefSwitch.onTintColor = .appColor(.onSurface)
         
         switch(indexPath.section)
         {
@@ -62,6 +71,17 @@ class PreferenceCell: UITableViewCell {
                break
             }
             break
+        case 3:
+            switch(indexPath.row)
+            {
+            case 0:
+                // Show Week Number
+                self.initDisplayWeekNumber()
+                break
+            default:
+               break
+            }
+            break
         default:
            break
         }
@@ -88,6 +108,8 @@ class PreferenceCell: UITableViewCell {
         self.prefSwitch.isHidden = false
         self.prefSwitch.isOn = false
         self.prefSegControl.isHidden = true
+        let choice = UserDefaults.standard.bool(forKey: Constants.UserDefaults.DarkMode)
+        self.prefSwitch.isOn = choice
     }
     
     func initFontSize() {
@@ -104,7 +126,15 @@ class PreferenceCell: UITableViewCell {
                 break
             }
         }
-        
+    }
+    
+    func initDisplayWeekNumber() {
+        self.label.text = "Show Week Number"
+        self.prefSwitch.isHidden = false
+        self.prefSwitch.isOn = false
+        self.prefSegControl.isHidden = true
+        let choice = UserDefaults.standard.bool(forKey: Constants.UserDefaults.DisplayWeekNumber)
+        self.prefSwitch.isOn = choice
     }
     
     func initNotification() {
@@ -117,8 +147,37 @@ class PreferenceCell: UITableViewCell {
     // MARK: - Selectors
     
     @objc func handleSwitchAction(sender: UISwitch) {
-        if sender.isOn {
-            
+        let value = sender.isOn
+        switch(myIndexPath.section)
+        {
+        case 1:
+            switch(myIndexPath.row)
+            {
+            case 1:
+                // Dark Mode
+                UserDefaults.standard.set(value, forKey: Constants.UserDefaults.DarkMode)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadUI"), object: nil)
+                self.window?.tintColor = UIColor.appColor(.primary)
+                ThemeHelper.applyTheme()
+                break
+            default:
+               break
+            }
+            break
+        case 3:
+            switch(myIndexPath.row)
+            {
+            case 0:
+                // Display week number
+                UserDefaults.standard.set(value, forKey: Constants.UserDefaults.DisplayWeekNumber)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadUI"), object: nil)
+                break
+            default:
+               break
+            }
+            break
+        default:
+           break
         }
     }
     @objc func handelSegAction(sender: UISegmentedControl) {
@@ -138,6 +197,8 @@ class PreferenceCell: UITableViewCell {
             case 2:
                 // Font Size
                 UserDefaults.standard.set(value, forKey: Constants.UserDefaults.FontSize)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadUI"), object: nil)
+                ThemeHelper.applyTheme()
                 break
             default:
                break

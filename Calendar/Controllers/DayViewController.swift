@@ -94,9 +94,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dailyCell", for: indexPath) as! DayCell
+        cell.initCell(indexPath: indexPath)
         
         let hour = hours[indexPath.row]
-        
         cell.timeLabel.text = formatHour(hour: hour)
         let events = EventListController().getEventsByDateAndTime(date: self.selectedDay, hour: hour)
                 setEvents(cell, events)

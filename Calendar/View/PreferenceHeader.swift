@@ -37,7 +37,7 @@ class PreferenceHeader: UIView {
     func initHeader(section: Int) {
         backgroundColor = UIColor.appColor(.primary)
         switch section {
-        case 0:
+        case 0:/*
             let profileImageDimension: CGFloat = 60
             
             addSubview(profileImageView)
@@ -46,6 +46,7 @@ class PreferenceHeader: UIView {
             profileImageView.widthAnchor.constraint(equalToConstant: profileImageDimension).isActive = true
             profileImageView.heightAnchor.constraint(equalToConstant: profileImageDimension).isActive = true
             profileImageView.layer.cornerRadius = profileImageDimension / 2
+                */
             break
         case 1:
             addSubview(colourThemeLabel)

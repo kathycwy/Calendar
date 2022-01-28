@@ -169,6 +169,7 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         cell.label.text = arrLabels[indexPath.row]
         cell.label.font = cell.label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 13)
         cell.label.textColor = .appColor(.primary)
+        cell.backgroundColor = .appColor(.onPrimary)
         var image = UIImage(systemName: "magnifyingglass")
         switch (indexPath.row)
         {
