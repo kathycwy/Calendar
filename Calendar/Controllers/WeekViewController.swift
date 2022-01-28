@@ -21,13 +21,10 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     
-    private var calendarWeeks: [CalendarWeek] = []
     private var displayWeeks: [CalendarWeek] = []
     private var isLoaded = false
     private var isScrolled = false
-    private var todayIndexPath: IndexPath? = nil
     private var selectedDate: Date = Date()
-    private var selectedIndexPath: IndexPath? = nil
     private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
     
@@ -50,6 +47,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.collectionView.reloadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -112,241 +110,142 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
-                self.setSelectedCell(indexPath: indexPath)
+                self.selectedDate = self.displayWeeks[0].calendarDays[indexPath.item - 1].date!
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDate as Any])
+                self.setSelectedCell()
             }
         }
     }
-        
     
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
-            let contentOffsetX = collectionView.contentOffset.x + collectionView.frame.width - collectionViewFlowLayout.minimumInteritemSpacing
-            UIView.animate(withDuration: 0.6){
-                let newOffset = CGPoint(x: contentOffsetX, y: self.collectionView.contentOffset.y)
-                self.collectionView.setContentOffset(newOffset, animated: true)
-            }
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -7)
+            
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCurlDown,
+                              animations: {
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
             
         } else if sender.direction == .right {
-            let contentOffsetX = collectionView.contentOffset.x - collectionView.frame.width + collectionViewFlowLayout.minimumInteritemSpacing
-            UIView.animate(withDuration: 0.6){
-                let newOffset = CGPoint(x: contentOffsetX, y: self.collectionView.contentOffset.y)
-                self.collectionView.setContentOffset(newOffset, animated: true)
-            }
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
+            
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCurlUp,
+                              animations: {
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
         }
     }
      
     
     lazy var collectionViewFlowLayout : WeekCollectionViewFlowLayout = {
         let layout = WeekCollectionViewFlowLayout()
-        layout.parentLoadNextBatch = loadNextBatch
-        layout.setSelectedCell = setSelectedCell
-        layout.parentLoadPrevBatch = loadPrevBatch
+        //layout.parentLoadNextBatch = loadNextBatch
+        //layout.setSelectedCell = setSelectedCell
+        //layout.parentLoadPrevBatch = loadPrevBatch
         return layout
     }()
 
     lazy var collectionViewDataSource: WeekCollectionViewDataSource = {
-        let collectionView = WeekCollectionViewDataSource(calendarWeeks: self.calendarWeeks)
+        let collectionView = WeekCollectionViewDataSource(calendarWeeks: self.displayWeeks)
         return collectionView
     }()
     
-    func calculateIndexPathsToReload(from newcalendarMonths: [CalendarMonth]) -> [IndexPath] {
-        let startIndex = self.calendarWeeks.count - newcalendarMonths.count
-        let endIndex = startIndex + newcalendarMonths.count
-        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
-    }
-    
-    private func createSpinnerFooter() -> UIView {
-        let footerView = UIView(frame: CGRect(x:0, y:0, width: view.frame.size.width, height: 100))
-        
-        let spinner = UIActivityIndicatorView()
-        spinner.center = footerView.center
-        footerView.addSubview(spinner)
-        spinner.startAnimating()
-        return footerView
-    }
-    
-    func loadNextBatch(){
-        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
-        let lastCalendarWeeks = self.displayWeeks.count
-        
-        self.displayWeeks = self.collectionViewDataSource.getExtendedDisplayWeeks(numberOfWeeks: 1)
-        
-        var indexSet:[Int] = []
-        var paths = [IndexPath]()
-        for week in lastCalendarWeeks ..< self.displayWeeks.count {
-            indexSet.append(week)
-            for day in 0 ..< self.displayWeeks[week].calendarDays.count {
-                let indexPath = IndexPath(row: day, section: week)
-                paths.append(indexPath)
+    func setSelectedCell() {
+        if self.isLoaded {
+            for indexPath in self.collectionView.indexPathsForVisibleItems {
+                self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
             }
-        }
-        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertSections(IndexSet(indexSet))
-            self.collectionView.insertItems(at: paths)
-        }, completion:nil)
-        
-    }
-    
-    func loadPrevBatch(){
-        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
-        let lastCalendarWeeks = self.displayWeeks.count
-        
-        self.displayWeeks = self.collectionViewDataSource.getExtendedDisplayWeeks(numberOfWeeks: -1)
-        
-        var indexSet:[Int] = []
-        var paths = [IndexPath]()
-        for week in 0 ..< self.displayWeeks.count - lastCalendarWeeks {
-            indexSet.append(week)
-            for day in 0 ..< self.displayWeeks[week].calendarDays.count {
-                let indexPath = IndexPath(row: day, section: week)
-                paths.append(indexPath)
-            }
-        }
-        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertSections(IndexSet(indexSet))
-            self.collectionView.insertItems(at: paths)
-        }, completion:nil)
-        
-    }
-    
-    func setSelectedCell(indexPath: IndexPath) {
-        self.selectedIndexPath = indexPath
-        
-        if let prevIndexPath = self.collectionViewDataSource.getSelectedIndexPath() {
-            self.collectionView.cellForItem(at: prevIndexPath)?.layer.borderColor = UIColor.appColor(.surface)?.cgColor
-            self.collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
-        }
-        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
-        let rollingWeekNumber = self.displayWeeks[indexPath.section].rollingWeekNumber
-        if let date = self.displayWeeks[indexPath.section].calendarDays[indexPath.item - 1].date{
-            if let cell: WeekDayCell = self.collectionView.cellForItem(at: IndexPath(row: 0, section: indexPath.section)) as? WeekDayCell{
-                cell.dayOfWeekLabel.text = String(self.calendarHelper.getYear(for: date))
-                cell.dateLabel.text = self.calendarHelper.monthStringShort(date: date)
-            }
-        }
-        
-        self.collectionViewDataSource.setSelectedCell(item: indexPath.item, rollingWeekNumber: rollingWeekNumber)
-    }
-    
-    func reloadCalendar(calendarYears: [CalendarYear]) {
-        self.calendarWeeks = self.collectionViewDataSource.getInitCalendar(calendarYears: calendarYears)
-    }
-    
-    func scrollToToday(animated: Bool = true){
-        self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
-        if todayIndexPath == nil {
-            todayIndexPath = self.collectionViewDataSource.getSelectedIndexPath()
-        }
-        self.scrollToDate(date: self.calendarHelper.getCurrentDate(), indexPath: todayIndexPath, animated: animated)
-    }
-    
-    func scrollToDate(date: Date?, indexPath: IndexPath! = nil, animated: Bool = true){
-        var newSelectedIP: IndexPath! = indexPath
-        if newSelectedIP == nil{
-            if date != nil {
-                self.selectedDate = date!
-            }
-            let year = calendarHelper.getYear(for: self.selectedDate)
-            let month = calendarHelper.getMonth(for: self.selectedDate)
-            let weekNumber = calendarHelper.weekOfYear(date: self.selectedDate)
-            self.displayWeeks = self.collectionViewDataSource.getDisplayWeeks()
             
-            var idx = self.displayWeeks.firstIndex(
-                where: {($0.month == month || $0.toMonth == month) &&
-                    ($0.year == year || $0.toYear == year) &&
-                    $0.weekNumber == weekNumber &&
-                    $0.calendarDays.contains(where: {$0.date == self.selectedDate})
-                }) ?? -1
-            
-            while idx == -1 {
-                // Extend and load the date
-                self.loadNextBatch()
-                idx = self.displayWeeks.firstIndex(
-                    where: {($0.month == month || $0.toMonth == month) &&
-                        ($0.year == year || $0.toYear == year) &&
-                        $0.weekNumber == weekNumber &&
-                        $0.calendarDays.contains(where: {$0.date == self.selectedDate})
-                    }) ?? -1
+            if let idx = self.displayWeeks[0].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) {
+                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))!.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
             }
-            let item = self.displayWeeks[idx].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) ?? 0
-            newSelectedIP = IndexPath(item: item + 1, section: idx)
+            self.tableView.reloadData()
         }
-        self.setSelectedCell(indexPath: newSelectedIP)
+    }
+    
+    func reloadCalendar(newSelectedDate: Date) {
+        self.selectedDate = newSelectedDate
+        self.displayWeeks = self.collectionViewDataSource.loadDisplayWeek(newSelectedDate: self.selectedDate)
+        if isScrolled {
+            self.collectionView.reloadData()
+            self.tableView.reloadData()
+        }
+        isScrolled = true
+    }
+    
+    func scrollToToday(animated: Bool = true) {
+        self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
+        self.isLoaded = true
+    }
+    
+    func scrollToDate(date: Date?, animated: Bool = true) {
+        let idx = self.displayWeeks[0].calendarDays.firstIndex(
+            where: {($0.date == date!)
+            }) ?? -1
         
-        if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: newSelectedIP.section)) {
-            var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
-            var offsetX = attributes.frame.origin.x - self.collectionView.contentInset.left
-            if #available(iOS 11.0, *) {
-                offsetY -= self.collectionView.safeAreaInsets.top
-                offsetX -= self.collectionView.safeAreaInsets.left
+        if idx == -1 {
+            if animated {
+                if self.selectedDate > date! {
+                    UIView.transition(with: self.view,
+                                      duration: 0.3,
+                                      options: .transitionCurlDown,
+                                      animations: {
+                        self.reloadCalendar(newSelectedDate: date!) })
+                }
+                else{
+                    UIView.transition(with: self.view,
+                                      duration: 0.3,
+                                      options: .transitionCurlUp,
+                                      animations: {
+                        self.reloadCalendar(newSelectedDate: date!) })
+                }
             }
-            self.collectionView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: animated) // or animated: false
-            isScrolled = true
+            else{
+                self.reloadCalendar(newSelectedDate: date!)
+            }
         }
         else {
-            self.collectionView.scrollToItem(at: IndexPath(row: 0, section: newSelectedIP.section), at: [.top, .left], animated: animated)
-            isScrolled = true
+            self.selectedDate = date!
+            self.setSelectedCell()
         }
     }
     
-    func updateView(){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Events")
-        
-        do {
-            // fetch the entitiy
-            allEvents = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        tableView.reloadData()
-    }
-    
-    // Number of months shown
+    //------------------------------------------------
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.allEvents.count
-        return 2
+        return EventListController().getEventsByDate(currentDate: self.selectedDate).count
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-//        let event = self.allEvents[indexPath.row]
-//        let calendarDays = self.calendarWeeks[self.selectedRow!].calendarDays
+        let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "d MMM y, HH:mm"
-//
-//        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
-//        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
-//        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
-        
-        cell.eventTitle.text = "hello"
-        cell.eventStartDate.text = "yoyo"
-        cell.eventEndDate.text = "sghs"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, HH:mm"
+
+        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
+        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedRow = indexPath.row
-        self.performSegue(withIdentifier: "eventCellTapped", sender: self)
+        self.performSegue(withIdentifier: "weeklyEventCellTapped", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "eventCellTapped") {
+        if (segue.identifier == "weeklyEventCellTapped") {
             let destinationVC = segue.destination as! EventDetailsController
-            
+
             if selectedRow != nil {
                 destinationVC.rowIndex = self.selectedRow
                 destinationVC.event = self.allEvents[self.selectedRow!]
@@ -355,17 +254,6 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         }
     }
 
-    /*
-    @IBAction func prevMonth(_ sender: Any) {
-        selectedDate = calendarHelper.previousMonth(date: selectedDate)
-        reloadCalendar()
-    }
-    
-    @IBAction func nextMonth(_ sender: Any) {
-        selectedDate = calendarHelper.nextMonth(date: selectedDate)
-        reloadCalendar()
-    }
-     */
     @objc func scrollToToday(_ notification: Notification) {
         scrollToToday()
     }

@@ -18,7 +18,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
     private let defNumOfMonths: Int = 12
     private let defNumOfCells: Int = 42
     private var selectedIndexPath: IndexPath? = nil
-    private var events: [NSObject]? = nil
+    private var eventsPerDate: [NSObject]? = nil
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date, isAsInnerCollectionView: Bool = false){
         super.init()
@@ -177,7 +177,6 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
         }
         
         cell.initLabel()
-        self.events = EventListController().getEvents()
         
         if (calendarMonths.count > 0) {
             let calendarRange = calendarMonths[indexPath.section].calendarDays
@@ -201,17 +200,13 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                 cell.weekLabel.text = isDisplayWeekNumber && !self.isAsInnerCollectionView ? displayWeekNum : ""
                 
                 if let currentDate = cell.cellDate {
-                    for event in self.events! {
-                        let event_start_date = event.value(forKeyPath: "startDate") as! Date
-                        let event_end_date = event.value(forKeyPath: "endDate") as! Date
-                        
-                        let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
-                        if fallsBetween {
-                            cell.setTaskIndicator()
-                            break;
-                        }
+                    self.eventsPerDate = EventListController().getEventsByDate(currentDate: currentDate)
+                }
+                
+                if let eventsForToday = self.eventsPerDate {
+                    if !eventsForToday.isEmpty {
+                        cell.setTaskIndicator(numberOfTasks: eventsForToday.count)
                     }
-                } else {
                 }
                 
                 
@@ -238,7 +233,7 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                     cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                     cell.layer.borderWidth = 2
                 }
-                let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewHeader)! : UIFont.appFontSize(.collectionViewHeader)!
+                let fontsize: CGFloat = self.isAsInnerCollectionView ? UIFont.appFontSize(.innerCollectionViewCell)! : UIFont.appFontSize(.collectionViewCell)!
                 cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
             }
             
@@ -265,13 +260,4 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
       }
     }
      */
-}
-
-extension Date {
-    public var removeTimeStamp : Date? {
-       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
-        return nil
-       }
-       return date
-   }
 }
