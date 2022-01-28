@@ -351,6 +351,49 @@
                                     <segue destination="lqX-Od-M18" kind="embed" id="l8b-O0-Vwj"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kO0-ph-pAb">
+                                <rect key="frame" x="0.0" y="88" width="209" height="352"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Luo-E1-rMH">
+                                        <rect key="frame" x="0.0" y="0.0" width="209" height="352"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Tzr-EF-Txl" customClass="TableViewCell" customModule="Calendar" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="44.5" width="209" height="43.5"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tzr-EF-Txl" id="Ded-JX-84H">
+                                                    <rect key="frame" x="0.0" y="0.0" width="209" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlC-63-qyO">
+                                                            <rect key="frame" x="56" y="2" width="153" height="40"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTJ-Tc-5fI">
+                                                            <rect key="frame" x="23" y="9" width="25" height="25"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="icon" destination="cTJ-Tc-5fI" id="eQ1-SU-ptL"/>
+                                                    <outlet property="label" destination="VlC-63-qyO" id="ozm-sK-o7T"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="P8F-jd-5YW" id="mCe-T1-enl"/>
+                                            <outlet property="delegate" destination="P8F-jd-5YW" id="QEN-7z-EqR"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iqu-se-WEv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -378,20 +421,23 @@
                     <navigationItem key="navigationItem" id="vN0-6F-e7E">
                         <nil key="title"/>
                         <leftBarButtonItems>
-                            <barButtonItem id="OvH-ii-9bB">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="uNi-7W-FjT">
-                                    <rect key="frame" x="20" y="5" width="46.5" height="34"/>
+                            <barButtonItem id="V2U-qb-o6M">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="l5M-qD-sJ1">
+                                    <rect key="frame" x="20" y="5" width="51" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
+                                    <buttonConfiguration key="configuration" style="plain" image="line.horizontal.3" catalog="system"/>
                                     <connections>
-                                        <segue destination="pXJ-Nq-GYX" kind="show" id="gX7-MR-c65"/>
+                                        <action selector="sideMenuButton:" destination="P8F-jd-5YW" eventType="touchUpInside" id="evv-rz-skw"/>
                                     </connections>
                                 </button>
+                                <connections>
+                                    <action selector="sideMenuButton:" destination="P8F-jd-5YW" id="kDX-6Y-eD4"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem style="plain" id="szH-1a-Gz4">
                                 <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="2" id="3cH-ER-7eu" userLabel="Day, Week, Month, Year">
-                                    <rect key="frame" x="74.5" y="5.5" width="235" height="33"/>
+                                    <rect key="frame" x="79" y="5.5" width="235" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <segments>
                                         <segment title="Day"/>
@@ -407,12 +453,15 @@
                                 <color key="tintColor" systemColor="systemTealColor"/>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" id="V2U-qb-o6M">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="l5M-qD-sJ1">
-                                <rect key="frame" x="343" y="5" width="51" height="34"/>
+                        <barButtonItem key="rightBarButtonItem" id="OvH-ii-9bB">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="uNi-7W-FjT">
+                                <rect key="frame" x="347.5" y="5" width="46.5" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="line.horizontal.3" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
+                                <connections>
+                                    <segue destination="pXJ-Nq-GYX" kind="show" id="gX7-MR-c65"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
@@ -421,6 +470,8 @@
                         <outlet property="calendarViewSegmentedControl" destination="3cH-ER-7eu" id="pyK-7S-ncB"/>
                         <outlet property="dayContainerView" destination="4YI-11-ywV" id="s3I-S0-w7Q"/>
                         <outlet property="monthContainerView" destination="FZj-62-xgO" id="yAe-5A-tWw"/>
+                        <outlet property="sideMenuTableView" destination="Luo-E1-rMH" id="H58-CZ-1Rz"/>
+                        <outlet property="sideMenuView" destination="kO0-ph-pAb" id="sTE-bf-VDt"/>
                         <outlet property="weekContainerView" destination="b6E-7L-1lU" id="FFw-3g-Uji"/>
                         <outlet property="yearContainerView" destination="dRE-qA-xmD" id="yEc-eP-oX4"/>
                     </connections>
@@ -711,11 +762,11 @@
             <objects>
                 <viewController id="wO8-KG-OKN" customClass="EditEventController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J8M-mq-Kj9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
-                                <rect key="frame" x="30" y="64" width="354" height="536"/>
+                                <rect key="frame" x="30" y="20" width="354" height="536"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-ZC-gcP">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
@@ -999,11 +1050,11 @@
             <objects>
                 <viewController id="eW7-Iv-mGl" customClass="EventDetailsController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uGN-qp-JgU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NII-Ka-zdz">
-                                <rect key="frame" x="30" y="762" width="354" height="31"/>
+                                <rect key="frame" x="30" y="757" width="354" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete">
                                     <color key="baseForegroundColor" systemColor="systemRedColor"/>
@@ -1013,7 +1064,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
-                                <rect key="frame" x="30" y="64" width="354" height="287"/>
+                                <rect key="frame" x="30" y="20" width="354" height="287"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
@@ -1389,6 +1440,72 @@
             </objects>
             <point key="canvasLocation" x="2844.9275362318845" y="13.727678571428571"/>
         </scene>
+        <!--Search Table View Controller-->
+        <scene sceneID="mzP-oK-wOi">
+            <objects>
+                <tableViewController storyboardIdentifier="search" id="8Rq-RS-uxf" customClass="SearchTableViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="qgj-qG-Q6i">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="ZRO-kZ-XVK">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="searchEventCell" id="zzv-qk-2ed" customClass="SearchEventCell" customModule="Calendar" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zzv-qk-2ed" id="1c0-L8-KJv">
+                                    <rect key="frame" x="0.0" y="0.0" width="385.5" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2af-2b-11e">
+                                            <rect key="frame" x="37" y="11" width="52" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39e-Xe-QdQ">
+                                            <rect key="frame" x="189" y="3" width="180" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="endDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhR-Da-wIl">
+                                            <rect key="frame" x="189" y="21" width="180" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="endDateLabel" destination="NhR-Da-wIl" id="ecD-E3-Iqh"/>
+                                    <outlet property="startDateLabel" destination="39e-Xe-QdQ" id="QdV-zH-qpt"/>
+                                    <outlet property="titleLabel" destination="2af-2b-11e" id="6j3-Aw-XaF"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8Rq-RS-uxf" id="XLh-Dx-9h7"/>
+                            <outlet property="delegate" destination="8Rq-RS-uxf" id="COf-Z6-TPl"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="A4L-rF-HrH"/>
+                    <connections>
+                        <outlet property="searchBar" destination="ZRO-kZ-XVK" id="q2f-ma-qNi"/>
+                        <segue destination="eW7-Iv-mGl" kind="show" identifier="searchEventCellTapped" id="IED-Qy-qtG"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TOB-k2-KSr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1872" y="706"/>
+        </scene>
         <!--Week View Controller-->
         <scene sceneID="DcV-XF-dIf">
             <objects>
@@ -1532,7 +1649,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sAF-qw-5YT"/>
+        <segue reference="IED-Qy-qtG"/>
         <segue reference="RGH-8S-iJ9"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
