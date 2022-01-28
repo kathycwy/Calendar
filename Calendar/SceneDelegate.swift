@@ -28,6 +28,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // the the undoManager and limit the undo up to 4
         managedContext.undoManager = UndoManager()
         managedContext.undoManager!.levelsOfUndo = 4
+        
+        if #available(iOS 13.0, *) {
+            if UserDefaults.standard.bool(forKey: Constants.UserDefaults.DarkMode) {
+                UIApplication.shared.connectedScenes.forEach { (scene: UIScene) in
+                    (scene.delegate as? SceneDelegate)?.window?.overrideUserInterfaceStyle = .dark
+                }
+                UIApplication.shared.delegate?.window??.overrideUserInterfaceStyle = .dark
+                UIWindow.appearance().overrideUserInterfaceStyle = .dark
+            } else {
+                UIApplication.shared.connectedScenes.forEach { (scene: UIScene) in
+                    (scene.delegate as? SceneDelegate)?.window?.overrideUserInterfaceStyle = .light
+                }
+                UIApplication.shared.delegate?.window??.overrideUserInterfaceStyle = .light
+                UIWindow.appearance().overrideUserInterfaceStyle = .light
+            }
+            
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

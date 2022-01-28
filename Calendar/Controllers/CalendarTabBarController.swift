@@ -42,6 +42,13 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
                 object.setNeedsDisplay()
             }
         }
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
+        self.tabBar.barTintColor = .appColor(.navigationBackground)
+        self.tabBar.tintColor = .appColor(.navigationTitle)
+        self.tabBar.standardAppearance = tabBarAppearance
+        self.tabBar.scrollEdgeAppearance = tabBarAppearance
+        
     }
     
     @objc func reloadUI(_ notification: Notification) {

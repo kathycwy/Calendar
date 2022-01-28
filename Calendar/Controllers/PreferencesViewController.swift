@@ -14,6 +14,8 @@ class PreferencesViewController: CalendarUIViewController {
     // MARK: - Properties
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     var preferenceHeader: PreferenceHeader!
     var prefValues: [PrefRowIdentifier: Bool] = [:]
     
@@ -37,24 +39,24 @@ class PreferencesViewController: CalendarUIViewController {
         preferenceHeader = PreferenceHeader(frame: frame)
         tableView.tableHeaderView = preferenceHeader
         tableView.tableFooterView = UIView()
+        titleView.backgroundColor = .appColor(.onPrimary)
+        titleLabel.textColor = .appColor(.primary)
+        titleLabel.font = titleLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 17)
     }
     
     func configureUI() {
         configureTableView()
-        
-        let label = PaddingLabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-        label.padding(5, 5, 20, 20)
-        label.text = "Preferences"
-        label.textColor = .appColor(.onPrimary)
-        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 17)
-        label.backgroundColor = .appColor(.primary)
-        self.view.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.heightAnchor.constraint(equalToConstant: 50),
-            view.topAnchor.constraint(equalTo: label.topAnchor),
-            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: label.trailingAnchor)
-            ])
+    }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        tableView.tableHeaderView = preferenceHeader
+        tableView.tableFooterView = UIView()
+        titleView.backgroundColor = .appColor(.onPrimary)
+        titleLabel.font = titleLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 17)
+        titleLabel.textColor = .appColor(.primary)
+        super.reloadUI()
+        self.tableView.reloadData()
     }
 
 }
@@ -62,7 +64,7 @@ class PreferencesViewController: CalendarUIViewController {
 extension PreferencesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,6 +72,7 @@ extension PreferencesViewController: UITableViewDelegate, UITableViewDataSource 
         case 0: return 0
         case 1: return 3
         case 2: return 1
+        case 3: return 1
         default: return 0
         }
     }
@@ -87,7 +90,5 @@ extension PreferencesViewController: UITableViewDelegate, UITableViewDataSource 
         
         return cell
     }
-    
-    
 }
 

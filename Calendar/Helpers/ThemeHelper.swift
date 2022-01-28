@@ -12,9 +12,17 @@ class ThemeHelper {
     
     static func applyTheme() {
         if #available(iOS 13.0, *) {
-            if UserDefaults.standard.bool(forKey: "DarkMode") {
+            if UserDefaults.standard.bool(forKey: Constants.UserDefaults.DarkMode) {
+                UIApplication.shared.connectedScenes.forEach { (scene: UIScene) in
+                    (scene.delegate as? SceneDelegate)?.window?.overrideUserInterfaceStyle = .dark
+                }
+                UIApplication.shared.delegate?.window??.overrideUserInterfaceStyle = .dark
                 UIWindow.appearance().overrideUserInterfaceStyle = .dark
             } else {
+                UIApplication.shared.connectedScenes.forEach { (scene: UIScene) in
+                    (scene.delegate as? SceneDelegate)?.window?.overrideUserInterfaceStyle = .light
+                }
+                UIApplication.shared.delegate?.window??.overrideUserInterfaceStyle = .light
                 UIWindow.appearance().overrideUserInterfaceStyle = .light
             }
             let navigationBarAppearance = UINavigationBarAppearance()
@@ -34,12 +42,14 @@ class ThemeHelper {
             UINavigationBar.appearance().compactAppearance = navigationBarAppearance
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().compactScrollEdgeAppearance = navigationBarAppearance
+            UINavigationBar.appearance().isTranslucent = true
             
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
             UITabBar.appearance().barTintColor = .appColor(.navigationBackground)
             UITabBar.appearance().tintColor = .appColor(.navigationTitle)
             UITabBar.appearance().standardAppearance = tabBarAppearance
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             
         }
         else {
@@ -69,5 +79,6 @@ class ThemeHelper {
         popoverBarAppearance.tintColor = .appColor(.navigationTitle)
         popoverBarAppearance.barTintColor = nil
         popoverBarAppearance.barStyle = .default
+        
     }
 }

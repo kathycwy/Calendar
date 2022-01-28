@@ -7,6 +7,7 @@ struct Constants {
     struct UserDefaults {
         static let ColourTheme = "ColourTheme"
         static let FontSize = "FontSize"
+        static let DarkMode = "DarkMode"
         static let DisplayWeekNumber = "DisplayWeekNumber"
         static let StartDayOfWeek = "StartDayOfWeek"
     }
