@@ -9,12 +9,6 @@ import UIKit
 import SwiftUI
 import CoreData
 
-class WeeklyEventCell: UITableViewCell {
-    @IBOutlet weak var eventTitle: UILabel!
-    @IBOutlet weak var eventStartDate: UILabel!
-    @IBOutlet weak var eventEndDate: UILabel!
-}
-
 class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var contentView: UIView!
@@ -92,6 +86,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         self.tableView.delegate = self
         self.tableView.backgroundColor = UIColor.appColor(.background)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.tableView.estimatedRowHeight = 200
+        self.tableView.rowHeight = UITableView.automaticDimension
     }
     
     func initGestureRecognizer(){
@@ -222,20 +218,24 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return EventListController().getEventsByDate(currentDate: self.selectedDate).count
     }
-        
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         
+        cell.initCell(indexPath: indexPath)
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y, HH:mm"
+        formatter.dateFormat = "HH:mm"
 
         cell.eventTitle.text = event.value(forKeyPath: "title") as? String
         cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
-        
         return cell
     }
     
