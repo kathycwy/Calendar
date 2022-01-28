@@ -23,7 +23,7 @@ class PreferenceCell: UITableViewCell {
         self.label.padding(0, 0, 10, 3)
         self.label.text = ""
         self.label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        self.label.textColor = UIColor.appColor(.primary)
+        self.label.textColor = UIColor.appColor(.onSurface)
         self.prefSwitch.isHidden = true
         self.prefSegControl.isHidden = true
         self.myIndexPath = indexPath

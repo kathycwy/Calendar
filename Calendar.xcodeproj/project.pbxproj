@@ -49,7 +49,7 @@
 		42BBE021279C8B0C00FAAED0 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BBE020279C8B0C00FAAED0 /* DayViewController.swift */; };
 		42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C2279471ED009FB999 /* WeekDayCell.swift */; };
 		42D7E8C5279479E7009FB999 /* WeekTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */; };
-		42D7E8C7279479F9009FB999 /* WeekEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C6279479F9009FB999 /* WeekEventCell.swift */; };
+		42D7E8C7279479F9009FB999 /* WeeklyEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C6279479F9009FB999 /* WeeklyEventCell.swift */; };
 		42D7E8C927947E92009FB999 /* WeekCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */; };
 		42D7E8CB27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */; };
 		42EDD231278EAEF8008549A3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EDD230278EAEF8008549A3 /* Constants.swift */; };
@@ -110,7 +110,7 @@
 		42BBE020279C8B0C00FAAED0 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
 		42D7E8C2279471ED009FB999 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
 		42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTimeCell.swift; sourceTree = "<group>"; };
-		42D7E8C6279479F9009FB999 /* WeekEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekEventCell.swift; sourceTree = "<group>"; };
+		42D7E8C6279479F9009FB999 /* WeeklyEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyEventCell.swift; sourceTree = "<group>"; };
 		42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		42EDD230278EAEF8008549A3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 				4236D907278F29140034C01F /* PaddingLabel.swift */,
 				42D7E8C2279471ED009FB999 /* WeekDayCell.swift */,
 				42D7E8C4279479E7009FB999 /* WeekTimeCell.swift */,
-				42D7E8C6279479F9009FB999 /* WeekEventCell.swift */,
+				42D7E8C6279479F9009FB999 /* WeeklyEventCell.swift */,
 				42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */,
 				42D7E8CA27947EA3009FB999 /* WeekCollectionViewFlowLayout.swift */,
 				422B2CD7276CCC87002C8AED /* MonthCell.swift */,
@@ -370,7 +370,7 @@
 				4236D90E278F41520034C01F /* YearCollectionViewDataSource.swift in Sources */,
 				F2FFF7EA2795B991009F7CA1 /* EventDetailsController.swift in Sources */,
 				4236D908278F29140034C01F /* PaddingLabel.swift in Sources */,
-				42D7E8C7279479F9009FB999 /* WeekEventCell.swift in Sources */,
+				42D7E8C7279479F9009FB999 /* WeeklyEventCell.swift in Sources */,
 				422B2D35276CF33F002C8AED /* CalendarDay.swift in Sources */,
 				4236D90A278F3A5A0034C01F /* YearViewController.swift in Sources */,
 				597A2A7527A16A38008D0B8C /* DayHeader.swift in Sources */,
