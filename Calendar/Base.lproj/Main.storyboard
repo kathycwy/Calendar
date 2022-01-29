@@ -1510,7 +1510,7 @@
                                 <connections>
                                     <outlet property="endDateLabel" destination="NhR-Da-wIl" id="ecD-E3-Iqh"/>
                                     <outlet property="startDateLabel" destination="39e-Xe-QdQ" id="uQc-xS-3do"/>
-                                    <outlet property="titleLabel" destination="NhR-Da-wIl" id="Edy-fN-kdT"/>
+                                    <outlet property="titleLabel" destination="2af-2b-11e" id="3E0-dn-mbQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
