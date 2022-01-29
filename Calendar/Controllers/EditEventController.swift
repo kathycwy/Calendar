@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 class EditEventController: CalendarUIViewController {
     
@@ -18,12 +19,14 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var startDateField: UIDatePicker!
     @IBOutlet weak var endDateField: UIDatePicker!
     @IBOutlet weak var locationField: UITextField!
+    @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var notesField: UITextField!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
+    var calendarOption: String = "None"
     
     // MARK: - Init
 
@@ -36,10 +39,10 @@ class EditEventController: CalendarUIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     
-        titleField.text = String(event!.value(forKeyPath: EventsStruct.titleAttribute) as? String ?? "")
-        allDaySwitch.setOn(event!.value(forKeyPath: EventsStruct.allDayAttribute) as? Bool ?? true, animated: false)
-        startDateField.date =  event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now
-        endDateField.date = event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now
+        titleField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        allDaySwitch.setOn(event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true, animated: false)
+        startDateField.date =  event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now
+        endDateField.date = event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now
         if allDaySwitch.isOn {
             startDateField.datePickerMode = .date
             endDateField.datePickerMode = .date
@@ -47,10 +50,39 @@ class EditEventController: CalendarUIViewController {
             startDateField.datePickerMode = .dateAndTime
             endDateField.datePickerMode = .dateAndTime
         }
-        locationField.text = String(event!.value(forKeyPath: EventsStruct.locationAttribute) as? String ?? "")
-        urlField.text = String(event!.value(forKeyPath: EventsStruct.urlAttribute) as? String ?? "")
-        notesField.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
+        locationField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "")
         
+        let calendarButtonClosure = { (action: UIAction) in
+            self.calendarOption = action.title
+            let color = EventListController().getCalendarColor(name: self.calendarOption)
+            self.calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
+        }
+        
+        let calendarOption = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
+                  
+        calendarButton.menu = UIMenu(children: [
+            UIAction(title: Constants.CalendarConstants.calendarNone, state: calendarOptionState(option: Constants.CalendarConstants.calendarNone, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarPersonal, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarSchool, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarWork, selectedOption: calendarOption), handler: calendarButtonClosure)
+          ])
+        
+        let color = EventListController().getCalendarColor(name: calendarOption)
+        calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
+        calendarButton.titleLabel?.textColor = .black
+
+        
+        urlField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")
+        notesField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
+        
+    }
+    
+    func calendarOptionState(option: String, selectedOption: String) -> UIMenuElement.State {
+        if option == selectedOption {
+            return .on
+        } else {
+            return .off
+        }
     }
     
     // MARK: - Actions
@@ -84,6 +116,7 @@ class EditEventController: CalendarUIViewController {
             var startDate = startDateField.date
             var endDate = endDateField.date
             let place = locationField.text
+            let calendarOption = self.calendarOption
             let url = urlField.text
             let notes = notesField.text
 
@@ -102,13 +135,14 @@ class EditEventController: CalendarUIViewController {
                 endDate = calender.date(from: endDateComponents) ?? endDate
             }
             
-            updatingEvent.setValue(title, forKeyPath: EventsStruct.titleAttribute)
-            updatingEvent.setValue(allDaySwitchState, forKeyPath: EventsStruct.allDayAttribute)
-            updatingEvent.setValue(startDate, forKeyPath: EventsStruct.startDateAttribute)
-            updatingEvent.setValue(endDate, forKeyPath: EventsStruct.endDateAttribute)
-            updatingEvent.setValue(place, forKeyPath: EventsStruct.locationAttribute)
-            updatingEvent.setValue(url, forKeyPath: EventsStruct.urlAttribute)
-            updatingEvent.setValue(notes, forKeyPath: EventsStruct.notesAttribute)
+            updatingEvent.setValue(title, forKeyPath: Constants.EventsAttribute.titleAttribute)
+            updatingEvent.setValue(allDaySwitchState, forKeyPath: Constants.EventsAttribute.allDayAttribute)
+            updatingEvent.setValue(startDate, forKeyPath: Constants.EventsAttribute.startDateAttribute)
+            updatingEvent.setValue(endDate, forKeyPath: Constants.EventsAttribute.endDateAttribute)
+            updatingEvent.setValue(place, forKeyPath: Constants.EventsAttribute.locationAttribute)
+            updatingEvent.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
+            updatingEvent.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
+            updatingEvent.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
 
             try managedContext.save()
             
