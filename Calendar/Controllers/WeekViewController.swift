@@ -218,8 +218,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.allEvents = EventListController().getEventsByDate(currentDate: self.selectedDate)
-        return self.allEvents.count
+        return EventListController().getEventsByDate(currentDate: self.selectedDate).count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -228,7 +227,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let event = self.allEvents[indexPath.row]
+        let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         
