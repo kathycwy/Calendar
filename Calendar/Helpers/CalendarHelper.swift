@@ -130,6 +130,22 @@ struct CalendarHelper {
         return components.weekOfYear!
     }
     
+    func getStartOfDayTime(date: Date) -> Date?{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let dateStr = dateFormatter.string(from: date) + " 00:00:00"
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss"
+        return dateFormatter.date(from: dateStr)
+    }
+    
+    func getEndOfDayTime(date: Date) -> Date?{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let dateStr = dateFormatter.string(from: date) + " 23:59:59"
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss"
+        return dateFormatter.date(from: dateStr)
+    }
+    
     func todayDateString(date: Date) -> String{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "D"

@@ -105,8 +105,6 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
                             if self.selectedDate == calendarRange[indexPath.row - 1].date {
                                 cell.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
                             }
-                            let fontsize: CGFloat = UIFont.appFontSize(.collectionViewHeader)!
-                            cell.dateLabel.font = cell.dateLabel.font.withSize(fontsize)
                         }
                     }
                 }

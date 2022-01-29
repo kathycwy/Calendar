@@ -21,6 +21,11 @@ class DayHeader : UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        configureContents()
+    }
+    
     func configureContents() {
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         dowLabel.translatesAutoresizingMaskIntoConstraints = false

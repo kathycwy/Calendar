@@ -18,12 +18,14 @@ class EventCell: UITableViewCell {
 class EventListController: UITableViewController {
     
     var events: [NSManagedObject] = []
-    
+    let rowHeight: CGFloat = 80.0
     var selectedRow: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = rowHeight
+        self.tableView.estimatedRowHeight = rowHeight
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     //MARK: - Table view will appear
@@ -162,14 +164,37 @@ class EventListController: UITableViewController {
         let event = events[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
+        cell.initCell(indexPath: indexPath)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
         
         cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "")
-        cell.titleLable.text = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String
-        cell.startDateLable.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date)
-        cell.endDateLable.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
+
+        // Set text
+        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
+        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let text = eventTitle + "\n" + eventLoc
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.onSurface) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle))
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.secondary) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        
+        cell.titleLabel.attributedText = attributedText
+        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
+        cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         
         return cell
     }

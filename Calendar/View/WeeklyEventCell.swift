@@ -1,5 +1,5 @@
 //
-//  WeeklyEventCell.swift
+//  EventCell.swift
 //  Calendar
 //
 //  Created by Aparna Joshi on 25/01/22.
@@ -7,44 +7,42 @@
 
 import UIKit
 
-class WeeklyEventCell: UITableViewCell
+class EventCell: UITableViewCell
 {
     
-    @IBOutlet weak var eventEndDate: PaddingLabel!
-    @IBOutlet weak var eventStartDate: PaddingLabel!
-    @IBOutlet weak var eventTitle: PaddingLabel!
+    @IBOutlet weak var endDateLabel: PaddingLabel!
+    @IBOutlet weak var startDateLabel: PaddingLabel!
+    @IBOutlet weak var titleLabel: PaddingLabel!
     
     func initCell(indexPath: IndexPath) {
         if (indexPath.row % 2 == 0) {
             self.backgroundColor = UIColor.appColor(.surface)
         }
         else {
-            self.backgroundColor = UIColor.appColor(.navigationBackground)
+            self.backgroundColor = UIColor.appColor(.navigationBackground)?.withAlphaComponent(0.6)
         }
         
-        self.eventTitle.sizeToFit()
-        self.eventTitle.padding(5, 5, 5, 5)
-        self.eventTitle.text = ""
-        self.eventTitle.font = eventTitle.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        self.eventTitle.textColor = UIColor.appColor(.onSurface)
-        self.eventEndDate.padding(5, 5, 5, 5)
-        self.eventEndDate.textColor = UIColor.appColor(.onSurface)
-        self.eventEndDate.text = ""
-        self.eventEndDate.font = eventEndDate.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 13)
-        self.eventEndDate.textColor = UIColor.appColor(.onSurface)
-        self.eventEndDate.sizeToFit()
-        self.eventStartDate.padding(5, 5, 5, 5)
-        self.eventStartDate.text = ""
-        self.eventStartDate.font = eventStartDate.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 13)
-        self.eventStartDate.textColor = UIColor.appColor(.onSurface)
-        self.eventStartDate.sizeToFit()
+        self.titleLabel.sizeToFit()
+        self.titleLabel.padding(5, 5, 5, 5)
+        self.titleLabel.text = ""
+        self.titleLabel.numberOfLines = 0
+        self.titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        self.titleLabel.font = titleLabel.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
+        self.titleLabel.textColor = UIColor.appColor(.onSurface)
         
-        if (indexPath.row % 2 == 0) {
-            self.backgroundColor = UIColor.appColor(.surface)
-        }
-        else {
-            self.backgroundColor = UIColor.appColor(.navigationBackground)
-        }
+        self.endDateLabel.padding(5, 5, 5, 5)
+        self.endDateLabel.textColor = UIColor.appColor(.onSurface)
+        self.endDateLabel.text = ""
+        self.endDateLabel.font = endDateLabel.font.withSize(UIFont.appFontSize(.tableViewCellInfo) ?? 13)
+        self.endDateLabel.textColor = UIColor.appColor(.navigationTitle)
+        self.endDateLabel.sizeToFit()
+        
+        self.startDateLabel.padding(5, 5, 5, 5)
+        self.startDateLabel.text = ""
+        self.startDateLabel.font = startDateLabel.font.withSize(UIFont.appFontSize(.tableViewCellInfo) ?? 13)
+        self.startDateLabel.textColor = UIColor.appColor(.navigationTitle)
+        self.startDateLabel.sizeToFit()
+        
     }
         
         

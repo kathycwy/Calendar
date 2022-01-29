@@ -16,6 +16,7 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
              freshLaunch = false
              self.selectedIndex = 1
          }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {

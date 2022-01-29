@@ -16,6 +16,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     
     // MARK: - Properties
 
+    @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet private var titleField: UITextField!
     @IBOutlet private var allDaySwitch: UISwitch!
     @IBOutlet private var startDateField: UIDatePicker!
@@ -28,6 +29,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet private var locationField: UITextField!
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet private var urlField: UITextField!
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet private var notesField: UITextField!
     
     // MARK: -
@@ -39,6 +41,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var endRepeatDate: Date?
     var calendarOption: String = "None"
     var selectedRow = 0
+    var rowHeight = 80
 
     // MARK: - Actions
     
@@ -50,6 +53,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         endRepeatStack.isHidden = true
         endRepeatDatePicker.isHidden = true
         endRepeatAfterCertainTimesButton.isHidden = true
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: " ", style: .plain, target: nil, action: nil)
         
     }
     
@@ -160,6 +165,10 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func initUI(){
+        pageTitleLabel.textColor = .appColor(.navigationTitle)
     }
     
     func numberOfComponents(in endRepeatIntPicker: UIPickerView) -> Int {

@@ -21,6 +21,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     //private var selectedDate: Date = Date()
 //    private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
+    let rowHeight: CGFloat = 80.0
     
     let calendarHelper = CalendarHelper()
     
@@ -88,8 +89,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         self.tableView.delegate = self
         self.tableView.backgroundColor = UIColor.appColor(.background)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.tableView.estimatedRowHeight = 200
-        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = rowHeight
+        self.tableView.estimatedRowHeight = rowHeight
     }
     
     func initGestureRecognizer(){
@@ -221,23 +222,38 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         return EventListController().getEventsByDate(currentDate: self.selectedDate).count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! EventCell
         
         cell.initCell(indexPath: indexPath)
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
-
-        cell.eventTitle.text = event.value(forKeyPath: "title") as? String
-        cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
-        cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        
+        // Set text
+        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
+        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let text = eventTitle + "\n" + eventLoc
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.onSurface) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle))
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.secondary) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        
+        cell.titleLabel.attributedText = attributedText
+        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
         return cell
     }
     

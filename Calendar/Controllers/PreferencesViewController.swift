@@ -25,12 +25,9 @@ class PreferencesViewController: CalendarUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let backItem = UIBarButtonItem()
-        backItem.title = " "
-        navigationItem.backBarButtonItem = backItem
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: " ", style: .plain, target: nil, action: nil)
+
     }
 
     // MARK: - Helper Functions
@@ -75,6 +72,9 @@ class PreferencesViewController: CalendarUIViewController {
         self.tableView.reloadData()
         
         let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .appColor(.navigationBackground)
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
+        navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
                    
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
@@ -90,7 +90,6 @@ class PreferencesViewController: CalendarUIViewController {
         self.navigationController?.navigationBar.compactAppearance = navigationBarAppearance
         self.navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         self.navigationController?.navigationBar.compactScrollEdgeAppearance = navigationBarAppearance
-        self.navigationController?.navigationBar.isTranslucent = true
         
         self.tabBarController?.tabBar.isTranslucent = false
         let tabBarAppearance = UITabBarAppearance()
@@ -100,6 +99,17 @@ class PreferencesViewController: CalendarUIViewController {
         self.tabBarController?.tabBar.tintColor = .appColor(.navigationTitle)
         self.tabBarController?.tabBar.standardAppearance = tabBarAppearance
         self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarAppearance
+        
+        for view in self.navigationController?.navigationBar.subviews ?? [] {
+            let subviews = view.subviews
+            for objects in subviews {
+                if let object = objects as? UIImageView {
+                    object.tintColor = UIColor.appColor(.navigationTitle)
+                    object.image = object.image?.tinted(with: UIColor.appColor(.navigationTitle)!)
+                }
+            }
+        }
+        
     }
 }
 

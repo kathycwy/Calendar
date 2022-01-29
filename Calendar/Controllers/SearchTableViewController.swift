@@ -8,32 +8,33 @@
 import UIKit
 import CoreData
 
-class SearchEventCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var startDateLabel: UILabel!
-    @IBOutlet weak var endDateLabel: UILabel!
-}
-
 class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     var events: [NSManagedObject] = []
+    let rowHeight: CGFloat = 80.0
     var selectedRow: Int? = 0
+    var savedSearchText: String? = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = rowHeight
+        self.tableView.estimatedRowHeight = rowHeight
 
         searchBar.delegate = self
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     //MARK: - Table view will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        events = getEventsFromSearch(searchText: savedSearchText!)
+        self.tableView.reloadData()
     }
     
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        savedSearchText = searchText
         if searchText == "" {
             events = []
         } else {
@@ -81,14 +82,37 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     {
         let event = events[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchEventCell", for: indexPath) as! SearchEventCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "searchEventCell", for: indexPath) as! EventCell
+        
+        cell.initCell(indexPath: indexPath)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
 
-        cell.titleLabel.text = event.value(forKeyPath: "title") as? String
+        // Set text
+        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
+        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let text = eventTitle + "\n" + eventLoc
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.onSurface) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle))
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.secondary) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        
+        cell.titleLabel.attributedText = attributedText
         cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
+        cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         
         return cell
     }
