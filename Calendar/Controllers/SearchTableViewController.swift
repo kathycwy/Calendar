@@ -19,6 +19,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     var events: [NSManagedObject] = []
     var selectedRow: Int? = 0
+    var savedSearchText: String? = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +31,13 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     //MARK: - Table view will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        events = getEventsFromSearch(searchText: savedSearchText!)
+        self.tableView.reloadData()
     }
     
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        savedSearchText = searchText
         if searchText == "" {
             events = []
         } else {
