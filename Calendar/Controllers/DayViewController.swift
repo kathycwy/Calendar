@@ -17,6 +17,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     var calendarDays: [CalendarDay] = []
     var hours = [Int]()
     let rowHeight: CGFloat = 80.0
+    var viewTags: [Int] = []
     
     let calendarHelper = CalendarHelper()
     var nRef = 1
@@ -72,7 +73,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
-                              animations: { self.hourTableView.reloadData() })
+                              animations: { self.setDayView() })
             NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDay as Any])
             
         }
@@ -81,13 +82,19 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
-                              animations: { self.hourTableView.reloadData() })
+                              animations: { self.setDayView() })
             NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDay as Any])
         }
         
     }
     
     func setDayView() {
+        for tag in viewTags {
+            if let z = view.viewWithTag(tag) as! UIButton? {
+                z.removeFromSuperview()
+            }
+        }
+        viewTags = []
         hourTableView.reloadData()
     }
     
@@ -221,6 +228,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             eventButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             eventButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
             hourTableView.addSubview(eventButton)
+            viewTags.append(tag)
         }
     }
 
@@ -262,12 +270,12 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     
     func scrollToToday(){
         self.selectedDay = self.calendarHelper.getCurrentDate()
-        self.hourTableView.reloadData()
+        self.setDayView()
     }
     
     func scrollToDate(date: Date){
         self.selectedDay = date
-        self.hourTableView.reloadData()
+        self.setDayView()
     }
     
     @objc func scrollToToday(_ notification: Notification) {
@@ -282,6 +290,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     
     override func reloadUI() {
         super.reloadUI()
+        self.setDayView()
         self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
     }
 }
