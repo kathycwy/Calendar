@@ -22,9 +22,29 @@ class PreferenceHeader: UIView {
         return label
     }()
     
-    let fontSizeLabel: UILabel = {
+    let notificationLabel: UILabel = {
         let label = UILabel()
         label.text = "Notification Settings"
+        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
+        //label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.appColor(.onPrimary)
+        return label
+    }()
+    
+    let calendarSettingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Calendar Setting"
+        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
+        //label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.appColor(.onPrimary)
+        return label
+    }()
+    
+    let appIconLabel: UILabel = {
+        let label = UILabel()
+        label.text = "App Icon"
         label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
         //label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +57,7 @@ class PreferenceHeader: UIView {
     func initHeader(section: Int) {
         backgroundColor = UIColor.appColor(.primary)
         switch section {
-        case 0:/*
+            /*case 0:
             let profileImageDimension: CGFloat = 60
             
             addSubview(profileImageView)
@@ -46,7 +66,12 @@ class PreferenceHeader: UIView {
             profileImageView.widthAnchor.constraint(equalToConstant: profileImageDimension).isActive = true
             profileImageView.heightAnchor.constraint(equalToConstant: profileImageDimension).isActive = true
             profileImageView.layer.cornerRadius = profileImageDimension / 2
+             break
                 */
+        case 0:
+            addSubview(appIconLabel)
+            appIconLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            appIconLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         case 1:
             addSubview(colourThemeLabel)
@@ -54,9 +79,14 @@ class PreferenceHeader: UIView {
             colourThemeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         case 2:
-            addSubview(fontSizeLabel)
-            fontSizeLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            fontSizeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            addSubview(notificationLabel)
+            notificationLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            notificationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            break
+        case 3:
+            addSubview(calendarSettingLabel)
+            calendarSettingLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            calendarSettingLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         default:
             break

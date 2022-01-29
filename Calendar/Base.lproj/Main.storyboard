@@ -364,11 +364,11 @@
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kO0-ph-pAb">
-                                <rect key="frame" x="0.0" y="88" width="209" height="352"/>
+                                <rect key="frame" x="0.0" y="88" width="209" height="202"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Luo-E1-rMH">
-                                        <rect key="frame" x="0.0" y="0.0" width="209" height="352"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="209" height="202"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
@@ -744,7 +744,6 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Save"/>
                                 <connections>
                                     <action selector="addEvent:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="N0p-Y2-mA1"/>
-                                    <segue destination="pnf-gb-Vad" kind="show" id="RGH-8S-iJ9"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -774,11 +773,11 @@
             <objects>
                 <viewController id="wO8-KG-OKN" customClass="EditEventController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J8M-mq-Kj9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
-                                <rect key="frame" x="30" y="20" width="354" height="536"/>
+                                <rect key="frame" x="30" y="108" width="354" height="536"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-ZC-gcP">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
@@ -1041,12 +1040,14 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Event list" id="wrh-Nb-gyT">
-                        <barButtonItem key="leftBarButtonItem" image="plus" catalog="system" id="XXx-Yf-uC5">
-                            <connections>
-                                <segue destination="pXJ-Nq-GYX" kind="show" identifier="" id="S9M-9Q-vD3"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" id="qpF-T7-mhM"/>
+                        <rightBarButtonItems>
+                            <barButtonItem id="qpF-T7-mhM"/>
+                            <barButtonItem image="plus" catalog="system" id="XXx-Yf-uC5">
+                                <connections>
+                                    <segue destination="pXJ-Nq-GYX" kind="show" identifier="" id="S9M-9Q-vD3"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -1062,11 +1063,11 @@
             <objects>
                 <viewController id="eW7-Iv-mGl" customClass="EventDetailsController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uGN-qp-JgU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NII-Ka-zdz">
-                                <rect key="frame" x="30" y="757" width="354" height="31"/>
+                                <rect key="frame" x="30" y="713" width="354" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete">
                                     <color key="baseForegroundColor" systemColor="systemRedColor"/>
@@ -1076,7 +1077,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
-                                <rect key="frame" x="30" y="20" width="354" height="287"/>
+                                <rect key="frame" x="30" y="108" width="354" height="287"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
@@ -1655,7 +1656,6 @@
                                             <outlet property="eventEndDate" destination="aab-eV-rrw" id="GV7-hK-6fd"/>
                                             <outlet property="eventStartDate" destination="dzf-mz-wOD" id="RrP-eV-9yd"/>
                                             <outlet property="eventTitle" destination="ljt-NG-bE2" id="YB5-My-R5F"/>
-                                            <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="sAF-qw-5YT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1678,6 +1678,7 @@
                         <outlet property="collectionView" destination="wa8-bb-VLJ" id="5oQ-3q-FJd"/>
                         <outlet property="contentView" destination="YDc-Mq-1qU" id="pl2-Tk-WDW"/>
                         <outlet property="tableView" destination="ycA-04-GPv" id="cW0-II-Mfm"/>
+                        <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="6ie-4K-NZU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1703,13 +1704,13 @@
         <!--Preference-->
         <scene sceneID="GOL-Sz-dad">
             <objects>
-                <viewController storyboardIdentifier="preferences" id="pLB-9u-UeQ" customClass="PreferencesViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="preferences" automaticallyAdjustsScrollViewInsets="NO" id="pLB-9u-UeQ" customClass="PreferencesViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6t7-Z0-9nA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bke-qp-l7u">
-                                <rect key="frame" x="0.0" y="88" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preferences" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4UX-Zk-oie">
                                         <rect key="frame" x="20" y="10" width="374" height="20"/>
@@ -1727,9 +1728,8 @@
                                     <constraint firstAttribute="bottom" secondItem="4UX-Zk-oie" secondAttribute="bottom" constant="10" id="qZ7-Od-qdz"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ih8-Kf-iPg">
-                                <rect key="frame" x="20" y="128" width="394" height="734"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="never" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ih8-Kf-iPg">
+                                <rect key="frame" x="20" y="40" width="394" height="734"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="preferenceCell" id="InH-Jm-2s4" customClass="PreferenceCell" customModule="Calendar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="394" height="43.5"/>
@@ -1738,6 +1738,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJd-9w-7ko">
+                                                    <rect key="frame" x="0.0" y="0.0" width="167" height="83.5"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon283.5x83.5.png" translatesAutoresizingMaskIntoConstraints="NO" id="9Dd-l4-pj5">
+                                                            <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
+                                                        </imageView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon83.5x83.5.png" translatesAutoresizingMaskIntoConstraints="NO" id="yAR-qX-gSr">
+                                                            <rect key="frame" x="83.5" y="0.0" width="83.5" height="83.5"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colour Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vvt-14-8RF" customClass="PaddingLabel" customModule="Calendar" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="-0.5" width="394" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1759,12 +1770,16 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="si3-yo-Gan" firstAttribute="centerY" secondItem="p6p-Ay-yaD" secondAttribute="centerY" id="8to-KK-Pmf"/>
+                                                <constraint firstItem="dJd-9w-7ko" firstAttribute="leading" secondItem="p6p-Ay-yaD" secondAttribute="leading" id="DNt-gZ-NK8"/>
                                                 <constraint firstItem="MG6-5w-5Hp" firstAttribute="centerY" secondItem="p6p-Ay-yaD" secondAttribute="centerY" id="PpC-fN-B8J"/>
                                                 <constraint firstItem="si3-yo-Gan" firstAttribute="trailing" secondItem="p6p-Ay-yaD" secondAttribute="trailing" constant="-20" id="VWU-W1-A0f"/>
                                                 <constraint firstItem="MG6-5w-5Hp" firstAttribute="trailing" secondItem="p6p-Ay-yaD" secondAttribute="trailing" constant="-20" id="asj-Nx-y6N"/>
+                                                <constraint firstItem="dJd-9w-7ko" firstAttribute="top" secondItem="p6p-Ay-yaD" secondAttribute="top" id="xqN-0J-EUI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="appIconGImageView" destination="9Dd-l4-pj5" id="etj-2s-QWb"/>
+                                            <outlet property="appIconRImageView" destination="yAR-qX-gSr" id="bIM-6M-vZC"/>
                                             <outlet property="label" destination="vvt-14-8RF" id="5lN-5u-QXs"/>
                                             <outlet property="prefSegControl" destination="si3-yo-Gan" id="9By-q1-x6V"/>
                                             <outlet property="prefSwitch" destination="MG6-5w-5Hp" id="x3h-RO-W1r"/>
@@ -1786,6 +1801,7 @@
                             <constraint firstItem="ih8-Kf-iPg" firstAttribute="bottom" secondItem="Dy8-C8-ABd" secondAttribute="bottom" id="w2T-fu-Teh"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Preference" image="gearshape" catalog="system" id="wfz-fb-hWS"/>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="HFI-Wl-HdA">
                         <barButtonItem key="backBarButtonItem" title=" " id="qe7-9c-bwg"/>
@@ -1802,11 +1818,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="IED-Qy-qtG"/>
-        <segue reference="RGH-8S-iJ9"/>
+        <segue reference="pL8-76-e5Y"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="AppIcon283.5x83.5.png" width="83.5" height="83.5"/>
+        <image name="AppIcon83.5x83.5.png" width="83.5" height="83.5"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="button:ehm-an-oKH:image" width="128" height="121">
             <mutableData key="keyedArchiveRepresentation">
