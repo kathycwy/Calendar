@@ -774,7 +774,7 @@
             <objects>
                 <viewController id="wO8-KG-OKN" customClass="EditEventController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J8M-mq-Kj9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
@@ -1062,11 +1062,11 @@
             <objects>
                 <viewController id="eW7-Iv-mGl" customClass="EventDetailsController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uGN-qp-JgU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NII-Ka-zdz">
-                                <rect key="frame" x="30" y="757" width="354" height="31"/>
+                                <rect key="frame" x="30" y="620" width="354" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete">
                                     <color key="baseForegroundColor" systemColor="systemRedColor"/>
@@ -1817,7 +1817,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="IED-Qy-qtG"/>
+        <segue reference="sAF-qw-5YT"/>
         <segue reference="RGH-8S-iJ9"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
