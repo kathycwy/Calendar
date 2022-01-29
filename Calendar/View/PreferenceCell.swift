@@ -189,7 +189,7 @@ class PreferenceCell: UITableViewCell {
          */
     }
     
-    // MARK: - Selectors
+    // MARK: - Actions
     
     @objc func greenAppIconTapped(_ sender: UITapGestureRecognizer) {
         appIconHelper.changeAppIcon(appIcon: .AppIconPrimary)

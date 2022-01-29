@@ -10,6 +10,9 @@ import CoreData
 
 class EditEventController: CalendarUIViewController {
     
+    // MARK: - Properties
+    
+    @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var allDaySwitch: UISwitch!
     @IBOutlet weak var startDateField: UIDatePicker!
@@ -22,11 +25,12 @@ class EditEventController: CalendarUIViewController {
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
     
-    
-    //MARK: - viewDidLoad
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         endDateField.minimumDate = startDateField.date
+        pageTitleLabel.textColor = .appColor(.navigationTitle)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +52,8 @@ class EditEventController: CalendarUIViewController {
         notesField.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
         
     }
+    
+    // MARK: - Actions
     
     @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
         if allDaySwitch.isOn {

@@ -8,28 +8,41 @@
 import UIKit
 import CoreData
 
-class EventCell: UITableViewCell {
-    @IBOutlet weak var titleLable: UILabel!
-    @IBOutlet weak var startDateLable: UILabel!
-    @IBOutlet weak var endDateLable: UILabel!
-}
-
 class EventListController: UITableViewController {
     
-    var events: [NSManagedObject] = []
+    // MARK: - Properties
     
+    var events: [NSManagedObject] = []
+    let rowHeight: CGFloat = 80.0
     var selectedRow: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = rowHeight
+        self.tableView.estimatedRowHeight = rowHeight
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
+    
+    // MARK: - Init
 
-    //MARK: - Table view will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateView()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "eventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+            
+            if selectedRow != nil {
+                destinationVC.event = self.events[self.selectedRow!]
+                destinationVC.eventID = self.events[self.selectedRow!].objectID
+            }
+        }
+    }
+    
+    // MARK: - Helper functions
     
     func getEventsByStartDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
         fetchEvents()
@@ -139,22 +152,46 @@ class EventListController: UITableViewController {
         }
     }
 
-    //MARK: - Standard Tableview methods
+    // MARK: - Standard Tableview methods
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
     }
-    // MARK:  init the Cell with data
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = events[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
+        cell.initCell(indexPath: indexPath)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
         
-        cell.titleLable.text = event.value(forKeyPath: EventsStruct.titleAttribute) as? String
-        cell.startDateLable.text = formatter.string(from: event.value(forKeyPath: EventsStruct.startDateAttribute) as! Date)
-        cell.endDateLable.text = formatter.string(from: event.value(forKeyPath: EventsStruct.endDateAttribute) as! Date)
+
+        // Set text
+        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
+        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let text = eventTitle + "\n" + eventLoc
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.onSurface) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle))
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.appColor(.secondary) as Any,
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
+                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+        
+        cell.titleLabel.attributedText = attributedText
+        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
+        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
+        cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         
         return cell
     }
@@ -165,25 +202,4 @@ class EventListController: UITableViewController {
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if (segue.identifier == "eventCellTapped") {
-            let destinationVC = segue.destination as! EventDetailsController
-            
-            if selectedRow != nil {
-                destinationVC.event = self.events[self.selectedRow!]
-                destinationVC.eventID = self.events[self.selectedRow!].objectID
-            }
-        }
-        
-    }
-}
-
-extension Date {
-    public var removeTimeStamp : Date? {
-       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
-        return nil
-       }
-       return date
-   }
 }

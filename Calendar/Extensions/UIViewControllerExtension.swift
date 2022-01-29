@@ -10,7 +10,16 @@ import UIKit
 
 class CalendarUIViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var selectedDate: Date = Date()
+    
+    // MARK: - Init
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

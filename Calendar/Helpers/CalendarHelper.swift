@@ -8,6 +8,9 @@
 import Foundation
 
 struct CalendarHelper {
+    
+    // MARK: - Properties
+    
     var calendar = Calendar.current
     
     func nextMonth(date: Date) -> Date{
@@ -128,6 +131,22 @@ struct CalendarHelper {
     func weekOfYear(date: Date) -> Int{
         let components = calendar.dateComponents([.weekOfYear], from: date)
         return components.weekOfYear!
+    }
+    
+    func getStartOfDayTime(date: Date) -> Date?{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let dateStr = dateFormatter.string(from: date) + " 00:00:00"
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss"
+        return dateFormatter.date(from: dateStr)
+    }
+    
+    func getEndOfDayTime(date: Date) -> Date?{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let dateStr = dateFormatter.string(from: date) + " 23:59:59"
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss"
+        return dateFormatter.date(from: dateStr)
     }
     
     func todayDateString(date: Date) -> String{

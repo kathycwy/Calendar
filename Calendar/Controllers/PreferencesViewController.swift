@@ -7,8 +7,6 @@
 
 import UIKit
 
-private let reuseIdentifier = "preferenceCell"
-
 class PreferencesViewController: CalendarUIViewController {
     
     // MARK: - Properties
@@ -19,25 +17,22 @@ class PreferencesViewController: CalendarUIViewController {
     var preferenceHeader: PreferenceHeader!
     var prefValues: [PrefRowIdentifier: Bool] = [:]
     let appIconHelper = AppIconHelper()
+
+    lazy var tableViewDataSource: PreferencesDataSource = {
+        let tableView = PreferencesDataSource()
+        return tableView
+    }()
     
     // MARK: - Init
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        self.initTableView()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let backItem = UIBarButtonItem()
-        backItem.title = " "
-        navigationItem.backBarButtonItem = backItem
-    }
-
-    // MARK: - Helper Functions
-    
-    func configureTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
+    func initTableView() {
+        tableView.delegate = tableViewDataSource
+        tableView.dataSource = tableViewDataSource
         
         tableView.frame = view.frame
         if #available(iOS 11, *) {
@@ -55,15 +50,12 @@ class PreferencesViewController: CalendarUIViewController {
         let frame = CGRect(x: 0, y: 80, width: view.frame.width, height: 100)
         preferenceHeader = PreferenceHeader(frame: frame)
         tableView.tableHeaderView = preferenceHeader
-        tableView.tableFooterView = UIView()
         titleView.backgroundColor = .appColor(.onPrimary)
         titleLabel.textColor = .appColor(.primary)
         titleLabel.font = titleLabel.font.withSize((UIFont.appFontSize(.collectionViewHeader) ?? 17) + 5 )
     }
     
-    func configureUI() {
-        configureTableView()
-    }
+    // MARK: - Helper Functions
     
     override func reloadUI() {
         super.reloadUI()
@@ -75,6 +67,9 @@ class PreferencesViewController: CalendarUIViewController {
         self.tableView.reloadData()
         
         let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .appColor(.navigationBackground)
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
+        navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
                    
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
@@ -90,7 +85,6 @@ class PreferencesViewController: CalendarUIViewController {
         self.navigationController?.navigationBar.compactAppearance = navigationBarAppearance
         self.navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         self.navigationController?.navigationBar.compactScrollEdgeAppearance = navigationBarAppearance
-        self.navigationController?.navigationBar.isTranslucent = true
         
         self.tabBarController?.tabBar.isTranslucent = false
         let tabBarAppearance = UITabBarAppearance()
@@ -100,49 +94,17 @@ class PreferencesViewController: CalendarUIViewController {
         self.tabBarController?.tabBar.tintColor = .appColor(.navigationTitle)
         self.tabBarController?.tabBar.standardAppearance = tabBarAppearance
         self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarAppearance
-    }
-}
-
-extension PreferencesViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return 1
-        case 1: return 3
-        case 2: return 1
-        case 3: return 1
-        default: return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = PreferenceHeader()
-        view.initHeader(section: section)
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! PreferenceCell
         
-        cell.initCell(indexPath: indexPath)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            var height:CGFloat = CGFloat()
-        if indexPath.section == 0 {
-                height = 100
+        for view in self.navigationController?.navigationBar.subviews ?? [] {
+            let subviews = view.subviews
+            for objects in subviews {
+                if let object = objects as? UIImageView {
+                    object.tintColor = UIColor.appColor(.navigationTitle)
+                    object.image = object.image?.tinted(with: UIColor.appColor(.navigationTitle)!)
+                }
             }
-            else {
-                height = 60
-            }
-            return height
         }
-    
+        
+    }
 }
 

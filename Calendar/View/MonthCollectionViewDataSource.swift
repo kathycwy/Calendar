@@ -9,6 +9,7 @@ import UIKit
 
 class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
+    // MARK: - Properties
 
     //private var calendarRange: [CalendarDay] = []
     private var isAsInnerCollectionView: Bool = false
@@ -19,6 +20,8 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
     private let defNumOfCells: Int = 42
     private var selectedIndexPath: IndexPath? = nil
     private var eventsPerDate: [NSObject]? = nil
+    
+    // MARK: - Init
 
     init(calendarMonths: [CalendarMonth], selectedDate: Date, isAsInnerCollectionView: Bool = false){
         super.init()
@@ -27,22 +30,8 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
             self.calendarMonths = calendarMonths
         }
     }
-
-    // Number of months shown
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if calendarMonths.count == 0{
-            return defNumOfMonths
-        }
-        return calendarMonths.count
-    }
-
-    // Number of days shown in a particular month
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if calendarMonths.count == 0{
-            return defNumOfCells
-        }
-        return calendarMonths[section].calendarDays.count
-    }
+    
+    // MARK: - Helper functions
     
     func getCalendarMonths() -> [CalendarMonth]{
         return self.calendarMonths
@@ -120,6 +109,24 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
         self.selectedIndexPath = indexPath
     }
     
+    // MARK: - Standard CollectionView methods
+    
+    // Number of months shown
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if calendarMonths.count == 0{
+            return defNumOfMonths
+        }
+        return calendarMonths.count
+    }
+
+    // Number of days shown in a particular month
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if calendarMonths.count == 0{
+            return defNumOfCells
+        }
+        return calendarMonths[section].calendarDays.count
+    }
+    
     // Contrusting the header of the collection view - Showing Month
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
@@ -152,22 +159,6 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
             fatalError("Invalid element type")
         }
     }
-    
-    
-    /*
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-
-        // Get the view for the first header
-        let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-
-        // Use this view to calculate the optimal size based on the collection view's width
-        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
-                                                  withHorizontalFittingPriority: .required, // Width is fixed
-                                                  verticalFittingPriority: .fittingSizeLevel) // Height can be as large as needed
-    }
-     */
-
     
     // Contrusting the cells of the collection view - Showing dates
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -241,7 +232,6 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
         return cell
     }
     
-    
     func collectionView (_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             if !calendarMonths.indices.contains(indexPath.section) {
@@ -250,14 +240,5 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
             }
         }
     }
-    /*
-    func collectionView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-          if let loader = operations[indexPath] {
-            loader.cancel()
-            operations[indexPath] = nil
-        }
-      }
-    }
-     */
+    
 }

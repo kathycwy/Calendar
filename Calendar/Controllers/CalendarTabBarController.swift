@@ -2,9 +2,13 @@ import UIKit
 
 class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    // MARK: - Properties
+    
     var freshLaunch:Bool = true
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
+    
+    // MARK: - Init
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +20,7 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
              freshLaunch = false
              self.selectedIndex = 1
          }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -28,6 +33,8 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
        }
        return true
    }
+    
+    // MARK: - Helper functions
     
     func reloadUI() {
         self.view.setNeedsDisplay()

@@ -9,13 +9,17 @@ import Foundation
 import UIKit
 
 class MonthCell: UICollectionViewCell {
-
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var dateLabel : PaddingLabel!
     @IBOutlet weak var taskLabel : PaddingLabel!
     @IBOutlet weak var weekLabel : UILabel!
     @IBOutlet weak var isSelectedLabel : UILabel!
     var cellDate: Date? = nil
     
+    // MARK: - Init
+
     override func prepareForReuse() {
         super.prepareForReuse()
         initLabel()
@@ -34,6 +38,8 @@ class MonthCell: UICollectionViewCell {
         taskLabel.text = ""
     }
     
+    // MARK: - Helper functions
+
     // Call this function if there are events on this day
     func setTaskIndicator(numberOfTasks: Int = 10){
         taskLabel.text = String(numberOfTasks)
@@ -44,19 +50,5 @@ class MonthCell: UICollectionViewCell {
         taskLabel.font = taskLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 8)
         
     }
-/*
-    static let reuseIdentifier = "monthCell"
-
-    static func register(with collectionView: UICollectionView) {
-        collectionView.register(MonthCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-    }
-
-    static func dequeue(from collectionView: UICollectionView, at indexPath: IndexPath, forDay day: Int) -> MonthCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? MonthCell ?? MonthCell()
-
-        cell.dateLabel.text = String(format: "%02d", day)
-
-        return cell
-    }
- */
+    
 }

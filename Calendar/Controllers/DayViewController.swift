@@ -11,6 +11,8 @@ import CoreData
 
 class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var hourTableView: UITableView!
     
     var selectedDay: Date = Date()
@@ -22,7 +24,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     let calendarHelper = CalendarHelper()
     var nRef = 1
     
-    
+    // MARK: - Init
+
     override func loadView() {
         super.loadView()
         
@@ -34,7 +37,6 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         // to allow scrolling below the last cell
         hourTableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
 
-        hourTableView.register(TimeCell.self, forCellReuseIdentifier: "timeCell")
     }
     
     override func viewDidLoad() {
@@ -67,6 +69,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         self.hourTableView.addGestureRecognizer(rightSwipe)
     }
     
+    // MARK: - Actions
+
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
@@ -88,7 +92,39 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
     }
     
-    func setDayView() {
+    // MARK: - Helper functions
+
+    func formatHour(hour: Int) -> String {
+        return String(format: "%02d:%02d", hour, 0)
+    }
+    
+    func scrollToToday(){
+        self.selectedDay = self.calendarHelper.getCurrentDate()
+        self.setDayView()
+    }
+    
+    func scrollToDate(date: Date){
+        self.selectedDay = date
+        self.setDayView()
+    }
+    
+    @objc func scrollToToday(_ notification: Notification) {
+        scrollToToday()
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           self.scrollToDate(date: selectedDate)
+       }
+    }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        self.setDayView(scroll: false)
+        self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
+    }
+
+    func setDayView(scroll: Bool = true) {
         for tag in viewTags {
             if let z = view.viewWithTag(tag) as! UIButton? {
                 z.removeFromSuperview()
@@ -96,7 +132,15 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         }
         viewTags = []
         hourTableView.reloadData()
+        
+        if scroll {
+            if !self.hourTableView.visibleCells.isEmpty {
+                self.hourTableView.scrollToRow(at: IndexPath(item: 6, section: 0), at: .top, animated: false)
+            }
+        }
     }
+    
+    // MARK: - Standard Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hours.count
@@ -130,7 +174,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell", for: indexPath) as! TimeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dailyCell", for: indexPath) as! DayCell
+        cell.initCell()
         if indexPath.row > 0 {
             cell.topTime = "\(indexPath.row):00"
         } else {
@@ -158,21 +203,27 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         formatter.dateFormat = "mm"
         
         var index = 0
-        for event in events {
-            if let startDate = event.value(forKeyPath: "startDate") as? Date {
-                if let endDate = event.value(forKeyPath: "endDate") as? Date {
-                    let elapsedTime = endDate.timeIntervalSince(startDate)
-                    
-                    let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
-                    
-                    let cellWidth = (full_width - CGFloat(buffer * (total_event - 1))) / CGFloat(total_event)
-                    let height = max(rowHeight / 3600 * elapsedTime, 30)
-                    let offsetY = rowHeight * (minutes / 60)
-                    let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                    add_event(indexPath: indexPath, nRef: indexPath.row, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: startDate, endDate: endDate, index: index)
+        
+        if let startDateTime = self.calendarHelper.getStartOfDayTime(date: self.selectedDay) {
+            if let endDateTime = self.calendarHelper.getEndOfDayTime(date: self.selectedDay) {
+                for event in events {
+                    if let startDate = event.value(forKeyPath: "startDate") as? Date {
+                        if let endDate = event.value(forKeyPath: "endDate") as? Date {
+                            let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
+                            
+                            let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
+                            
+                            let cellWidth = (full_width - CGFloat(buffer * (total_event - 1))) / CGFloat(total_event)
+                            let height = max(rowHeight / 3600 * elapsedTime, 30)
+                            let offsetY = rowHeight * (minutes / 60)
+                            let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                                add_event(indexPath: indexPath, nRef: indexPath.row, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                            
+                        }
+                    }
+                    index = index + 1
                 }
             }
-            index = index + 1
         }
     }
     
@@ -203,13 +254,13 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             let frame = CGRect(x: CGFloat(x_loc) + offsetX, y: rectOfCellInSuperviewCoordinates.origin.y + offsetY, width: width, height: height)
             let eventButton = UIButton(frame: frame)
 
-            eventButton.backgroundColor = .appColor(.primary)?.withAlphaComponent(0.5)
+            eventButton.backgroundColor = .appColor(.primary)?.withAlphaComponent(0.6)
             
             
             let text = eventTitle + "\n" + eventDate + "\n" + eventLoc
             let attributedText = NSMutableAttributedString(string: text)
             attributedText.addAttribute(.foregroundColor,
-                                        value: UIColor.appColor(.onPrimary),
+                                        value: UIColor.appColor(.onPrimary) as Any,
                                         range: attributedText.getRangeOfString(textToFind: text))
             attributedText.addAttribute(.font,
                                         value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
@@ -221,6 +272,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                                         value: UIFont.systemFont(ofSize: UIFont.appFontSize(.innerCollectionViewHeader) ?? 11),
                                         range: attributedText.getRangeOfString(textToFind: eventLoc))
             
+            eventButton.titleLabel?.numberOfLines = 0
+            eventButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
             eventButton.setAttributedTitle(attributedText, for: .normal)
             //eventButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping
             eventButton.layer.cornerRadius = 2
@@ -230,68 +283,6 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             hourTableView.addSubview(eventButton)
             viewTags.append(tag)
         }
-    }
-
-    
-    func setEvents(_ cell: DayCell, _ events: [NSManagedObject]) {
-            hideAll(cell)
-            switch events.count
-            {
-            case 1:
-                setEvent(cell, events[0])
-            
-            case let count where count > 1:
-                setEvent(cell, events[0])
-                setMoreEvents(cell, events.count - 1)
-            default:
-                break
-            }
-        }
-        
-        
-    func setMoreEvents(_ cell: DayCell, _ count: Int) {
-        cell.moreEvents.isHidden = false
-        cell.moreEvents.text = String(count) + " More Events"
-    }
-    
-    func setEvent(_ cell: DayCell, _ event: NSManagedObject) {
-        cell.event.isHidden = false
-        cell.event.text = event.value(forKeyPath: "title") as? String
-    }
-    
-    func hideAll(_ cell: DayCell) {
-        cell.event.isHidden = true
-        cell.moreEvents.isHidden = true
-    }
-    
-    func formatHour(hour: Int) -> String {
-        return String(format: "%02d:%02d", hour, 0)
-    }
-    
-    func scrollToToday(){
-        self.selectedDay = self.calendarHelper.getCurrentDate()
-        self.setDayView()
-    }
-    
-    func scrollToDate(date: Date){
-        self.selectedDay = date
-        self.setDayView()
-    }
-    
-    @objc func scrollToToday(_ notification: Notification) {
-        scrollToToday()
-    }
-    
-    @objc func scrollToDate(_ notification: Notification) {
-       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
-           self.scrollToDate(date: selectedDate)
-       }
-    }
-    
-    override func reloadUI() {
-        super.reloadUI()
-        self.setDayView()
-        self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
     }
 }
 

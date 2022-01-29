@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 class DayHeader : UITableViewHeaderFooterView {
+    
+    // MARK: - Properties
+    
     let dayLabel = LightPaddingLabel()
     let dowLabel = LightPaddingLabel()
+    
+    // MARK: - Init
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -19,6 +24,11 @@ class DayHeader : UITableViewHeaderFooterView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        configureContents()
     }
     
     func configureContents() {
