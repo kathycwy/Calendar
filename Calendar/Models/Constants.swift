@@ -46,6 +46,7 @@ struct Constants {
         static let calendarAttribute: String = "calendar"
         static let urlAttribute: String = "url"
         static let notesAttribute: String = "notes"
+        static let remindOptionAttribute: String = "remindOption"
     }
     
     // event repeating options
