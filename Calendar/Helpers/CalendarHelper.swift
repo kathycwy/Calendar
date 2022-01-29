@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A helper class containing all functions about date, time and construnction of calendar structs
 
 import Foundation
 

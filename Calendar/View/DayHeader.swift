@@ -4,6 +4,7 @@
 //
 //  Created by Aparna Joshi on 26/01/22.
 //
+//  A header class used for showing the date in Day View
 
 import Foundation
 import UIKit

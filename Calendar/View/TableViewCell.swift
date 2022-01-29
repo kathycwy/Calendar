@@ -4,6 +4,7 @@
 //
 //  Created by Samuel Kwong on 25.01.22.
 //
+//  A cell class used for showing the function name and icon in the Nav bar
 
 import UIKit
 

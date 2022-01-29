@@ -40,7 +40,7 @@ class PreferencesDataSource: NSObject, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            var height:CGFloat = CGFloat()
+        var height:CGFloat = CGFloat()
         if indexPath.section == 0 {
                 height = 100
             }

@@ -1,3 +1,11 @@
+//
+//  CalendarMonth.swift
+//  Calendar
+//
+//  Created by C Chan on 17/12/2021.
+//
+//  A struct for storing all constant values
+
 import UIKit
 
 struct Constants {
