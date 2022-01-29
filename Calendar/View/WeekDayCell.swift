@@ -15,12 +15,16 @@ class WeekDayCell: UICollectionViewCell {
     @IBOutlet weak var taskLabel : PaddingLabel!
     var rollingWeekNumber: Int = -1
     
+    override func prepareForReuse() {
+        initDateLabel()
+    }
+    
     func initDateLabel(){
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.appColor(.surface)?.cgColor
         dateLabel.textColor = UIColor.appColor(.tertiary)
         dateLabel.backgroundColor = UIColor.appColor(.background)
-        dateLabel.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 12)
+        dateLabel.font.withSize(UIFont.appFontSize(.collectionViewHeader) ?? 12)
         dateLabel.text = ""
         dateLabel.padding(3, 3, 3, 3)
         dayOfWeekLabel.text = ""
