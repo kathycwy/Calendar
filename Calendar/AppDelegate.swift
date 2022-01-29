@@ -49,18 +49,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func checkAuthorization(checkNotificationStatus isEnabled : ((Bool)->())? = nil){
-            notificationCenter.getNotificationSettings { (setttings) in
-                    switch setttings.authorizationStatus{
-                    case .authorized:
-                        isEnabled?(true)
-                    case .denied:
-                        isEnabled?(false)
-                    case .notDetermined:
-                        isEnabled?(false)
-                    default:
-                        isEnabled?(false)
-                    }
-                }
+        notificationCenter.getNotificationSettings { (setttings) in
+            switch setttings.authorizationStatus {
+                case .authorized:
+                    isEnabled?(true)
+                case .denied:
+                    isEnabled?(false)
+                case .notDetermined:
+                    isEnabled?(false)
+                default:
+                    isEnabled?(false)
+            }
+        }
+    }
+    
+    func scheduleNotification(eventTitle: String, remindDate: Date, startDate: Date, endDate: Date, notID: String) {
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+        content.title = eventTitle
+        content.body = "Scheduled from " + formattedDate(date: startDate) + " to " + formattedDate(date: endDate)
+        
+        let dateCompRemind = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: remindDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateCompRemind, repeats: false)
+        let request = UNNotificationRequest(identifier: notID, content: content, trigger: trigger)
+        
+        self.notificationCenter.add(request) { (error) in
+            if (error != nil) {
+                print("Error " + error.debugDescription)
+                return
+            }
+        }
+    }
+    
+    func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM y, HH:mm"
+        return formatter.string(from: date)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
