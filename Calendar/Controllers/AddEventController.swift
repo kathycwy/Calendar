@@ -13,6 +13,7 @@ import EventKitUI
 final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var savedEventId : String = ""
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     // MARK: - Properties
 
@@ -28,6 +29,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet private var locationField: UITextField!
     @IBOutlet private var urlField: UITextField!
     @IBOutlet private var notesField: UITextField!
+    @IBOutlet weak var remindButton: UIButton!
+    
     
     // MARK: -
     var managedObjectContext: NSManagedObjectContext?
@@ -36,6 +39,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var repeatOption: String = ""
     var endRepeatOption: String = ""
     var endRepeatDate: Date?
+    var remindOption: String = ""
     var selectedRow = 0
 
     // MARK: - Actions
@@ -48,7 +52,11 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         endRepeatStack.isHidden = true
         endRepeatDatePicker.isHidden = true
         endRepeatAfterCertainTimesButton.isHidden = true
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc fileprivate func willEnterForeground() {
+        self.changeRemindButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,7 +101,37 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             UIAction(title: EventsStruct.endRepeatOnDate, handler: endRepeatClosure),
             UIAction(title: EventsStruct.endRepeatAfterCertainTimes, handler: endRepeatClosure)
           ])
+        
+        let remindButtonClosure = { (action: UIAction) in
+            self.remindOption = action.title
+        }
+        
+        //if notifications are not authorized, disable the menu and treat as regular button
+        self.changeRemindButton()
+        
+        remindButton.menu = UIMenu(children: [
+            UIAction(title: EventsStruct.remindNever, state: .on, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind5Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind10Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind15Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind30Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Hr, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind2Hr, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Day, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind2Day, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Wk, handler: remindButtonClosure),
+          ])
 
+    }
+    
+    func changeRemindButton() {
+        self.appDelegate?.checkAuthorization {  (isEnabled) in
+            if (isEnabled == false) {
+                self.remindButton.showsMenuAsPrimaryAction = false
+            } else {
+                self.remindButton.showsMenuAsPrimaryAction = true
+            }
+        }
     }
     
     @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
@@ -228,6 +266,25 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         return result
     }
     
+    @IBAction func remindButtonPressed(_ sender: Any) {
+        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+        if isNotificationEnabled == false {
+            self.remindButton.showsMenuAsPrimaryAction = false
+            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
+            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
+                else {
+                    return
+                }
+                if (UIApplication.shared.canOpenURL(settingsURL)) {
+                    UIApplication.shared.open(settingsURL) { (_) in }
+                }
+            }
+            alert.addAction(goToSettings)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
+            self.present(alert, animated: true)
+        }
+    }
     
     ///////////// CoreData //////////
     @IBAction func addEvent(_ sender: Any) {
@@ -249,6 +306,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         let location = locationField.text
         let url = urlField.text
         let notes = notesField.text
+        var remindOption = self.remindOption
+        //Handles case when notifications are disabled after selecting an option
+        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+        if isNotificationEnabled == false {
+            remindOption = EventsStruct.remindNever
+        }
         
         // set all-day event to 00:00 - 23:59
         if allDaySwitchState {
@@ -283,6 +346,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(location, forKeyPath: EventsStruct.locationAttribute)
             event.setValue(url, forKeyPath: EventsStruct.urlAttribute)
             event.setValue(notes, forKeyPath: EventsStruct.notesAttribute)
+            event.setValue(remindOption, forKeyPath: EventsStruct.remindOptionAttribute)
 
             do {
                 try managedContext.save()
