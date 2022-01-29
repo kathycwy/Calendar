@@ -215,7 +215,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                                         range: attributedText.getRangeOfString(textToFind: eventLoc))
             
             eventButton.setAttributedTitle(attributedText, for: .normal)
-            
+            //eventButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping
             eventButton.layer.cornerRadius = 2
             eventButton.tag = tag
             eventButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
