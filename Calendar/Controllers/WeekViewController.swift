@@ -37,6 +37,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
 
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
+        
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -216,7 +218,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return EventListController().getEventsByDate(currentDate: self.selectedDate).count
+        self.allEvents = EventListController().getEventsByDate(currentDate: self.selectedDate)
+        return self.allEvents.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -225,7 +228,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
+        let event = self.allEvents[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         

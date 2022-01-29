@@ -292,6 +292,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             }
         }
         
+        // go back to previous controller
+        navigationController?.popViewController(animated: true)
 
     }
   
