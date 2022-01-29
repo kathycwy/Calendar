@@ -18,6 +18,7 @@ class EventListController: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = rowHeight
         self.tableView.estimatedRowHeight = rowHeight
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     //MARK: - Table view will appear
