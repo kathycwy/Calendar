@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 class DayHeader : UITableViewHeaderFooterView {
-    let dayLabel = PaddingLabel()
-    let dowLabel = PaddingLabel()
+    let dayLabel = LightPaddingLabel()
+    let dowLabel = LightPaddingLabel()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

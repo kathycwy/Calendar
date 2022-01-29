@@ -15,60 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialise user setting variables
         UserDefaults.standard.register(
             defaults: [
-                "ColourTheme": Constants.ColourThemes.teal,
-                "FontSize": Constants.FontSize.normal,
-                "DisplayWeekNumber": true,
-                "StartDayOfWeek": 7
+                Constants.UserDefaults.ColourTheme: Constants.ColourThemes.teal,
+                Constants.UserDefaults.FontSize: Constants.FontSize.normal,
+                Constants.UserDefaults.DisplayWeekNumber: true,
+                Constants.UserDefaults.StartDayOfWeek: 7
             ]
         )
-        // Initialise colour theme
-        if #available(iOS 13.0, *) {
-            let navigationBarAppearance = UINavigationBarAppearance()
-                       
-            navigationBarAppearance.backgroundColor = .appColor(.navigationBackground)
-            navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
-            navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.appColor(.navigationTitle)!]
-            
-            UINavigationBar.appearance().backgroundColor = .appColor(.navigationBackground)
-            UINavigationBar.appearance().barTintColor = .appColor(.navigationBackground)
-            UIBarButtonItem.appearance().tintColor = .appColor(.surface)
-            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.surface)!], for: .selected)
-            UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onSurface)!], for: .normal)
-            
-            UINavigationBar.appearance().isTranslucent = false
-            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
-            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-            
-            let tabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
-            UITabBar.appearance().barTintColor = .appColor(.navigationBackground)
-            UITabBar.appearance().tintColor = .appColor(.navigationTitle)
-            UITabBar.appearance().standardAppearance = tabBarAppearance
-            
-        }
-        else {
-            // Fallback on earlier versions
-            UINavigationBar.appearance().isTranslucent = false
-            UINavigationBar.appearance().barTintColor = .appColor(.navigationBackground)
-            UINavigationBar.appearance().tintColor = .appColor(.navigationTitle)
-            UITabBar.appearance().tintColor = .appColor(.navigationTitle)
-        }
-        UISegmentedControl.appearance().selectedSegmentTintColor = .appColor(.onSurface)
-        UISegmentedControl.appearance().backgroundColor = .appColor(.surface)
-        UISegmentedControl.appearance().tintColor = .appColor(.surface)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.surface)!], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.appColor(.onSurface)!], for: .normal)
-        UIButton.appearance().tintColor = UIColor.appColor(.navigationTitle)!
-        UISwitch.appearance().onTintColor = .appColor(.navigationTitle)
-        UIRefreshControl.appearance().tintColor = .appColor(.navigationTitle)
-        UIToolbar.appearance().tintColor = .appColor(.navigationTitle)
         
-
-        let popoverBarAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [UIPopoverPresentationController.self])
-        popoverBarAppearance.tintColor = .appColor(.navigationTitle)
-        popoverBarAppearance.barTintColor = nil
-        popoverBarAppearance.barStyle = .default
+        if !UserDefaults.exists(key: Constants.UserDefaults.DarkMode) {
+            UserDefaults.standard.set(false, forKey: "DarkMode")
+            if #available(iOS 13.0, *) {
+                if UITraitCollection.current.userInterfaceStyle == .dark {
+                    UserDefaults.standard.set(true, forKey: "DarkMode")
+                }
+            }
+        }
+        
+        // Initialise colour theme
+        ThemeHelper.applyTheme()
         
         return true
     }

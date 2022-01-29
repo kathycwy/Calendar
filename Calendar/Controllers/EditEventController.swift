@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class EditEventController: UIViewController {
+class EditEventController: CalendarUIViewController {
     
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var allDaySwitch: UISwitch!
@@ -18,7 +18,6 @@ class EditEventController: UIViewController {
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var notesField: UITextField!
     
-    var rowIndex: Int?
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []

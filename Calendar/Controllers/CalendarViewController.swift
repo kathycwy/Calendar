@@ -1,11 +1,14 @@
 import UIKit
 
-class CalendarViewController: UIViewController {
+class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet weak var dayContainerView: UIView!
     @IBOutlet weak var monthContainerView: UIView!
     @IBOutlet weak var yearContainerView: UIView!
     @IBOutlet weak var weekContainerView: UIView!
     @IBOutlet weak var calendarViewSegmentedControl: UISegmentedControl!
+    @IBOutlet var sideMenuView: UIView!
+    @IBOutlet var sideMenuTableView: UITableView!
     
     var freshLaunch: Bool = true
     var dayViewController: DayViewController!
@@ -16,8 +19,16 @@ class CalendarViewController: UIViewController {
     let calendarHelper = CalendarHelper()
     private var calendarYears: [CalendarYear] = []
     
+    var arrLabels = ["Search", "Preferences"]
+    var isSideMenuOpen: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        sideMenuView.isHidden = true
+        sideMenuTableView.backgroundColor = UIColor.systemGroupedBackground
+        isSideMenuOpen = false
+        
+        self.sideMenuTableView.layer.cornerRadius = 10.0
         
         dayContainerView.alpha = 0.0
         weekContainerView.alpha = 0.0
@@ -125,5 +136,86 @@ class CalendarViewController: UIViewController {
         
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrLabels.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sideMenuView.isHidden = true
+        sideMenuTableView.isHidden = true
+        isSideMenuOpen = false
+        sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+        sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 352)
+        UIView.animate(withDuration: 0.3) {
+            self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+            self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 352)
+        }
+        switch indexPath.row {
+        case 0:
+            let search:SearchTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "search") as! SearchTableViewController
+            self.navigationController?.pushViewController(search, animated: true)
+            break
+        case 1:
+            let search: PreferencesViewController = self.storyboard?.instantiateViewController(withIdentifier: "preferences") as! PreferencesViewController
+            self.navigationController?.pushViewController(search, animated: true)
+            break
+        default:
+            break
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:TableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
+        cell.label.text = arrLabels[indexPath.row]
+        cell.label.font = cell.label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 13)
+        cell.label.textColor = .appColor(.primary)
+        cell.backgroundColor = .appColor(.onPrimary)
+        var image = UIImage(systemName: "magnifyingglass")
+        switch (indexPath.row)
+        {
+        case 0:
+            image = UIImage(systemName: "magnifyingglass")
+            break
+        case 1:
+            image = UIImage(systemName: "gearshape")
+            break
+        default:
+           break
+        }
+        cell.icon.image = image?.tinted(with: UIColor.appColor(.primary)!)
+
+        return cell
+    }
+    
+    @IBAction func sideMenuButton(_ sender: Any) {
+        sideMenuView.isHidden = false
+        sideMenuTableView.isHidden = false
+        self.view.bringSubviewToFront(sideMenuView)
+        if !isSideMenuOpen {
+            isSideMenuOpen = true
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            }
+        } else {
+            sideMenuView.isHidden = true
+            sideMenuTableView.isHidden = true
+            isSideMenuOpen = false
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            }
+        }
+        
+    }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        self.sideMenuTableView.reloadData()
+    }
     
 }

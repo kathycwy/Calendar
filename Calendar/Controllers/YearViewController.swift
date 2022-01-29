@@ -8,13 +8,13 @@
 import UIKit
 import SwiftUI
 
-class YearViewController: UIViewController {
+class YearViewController: CalendarUIViewController {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var calendarYears: [CalendarYear] = []
-    var selectedDate = Date()
+    //override var selectedDate = Date()
     private var displayDates = [String]()
     private let loadingBatchSize: Int = 3
     private let nextBatchCalendarMonthSize: Int = 6
@@ -144,26 +144,25 @@ class YearViewController: UIViewController {
     func scrollToToday(animated: Bool = true){
         self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
         
-        
-            let year = calendarHelper.getYear(for:selectedDate)
-            self.calendarYears = self.collectionViewDataSource.getCalendarYears()
-            if self.calendarYears.count > 0 {
-                let idx = self.calendarYears.firstIndex(where: {$0.year == year})!
-                /*
-                if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
-                    var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
-                    if #available(iOS 11.0, *) {
-                        offsetY -= self.collectionView.safeAreaInsets.top
-                    }
-                    self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
+        let year = calendarHelper.getYear(for:selectedDate)
+        self.calendarYears = self.collectionViewDataSource.getCalendarYears()
+        if self.calendarYears.count > 0 {
+            let idx = self.calendarYears.firstIndex(where: {$0.year == year})!
+            /*
+            if let attributes = self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: idx)) {
+                var offsetY = attributes.frame.origin.y - self.collectionView.contentInset.top
+                if #available(iOS 11.0, *) {
+                    offsetY -= self.collectionView.safeAreaInsets.top
                 }
-                 */
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: idx), at: [.top, .centeredHorizontally], animated: animated)
-                isScrolled = true
+                self.collectionView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated) // or animated: false
             }
+             */
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: idx), at: [.top, .centeredHorizontally], animated: animated)
+            isScrolled = true
+        }
     }
     
-    func scrollToDate(date: Date?, animated: Bool = true){
+    override func scrollToDate(date: Date?, animated: Bool = true){
         if date != nil {
             self.selectedDate = date!
         }
@@ -195,5 +194,15 @@ class YearViewController: UIViewController {
            }
        }
     }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        for c in self.collectionView.visibleCells {
+            let yearCell = c as? YearCell
+            yearCell?.monthCollectionView.reloadData()
+        }
+        self.scrollToDate(date: self.selectedDate)
+    }
+    
 }
 

@@ -28,4 +28,34 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
        }
        return true
    }
+    
+    func reloadUI() {
+        self.view.setNeedsDisplay()
+        for objects in self.view.subviews {
+            if let object = objects as? UIButton {
+                object.setNeedsDisplay()
+            }
+            if let object = objects as? UILabel {
+                object.setNeedsDisplay()
+            }
+            if let object = objects as? UIView {
+                object.setNeedsDisplay()
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.backgroundColor = .appColor(.navigationBackground)
+            self?.tabBar.backgroundColor = .appColor(.navigationBackground)
+            self?.tabBar.barTintColor = .appColor(.navigationBackground)
+            self?.tabBar.tintColor = .appColor(.navigationTitle)
+            self?.tabBar.standardAppearance = tabBarAppearance
+            self?.tabBar.scrollEdgeAppearance = tabBarAppearance
+            self?.tabBar.isTranslucent = false
+        }
+        
+    }
+    
+    @objc func reloadUI(_ notification: Notification) {
+        reloadUI()
+    }
 }

@@ -9,13 +9,7 @@ import UIKit
 import SwiftUI
 import CoreData
 
-class WeeklyEventCell: UITableViewCell {
-    @IBOutlet weak var eventTitle: UILabel!
-    @IBOutlet weak var eventStartDate: UILabel!
-    @IBOutlet weak var eventEndDate: UILabel!
-}
-
-class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,8 +18,8 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     private var displayWeeks: [CalendarWeek] = []
     private var isLoaded = false
     private var isScrolled = false
-    private var selectedDate: Date = Date()
-    private var allEvents: [NSManagedObject] = []
+    //private var selectedDate: Date = Date()
+//    private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
     
     let calendarHelper = CalendarHelper()
@@ -43,6 +37,8 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
 
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
+        
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,6 +88,8 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         self.tableView.delegate = self
         self.tableView.backgroundColor = UIColor.appColor(.background)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.tableView.estimatedRowHeight = 200
+        self.tableView.rowHeight = UITableView.automaticDimension
     }
     
     func initGestureRecognizer(){
@@ -159,7 +157,9 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
             }
             
             if let idx = self.displayWeeks[0].calendarDays.firstIndex(where: {$0.date == self.selectedDate}) {
-                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))!.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
+                self.collectionView.cellForItem(at: IndexPath(row:idx+1, section:0))?.layer.borderColor = UIColor.appColor(.onSurface)?.cgColor
+                self.collectionViewDataSource.setSelectedCell(newSelectedDate: self.selectedDate)
+                self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
             }
             self.tableView.reloadData()
         }
@@ -180,7 +180,7 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
         self.isLoaded = true
     }
     
-    func scrollToDate(date: Date?, animated: Bool = true) {
+    override func scrollToDate(date: Date?, animated: Bool = true) {
         let idx = self.displayWeeks[0].calendarDays.firstIndex(
             where: {($0.date == date!)
             }) ?? -1
@@ -220,20 +220,24 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return EventListController().getEventsByDate(currentDate: self.selectedDate).count
     }
-        
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! WeeklyEventCell
         
+        cell.initCell(indexPath: indexPath)
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y, HH:mm"
+        formatter.dateFormat = "HH:mm"
 
         cell.eventTitle.text = event.value(forKeyPath: "title") as? String
         cell.eventStartDate.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.eventEndDate.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
-        
         return cell
     }
     
@@ -243,13 +247,14 @@ class WeekViewController: UIViewController, UITabBarDelegate, UITableViewDataSou
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let events = EventListController().getEventsByDate(currentDate: self.selectedDate)
+        
         if (segue.identifier == "weeklyEventCellTapped") {
             let destinationVC = segue.destination as! EventDetailsController
 
             if selectedRow != nil {
-                destinationVC.rowIndex = self.selectedRow
-                destinationVC.event = self.allEvents[self.selectedRow!]
-                destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
+                destinationVC.event = events[self.selectedRow!]
+                destinationVC.eventID = events[self.selectedRow!].objectID
             }
         }
     }
