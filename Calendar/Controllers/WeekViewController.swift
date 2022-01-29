@@ -19,7 +19,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     private var isLoaded = false
     private var isScrolled = false
     //private var selectedDate: Date = Date()
-    private var allEvents: [NSManagedObject] = []
+//    private var allEvents: [NSManagedObject] = []
     var selectedRow: Int? = 0
     
     let calendarHelper = CalendarHelper()
@@ -248,12 +248,14 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let events = EventListController().getEventsByDate(currentDate: self.selectedDate)
+        
         if (segue.identifier == "weeklyEventCellTapped") {
             let destinationVC = segue.destination as! EventDetailsController
 
             if selectedRow != nil {
-                destinationVC.event = self.allEvents[self.selectedRow!]
-                destinationVC.eventID = self.allEvents[self.selectedRow!].objectID
+                destinationVC.event = events[self.selectedRow!]
+                destinationVC.eventID = events[self.selectedRow!].objectID
             }
         }
     }
