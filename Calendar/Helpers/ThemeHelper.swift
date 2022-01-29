@@ -76,6 +76,7 @@ class ThemeHelper {
         UITableViewCell.appearance().backgroundColor = .appColor(.background)
         UITableViewHeaderFooterView.appearance().tintColor = .appColor(.primary)
         LightPaddingLabel.appearance().textColor = .appColor(.onPrimary)
+        FieldUILabel.appearance().textColor = .appColor(.secondary)
 
         let popoverBarAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [UIPopoverPresentationController.self])
         popoverBarAppearance.tintColor = .appColor(.navigationTitle)

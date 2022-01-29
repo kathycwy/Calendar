@@ -10,6 +10,7 @@ import CoreData
 
 class EditEventController: CalendarUIViewController {
     
+    @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var allDaySwitch: UISwitch!
     @IBOutlet weak var startDateField: UIDatePicker!
@@ -27,6 +28,7 @@ class EditEventController: CalendarUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         endDateField.minimumDate = startDateField.date
+        pageTitleLabel.textColor = .appColor(.navigationTitle)
     }
     
     override func viewWillAppear(_ animated: Bool) {
