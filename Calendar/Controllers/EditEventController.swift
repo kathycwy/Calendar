@@ -67,6 +67,7 @@ class EditEventController: CalendarUIViewController {
         
         let color = EventListController().getCalendarColor(name: calendarOption)
         calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
+        calendarButton.titleLabel?.textColor = .black
 
         
         urlField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")

@@ -1,5 +1,5 @@
 //
-//  WeeklyEventCell.swift
+//  SearchEventCell.swift
 //  Calendar
 //
 //  Created by Wingyin Chan on 29.01.22.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class WeeklyEventCell: UITableViewCell
+class SearchEventCell: UITableViewCell
 {
     
-    IBOutlet weak var colorBar: UIView!
-    IBOutlet weak var endDateLabel: PaddingLabel!
-    IBOutlet weak var startDateLabel: PaddingLabel!
-    IBOutlet weak var titleLabel: PaddingLabel!
+    @IBOutlet weak var colorBar: UIView!
+    @IBOutlet weak var endDateLabel: PaddingLabel!
+    @IBOutlet weak var startDateLabel: PaddingLabel!
+    @IBOutlet weak var titleLabel: PaddingLabel!
     
     func initCell(indexPath: IndexPath) {
         if (indexPath.row % 2 == 0) {
@@ -51,3 +51,4 @@ class WeeklyEventCell: UITableViewCell
         
         
 }
+

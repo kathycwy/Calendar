@@ -8,13 +8,6 @@
 import UIKit
 import CoreData
 
-class EventCell: UITableViewCell {
-    @IBOutlet weak var colorBar: UIView!
-    @IBOutlet weak var titleLable: UILabel!
-    @IBOutlet weak var startDateLable: UILabel!
-    @IBOutlet weak var endDateLable: UILabel!
-}
-
 class EventListController: UITableViewController {
     
     var events: [NSManagedObject] = []
@@ -31,7 +24,8 @@ class EventListController: UITableViewController {
     //MARK: - Table view will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.updateView()
+        self.fetchEvents()
+        self.tableView.reloadData()
     }
     
     func getEventsByStartDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
@@ -39,8 +33,8 @@ class EventListController: UITableViewController {
         var eventsPerHour = [NSManagedObject]()
         for event in events
         {
-            let event_start_date = event.value(forKeyPath: "startDate") as! Date
-            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
+            let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
             let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
             if fallsBetween
             {
@@ -63,8 +57,8 @@ class EventListController: UITableViewController {
         var eventsPerHour = [NSManagedObject]()
         for event in events
         {
-            let event_start_date = event.value(forKeyPath: "startDate") as! Date
-            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
+            let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
             let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
             if fallsBetween
             {
@@ -91,8 +85,8 @@ class EventListController: UITableViewController {
         fetchEvents()
         var eventsPerDate: [NSManagedObject] = []
         for event in events {
-            let event_start_date = event.value(forKeyPath: "startDate") as! Date
-            let event_end_date = event.value(forKeyPath: "endDate") as! Date
+            let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
+            let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
             
             let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
             if fallsBetween {
@@ -151,7 +145,7 @@ class EventListController: UITableViewController {
         case Constants.CalendarConstants.calendarWork:
             return Constants.CalendarConstants.workColor
         default:
-            return UIColor.black.withAlphaComponent(0)
+            return .clear
         }
     }
     
@@ -169,11 +163,9 @@ class EventListController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
         
-        cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "")
-
         // Set text
-        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
-        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
+        let eventLoc: String = event.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? " "
         let text = eventTitle + "\n" + eventLoc
         
         let attributedText = NSMutableAttributedString(string: text)
@@ -190,9 +182,10 @@ class EventListController: UITableViewController {
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventLoc))
         
+        cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
-        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
-        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date)
+        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
         cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         

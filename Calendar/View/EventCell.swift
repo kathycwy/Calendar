@@ -1,19 +1,19 @@
 //
-//  WeeklyEventCell.swift
+//  EventCell.swift
 //  Calendar
 //
-//  Created by Wingyin Chan on 29.01.22.
+//  Created by Aparna Joshi on 25/01/22.
 //
 
 import UIKit
 
-class WeeklyEventCell: UITableViewCell
+class EventCell: UITableViewCell
 {
     
-    IBOutlet weak var colorBar: UIView!
-    IBOutlet weak var endDateLabel: PaddingLabel!
-    IBOutlet weak var startDateLabel: PaddingLabel!
-    IBOutlet weak var titleLabel: PaddingLabel!
+    @IBOutlet weak var colorBar: UIView!
+    @IBOutlet weak var endDateLabel: PaddingLabel!
+    @IBOutlet weak var startDateLabel: PaddingLabel!
+    @IBOutlet weak var titleLabel: PaddingLabel!
     
     func initCell(indexPath: IndexPath) {
         if (indexPath.row % 2 == 0) {
