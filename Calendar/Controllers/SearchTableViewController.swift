@@ -22,6 +22,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         self.tableView.estimatedRowHeight = rowHeight
 
         searchBar.delegate = self
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     //MARK: - Table view will appear
