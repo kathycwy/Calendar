@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 16/1/2022.
 //
+//  A cell class used for showing the dates in Week View
 
 import Foundation
 import UIKit

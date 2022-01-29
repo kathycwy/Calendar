@@ -4,10 +4,14 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A struct for storing essential data for Week View
 
 import Foundation
 
 struct CalendarWeek {
+    
+    // MARK: - Properties
+    
     let month: Int
     var toMonth: Int
     let year: Int
@@ -15,6 +19,8 @@ struct CalendarWeek {
     let weekNumber: Int
     let rollingWeekNumber: Int
     var calendarDays: [CalendarDay]
+    
+    // MARK: - Init
     
     init(month: Int,
          toMonth: Int? = nil,
@@ -32,6 +38,8 @@ struct CalendarWeek {
         self.rollingWeekNumber = rollingWeekNumber
         self.calendarDays = calendarDays
     }
+    
+    // MARK: - Helper functions
     
     mutating func addDays(calendarDays: [CalendarDay]) {
         if calendarDays.count > 0 {

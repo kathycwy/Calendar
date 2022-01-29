@@ -1,9 +1,10 @@
 //
-//  CalendarViewController.swift
+//  WeekCollectionViewFlowLayout.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A Delegate extension class for WeekViewController
 
 import UIKit
 

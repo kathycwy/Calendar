@@ -4,6 +4,7 @@
 //
 //  Created by Wingyin Chan on 20.01.22.
 //
+//  A struct for storing all constants that used for events creating/editing
 
 struct EventsStruct {
     

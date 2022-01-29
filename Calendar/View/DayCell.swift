@@ -4,6 +4,7 @@
 //
 //  Created by Aparna Joshi on 25/01/22.
 //
+//  A cell class used for showing the dates in Day View
 
 import UIKit
 
@@ -16,24 +17,15 @@ class DayCell: UITableViewCell {
     @IBOutlet weak var separatorLine: UIView!
     
     // MARK: - Init
-
-    var topTime: String = "" {
-        didSet {
-            topTimeLabel.text = topTime
-        }
-    }
-    var bottomTime: String = "" {
-        didSet {
-            bottomTimeLabel.text = bottomTime
-        }
-    }
     
     func initCell() {
         selectionStyle = .none
 
+        self.topTimeLabel.text = ""
         self.topTimeLabel.textColor = UIColor.appColor(.tertiary)
         self.topTimeLabel.textAlignment = .right
         self.topTimeLabel.font = topTimeLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 11)
+        self.bottomTimeLabel.text = ""
         self.bottomTimeLabel.textColor = UIColor.appColor(.tertiary)
         self.bottomTimeLabel.textAlignment = .right
         self.bottomTimeLabel.font = bottomTimeLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 11)
