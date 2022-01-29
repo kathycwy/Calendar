@@ -1655,7 +1655,6 @@
                                             <outlet property="eventEndDate" destination="aab-eV-rrw" id="GV7-hK-6fd"/>
                                             <outlet property="eventStartDate" destination="dzf-mz-wOD" id="RrP-eV-9yd"/>
                                             <outlet property="eventTitle" destination="ljt-NG-bE2" id="YB5-My-R5F"/>
-                                            <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="1YY-Vg-gT6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1678,6 +1677,7 @@
                         <outlet property="collectionView" destination="wa8-bb-VLJ" id="5oQ-3q-FJd"/>
                         <outlet property="contentView" destination="YDc-Mq-1qU" id="pl2-Tk-WDW"/>
                         <outlet property="tableView" destination="ycA-04-GPv" id="cW0-II-Mfm"/>
+                        <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="6ie-4K-NZU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1817,7 +1817,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1YY-Vg-gT6"/>
+        <segue reference="6ie-4K-NZU"/>
         <segue reference="RGH-8S-iJ9"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
