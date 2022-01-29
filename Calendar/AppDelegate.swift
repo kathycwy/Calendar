@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if UITraitCollection.current.userInterfaceStyle == .dark {
                     UserDefaults.standard.set(true, forKey: "DarkMode")
                 }
+            }
+        }
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.requestAuthorization(options: [.alert, .sound]) {
+            (permissionGranted, error) in
+            if (!permissionGranted) {
+                print("Permission Denied")
             }
         }
         
