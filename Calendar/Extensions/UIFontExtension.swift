@@ -1,3 +1,11 @@
+//
+//  UIFontExtension.swift
+//  Calendar
+//
+//  Created by C Chan on 16/1/2022.
+//
+//  To add new or override functions in class
+
 import UIKit
 
 enum FontType : String{

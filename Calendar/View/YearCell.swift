@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A cell class used for showing the dates in Year View
 
 import Foundation
 import UIKit

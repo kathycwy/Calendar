@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A header class used for showing the month in Month View
 
 import Foundation
 import UIKit

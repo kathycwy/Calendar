@@ -4,6 +4,7 @@
 //
 //  Created by Aparna Joshi on 25/01/22.
 //
+//  A cell class used for showing the events in Week View, Search View and Event List View
 
 import UIKit
 

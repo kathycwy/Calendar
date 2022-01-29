@@ -51,17 +51,19 @@ class EventListController: UITableViewController {
         {
             let event_start_date = event.value(forKeyPath: "startDate") as! Date
             let event_end_date = event.value(forKeyPath: "endDate") as! Date
-            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
-            if fallsBetween
-            {
-                var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
-                if event_start_date.removeTimeStamp != date.removeTimeStamp {
-                    eventStartHour = 0
-                }
-      
-                if  eventStartHour >= hour && eventStartHour < hour + 1
+            if event_start_date <= event_end_date {
+                let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
+                if fallsBetween
                 {
-                    eventsPerHour.append(event)
+                    var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                    if event_start_date.removeTimeStamp != date.removeTimeStamp {
+                        eventStartHour = 0
+                    }
+          
+                    if  eventStartHour >= hour && eventStartHour < hour + 1
+                    {
+                        eventsPerHour.append(event)
+                    }
                 }
             }
         }
@@ -104,9 +106,11 @@ class EventListController: UITableViewController {
             let event_start_date = event.value(forKeyPath: "startDate") as! Date
             let event_end_date = event.value(forKeyPath: "endDate") as! Date
             
-            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
-            if fallsBetween {
-                eventsPerDate.append(event)
+            if event_start_date <= event_end_date {
+                let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
+                if fallsBetween {
+                    eventsPerDate.append(event)
+                }
             }
         }
         return eventsPerDate

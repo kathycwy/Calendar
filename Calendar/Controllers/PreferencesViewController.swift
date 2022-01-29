@@ -15,7 +15,6 @@ class PreferencesViewController: CalendarUIViewController {
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     var preferenceHeader: PreferenceHeader!
-    var prefValues: [PrefRowIdentifier: Bool] = [:]
     let appIconHelper = AppIconHelper()
 
     lazy var tableViewDataSource: PreferencesDataSource = {
