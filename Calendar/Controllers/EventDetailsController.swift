@@ -16,6 +16,8 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var startDate: UILabel!
     @IBOutlet weak var endDate: UILabel!
     @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var calendar: UILabel!
+    @IBOutlet weak var calendarDot: UIImageView!
     @IBOutlet weak var url: UITextView!
     @IBOutlet weak var notes: UILabel!
     
@@ -39,7 +41,7 @@ class EventDetailsController: CalendarUIViewController {
         dateOnlyFormatter.dateFormat = "d MMM y"
         
         // set event url to the corresponding textView
-        let urlString = String(event!.value(forKeyPath: EventsStruct.urlAttribute) as? String ?? "")
+        let urlString = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")
         if let eventURL = URL(string: urlString){
             let attributedUrlString = NSAttributedString(string: urlString, attributes:[NSAttributedString.Key.link: eventURL])
             url.attributedText = attributedUrlString
@@ -52,19 +54,27 @@ class EventDetailsController: CalendarUIViewController {
         url.isEditable = false
         
         // set remaining event details to corresponding labels
-        eventTitle.text = String(event!.value(forKeyPath: EventsStruct.titleAttribute) as? String ?? "")
-        if (event!.value(forKeyPath: EventsStruct.allDayAttribute) as? Bool ?? true) {
+        eventTitle.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        if (event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
             allDayLabel.isHidden = false
             allDayLabel.text = "All-day event"
-            startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now)
-            endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now)
+            startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
+            endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         } else {
             allDayLabel.isHidden = true
-            startDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: EventsStruct.startDateAttribute) as? Date ?? Date.now)
-            endDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: EventsStruct.endDateAttribute) as? Date ?? Date.now)
+            startDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
+            endDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         }
-        location.text = String(event!.value(forKeyPath: EventsStruct.locationAttribute) as? String ?? "")
-        notes.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
+        location.text = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "")
+        calendar.text = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "No calendar assigned")
+        if (calendar.text == "No calendar assigned" || calendar.text == "None") {
+            calendarDot.isHidden = true
+        } else {
+            calendarDot.isHidden = false
+        }
+        let color = EventListController().getCalendarColor(name: calendar.text ?? "None")
+        calendarDot.tintColor = color
+        notes.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
         
     }
     
@@ -107,8 +117,8 @@ class EventDetailsController: CalendarUIViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
 
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
-        let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
+        let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
         fetchRequest.sortDescriptors = [sort]
 
         do {

@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Events" representedClassName="Events" syncable="YES" codeGenerationType="class">
         <attribute name="allDay" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="calendar" optional="YES" attributeType="String"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="endRepeatDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="endRepeatOption" optional="YES" attributeType="String"/>
@@ -13,6 +14,6 @@
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Events" positionX="-63" positionY="-18" width="128" height="179"/>
+        <element name="Events" positionX="-63" positionY="-18" width="128" height="194"/>
     </elements>
 </model>

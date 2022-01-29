@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 class EventCell: UITableViewCell {
+    @IBOutlet weak var colorBar: UIView!
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var startDateLable: UILabel!
     @IBOutlet weak var endDateLable: UILabel!
@@ -106,8 +107,8 @@ class EventListController: UITableViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
 
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
-        let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
+        let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
         fetchRequest.sortDescriptors = [sort]
         
         do {
@@ -127,8 +128,8 @@ class EventListController: UITableViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
 
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: EventsStruct.entityName)
-        let sort = NSSortDescriptor(key:EventsStruct.startDateAttribute, ascending: true)
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
+        let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
         fetchRequest.sortDescriptors = [sort]
         
         do {
@@ -139,6 +140,19 @@ class EventListController: UITableViewController {
         }
     }
 
+    func getCalendarColor(name: String) -> UIColor {
+        switch name {
+        case Constants.CalendarConstants.calendarPersonal:
+            return Constants.CalendarConstants.personalColor
+        case Constants.CalendarConstants.calendarSchool:
+            return Constants.CalendarConstants.schoolColor
+        case Constants.CalendarConstants.calendarWork:
+            return Constants.CalendarConstants.workColor
+        default:
+            return UIColor.black.withAlphaComponent(0)
+        }
+    }
+    
     //MARK: - Standard Tableview methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
@@ -152,9 +166,10 @@ class EventListController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"
         
-        cell.titleLable.text = event.value(forKeyPath: EventsStruct.titleAttribute) as? String
-        cell.startDateLable.text = formatter.string(from: event.value(forKeyPath: EventsStruct.startDateAttribute) as! Date)
-        cell.endDateLable.text = formatter.string(from: event.value(forKeyPath: EventsStruct.endDateAttribute) as! Date)
+        cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "")
+        cell.titleLable.text = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String
+        cell.startDateLable.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date)
+        cell.endDateLable.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
         
         return cell
     }

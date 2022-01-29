@@ -26,6 +26,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet weak var endRepeatAfterCertainTimesButton: UIButton!
     @IBOutlet weak var endRepeatButton: UIButton!
     @IBOutlet private var locationField: UITextField!
+    @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet private var urlField: UITextField!
     @IBOutlet private var notesField: UITextField!
     
@@ -36,6 +37,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var repeatOption: String = ""
     var endRepeatOption: String = ""
     var endRepeatDate: Date?
+    var calendarOption: String = "None"
     var selectedRow = 0
 
     // MARK: - Actions
@@ -57,28 +59,28 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         // responding to End Repeat button
         let repeatButtonClosure = { (action: UIAction) in
             self.repeatOption = action.title
-            if self.repeatOption != EventsStruct.repeatNever {
+            if self.repeatOption != Constants.RepeatOptions.repeatNever {
                 self.endRepeatStack.isHidden = false
             } else {
                 self.endRepeatStack.isHidden = true
             }
         }
         repeatButton.menu = UIMenu(children: [
-            UIAction(title: EventsStruct.repeatNever, state: .on, handler: repeatButtonClosure),
-            UIAction(title: EventsStruct.repeatEveryDay, handler: repeatButtonClosure),
-            UIAction(title: EventsStruct.repeatEveryWeek, handler: repeatButtonClosure),
-            UIAction(title: EventsStruct.repeatEveryMonth, handler: repeatButtonClosure),
-            UIAction(title: EventsStruct.repeatEveryYear, handler: repeatButtonClosure)
+            UIAction(title: Constants.RepeatOptions.repeatNever, state: .on, handler: repeatButtonClosure),
+            UIAction(title: Constants.RepeatOptions.repeatEveryDay, handler: repeatButtonClosure),
+            UIAction(title: Constants.RepeatOptions.repeatEveryWeek, handler: repeatButtonClosure),
+            UIAction(title: Constants.RepeatOptions.repeatEveryMonth, handler: repeatButtonClosure),
+            UIAction(title: Constants.RepeatOptions.repeatEveryYear, handler: repeatButtonClosure)
           ])
         
         let endRepeatClosure = { (action: UIAction) in
             self.endRepeatOption = action.title
-            if action.title == EventsStruct.endRepeatNever {
+            if action.title == Constants.RepeatOptions.endRepeatNever {
                 self.endRepeatDatePicker.isHidden = true
                 self.endRepeatOption = action.title
             } else {
                 self.endRepeatDatePicker.isHidden = false
-                if action.title == EventsStruct.endRepeatOnDate {
+                if action.title == Constants.RepeatOptions.endRepeatOnDate {
                     self.endRepeatDatePicker.isHidden = false
                     self.endRepeatAfterCertainTimesButton.isHidden = true
                 } else {
@@ -89,9 +91,22 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }
         
         endRepeatButton.menu = UIMenu(children: [
-            UIAction(title: EventsStruct.endRepeatNever, state: .on, handler: endRepeatClosure),
-            UIAction(title: EventsStruct.endRepeatOnDate, handler: endRepeatClosure),
-            UIAction(title: EventsStruct.endRepeatAfterCertainTimes, handler: endRepeatClosure)
+            UIAction(title: Constants.RepeatOptions.endRepeatNever, state: .on, handler: endRepeatClosure),
+            UIAction(title: Constants.RepeatOptions.endRepeatOnDate, handler: endRepeatClosure),
+            UIAction(title: Constants.RepeatOptions.endRepeatAfterCertainTimes, handler: endRepeatClosure)
+          ])
+        
+        let calendarButtonClosure = { (action: UIAction) in
+            self.calendarOption = action.title
+            let color = EventListController().getCalendarColor(name: self.calendarOption)
+            self.calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
+        }
+        
+        calendarButton.menu = UIMenu(children: [
+            UIAction(title: Constants.CalendarConstants.calendarNone, state: .on, handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, handler: calendarButtonClosure)
           ])
 
     }
@@ -173,13 +188,13 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         var hundredYearsDateComponent = DateComponents()
         hundredYearsDateComponent.year = 100
         
-        if endRepeatOption == EventsStruct.endRepeatNever {
+        if endRepeatOption == Constants.RepeatOptions.endRepeatNever {
             localEndRepeatDate = Calendar.current.date(byAdding: hundredYearsDateComponent, to: localEndRepeatDate)! as Date
         }
                 
         switch repeatOption {
-        case EventsStruct.repeatEveryDay:
-            if endRepeatOption == EventsStruct.endRepeatAfterCertainTimes {
+        case Constants.RepeatOptions.repeatEveryDay:
+            if endRepeatOption == Constants.RepeatOptions.endRepeatAfterCertainTimes {
                 dateComponent.day = selectedRow
                 localEndRepeatDate = Calendar.current.date(byAdding: dateComponent, to: localStartDate)! as Date
             }
@@ -189,8 +204,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
                 localEndDate = Calendar.current.date(byAdding: dateComponent, to: localEndDate)! as Date
                 result.append([localStartDate, localEndDate])
             }
-        case EventsStruct.repeatEveryWeek:
-            if endRepeatOption == EventsStruct.endRepeatAfterCertainTimes {
+        case Constants.RepeatOptions.repeatEveryWeek:
+            if endRepeatOption == Constants.RepeatOptions.endRepeatAfterCertainTimes {
                 dateComponent.day = selectedRow * 7
                 localEndRepeatDate = Calendar.current.date(byAdding: dateComponent, to: localStartDate)! as Date
             }
@@ -200,8 +215,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
                 localEndDate = Calendar.current.date(byAdding: dateComponent, to: localEndDate)! as Date
                 result.append([localStartDate, localEndDate])
             }
-        case EventsStruct.repeatEveryMonth:
-            if endRepeatOption == EventsStruct.endRepeatAfterCertainTimes {
+        case Constants.RepeatOptions.repeatEveryMonth:
+            if endRepeatOption == Constants.RepeatOptions.endRepeatAfterCertainTimes {
                 dateComponent.month = selectedRow
                 localEndRepeatDate = Calendar.current.date(byAdding: dateComponent, to: localStartDate)! as Date
             }
@@ -211,8 +226,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
                 localEndDate = Calendar.current.date(byAdding: dateComponent, to: localEndDate)! as Date
                 result.append([localStartDate, localEndDate])
             }
-        case EventsStruct.repeatEveryYear:
-            if endRepeatOption == EventsStruct.endRepeatAfterCertainTimes {
+        case Constants.RepeatOptions.repeatEveryYear:
+            if endRepeatOption == Constants.RepeatOptions.endRepeatAfterCertainTimes {
                 dateComponent.year = selectedRow
                 localEndRepeatDate = Calendar.current.date(byAdding: dateComponent, to: localStartDate)! as Date
             }
@@ -237,7 +252,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }
         let managedContext = appDelegate.persistentContainer.viewContext
 
-        let entity = NSEntityDescription.entity(forEntityName: EventsStruct.entityName, in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: Constants.EventsAttribute.entityName, in: managedContext)!
 
         let title = titleField.text
         let allDaySwitchState = allDaySwitch.isOn
@@ -247,6 +262,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         let endRepeatOption = self.endRepeatOption
         let endRepeatDate = endRepeatDatePicker.date
         let location = locationField.text
+        let calendarOption = self.calendarOption
         let url = urlField.text
         let notes = notesField.text
         
@@ -273,16 +289,17 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         for repeatEventDate in repeatEventDates {
             let event = NSManagedObject(entity: entity, insertInto: managedContext)
             
-            event.setValue(title, forKeyPath: EventsStruct.titleAttribute)
-            event.setValue(allDaySwitchState, forKeyPath: EventsStruct.allDayAttribute)
-            event.setValue(repeatEventDate[0], forKeyPath: EventsStruct.startDateAttribute)
-            event.setValue(repeatEventDate[1], forKeyPath: EventsStruct.endDateAttribute)
-            event.setValue(repeatOption, forKeyPath: EventsStruct.repeatOptionAttribute)
-            event.setValue(endRepeatOption, forKeyPath: EventsStruct.endRepeatOptionAttribute)
-            event.setValue(endRepeatDate, forKeyPath: EventsStruct.endRepeatDateAttribute)
-            event.setValue(location, forKeyPath: EventsStruct.locationAttribute)
-            event.setValue(url, forKeyPath: EventsStruct.urlAttribute)
-            event.setValue(notes, forKeyPath: EventsStruct.notesAttribute)
+            event.setValue(title, forKeyPath: Constants.EventsAttribute.titleAttribute)
+            event.setValue(allDaySwitchState, forKeyPath: Constants.EventsAttribute.allDayAttribute)
+            event.setValue(repeatEventDate[0], forKeyPath: Constants.EventsAttribute.startDateAttribute)
+            event.setValue(repeatEventDate[1], forKeyPath: Constants.EventsAttribute.endDateAttribute)
+            event.setValue(repeatOption, forKeyPath: Constants.EventsAttribute.repeatOptionAttribute)
+            event.setValue(endRepeatOption, forKeyPath: Constants.EventsAttribute.endRepeatOptionAttribute)
+            event.setValue(endRepeatDate, forKeyPath: Constants.EventsAttribute.endRepeatDateAttribute)
+            event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+            event.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
+            event.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
+            event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
 
             do {
                 try managedContext.save()
