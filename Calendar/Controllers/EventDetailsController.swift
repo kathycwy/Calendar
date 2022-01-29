@@ -20,6 +20,7 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var url: UITextView!
     @IBOutlet weak var notes: UILabel!
+    @IBOutlet weak var remindTime: UILabel!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
@@ -68,6 +69,7 @@ class EventDetailsController: CalendarUIViewController {
         }
         location.text = String(event!.value(forKeyPath: EventsStruct.locationAttribute) as? String ?? "")
         notes.text = String(event!.value(forKeyPath: EventsStruct.notesAttribute) as? String ?? "")
+        remindTime.text = String(event!.value(forKeyPath: EventsStruct.remindOptionAttribute) as? String ?? "")
         
     }
     

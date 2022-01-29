@@ -495,7 +495,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
-                                <rect key="frame" x="30" y="108" width="354" height="676"/>
+                                <rect key="frame" x="30" y="108" width="354" height="721"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-5P-pxG">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
@@ -718,6 +718,24 @@
                                             <constraint firstAttribute="height" constant="60" id="kmP-R3-F2g"/>
                                         </constraints>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2TG-ep-1EF">
+                                        <rect key="frame" x="0.0" y="691" width="354" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w2-9x-kjF" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CNI-1f-Q1c">
+                                                <rect key="frame" x="57.5" y="0.0" width="296.5" height="30"/>
+                                                <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="remindButtonPressed:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="Jkm-aO-H6t"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -755,6 +773,7 @@
                         <outlet property="locationField" destination="U6z-BG-qjZ" id="0BV-PH-EIt"/>
                         <outlet property="notesField" destination="eXq-kd-C4j" id="bOo-4l-pGT"/>
                         <outlet property="pageTitleLabel" destination="PvK-i8-31C" id="I2n-Hn-I1Q"/>
+                        <outlet property="remindButton" destination="CNI-1f-Q1c" id="GOn-rW-7Jp"/>
                         <outlet property="repeatButton" destination="M8U-uR-vhF" id="ruD-Ad-hww"/>
                         <outlet property="stackView" destination="kCd-4C-K3M" id="sbQ-PN-9fb"/>
                         <outlet property="startDateField" destination="oQQ-3h-1Cc" id="Zyf-Cd-hHB"/>
@@ -775,7 +794,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
-                                <rect key="frame" x="30" y="64" width="354" height="611"/>
+                                <rect key="frame" x="30" y="108" width="354" height="611"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50h-Zl-nWK">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
@@ -1115,7 +1134,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
-                                <rect key="frame" x="30" y="64" width="354" height="342"/>
+                                <rect key="frame" x="30" y="108" width="354" height="388.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
@@ -1224,6 +1243,23 @@
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYt-Yz-YGd">
+                                        <rect key="frame" x="0.0" y="368" width="354" height="20.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7p-0o-UOS" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="263.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="remindTime" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cl-ws-HZZ">
+                                                <rect key="frame" x="263.5" y="0.0" width="90.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="q8w-fg-yxU" firstAttribute="top" secondItem="Zrk-z5-0zQ" secondAttribute="bottom" constant="30" id="TmH-JP-BR0"/>
@@ -1261,6 +1297,7 @@
                         <outlet property="eventTitle" destination="ReO-mL-ARS" id="11h-an-FCh"/>
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
                         <outlet property="notes" destination="noC-AE-PqP" id="7sg-ZB-IxC"/>
+                        <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
                         <outlet property="startDate" destination="X7a-BP-q0c" id="WMK-Nk-Xg9"/>
                         <outlet property="url" destination="yD3-R2-u6y" id="yIM-MP-Nze"/>
                         <segue destination="wO8-KG-OKN" kind="show" identifier="editButtonTapped" id="cor-3I-WJO"/>
