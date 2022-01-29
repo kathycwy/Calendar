@@ -4,15 +4,21 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A header class used for showing the month in Month View
 
 import Foundation
 import UIKit
 
 class MonthHeader: UICollectionReusableView {
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var monthLabel : UILabel!
     @IBOutlet weak var nextMonthButton : UIButton!
     @IBOutlet weak var prevMonthButton : UIButton!
     
+    // MARK: - Init
+
     override func prepareForReuse() {
         super.prepareForReuse()
         monthLabel.text = ""

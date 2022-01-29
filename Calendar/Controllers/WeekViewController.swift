@@ -10,7 +10,9 @@ import SwiftUI
 import CoreData
 
 class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
-
+    
+    // MARK: - Properties
+    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
@@ -24,6 +26,34 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     let rowHeight: CGFloat = 80.0
     
     let calendarHelper = CalendarHelper()
+    
+    lazy var collectionViewFlowLayout : WeekCollectionViewFlowLayout = {
+        let layout = WeekCollectionViewFlowLayout()
+        //layout.parentLoadNextBatch = loadNextBatch
+        //layout.setSelectedCell = setSelectedCell
+        //layout.parentLoadPrevBatch = loadPrevBatch
+        return layout
+    }()
+
+    lazy var collectionViewDataSource: WeekCollectionViewDataSource = {
+        let collectionView = WeekCollectionViewDataSource(calendarWeeks: self.displayWeeks)
+        return collectionView
+    }()
+    
+    // MARK: - Init
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let events = EventListController().getEventsByDate(currentDate: self.selectedDate)
+        
+        if (segue.identifier == "weeklyEventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+
+            if selectedRow != nil {
+                destinationVC.event = events[self.selectedRow!]
+                destinationVC.eventID = events[self.selectedRow!].objectID
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +136,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
          
     }
     
+    // MARK: - Actions
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
@@ -136,20 +168,8 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                 self.reloadCalendar(newSelectedDate: self.selectedDate) })
         }
     }
-     
     
-    lazy var collectionViewFlowLayout : WeekCollectionViewFlowLayout = {
-        let layout = WeekCollectionViewFlowLayout()
-        //layout.parentLoadNextBatch = loadNextBatch
-        //layout.setSelectedCell = setSelectedCell
-        //layout.parentLoadPrevBatch = loadPrevBatch
-        return layout
-    }()
-
-    lazy var collectionViewDataSource: WeekCollectionViewDataSource = {
-        let collectionView = WeekCollectionViewDataSource(calendarWeeks: self.displayWeeks)
-        return collectionView
-    }()
+    // MARK: - Helper functions
     
     func setSelectedCell() {
         if self.isLoaded {
@@ -213,7 +233,20 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         }
     }
     
-    //------------------------------------------------
+    @objc func scrollToToday(_ notification: Notification) {
+        scrollToToday()
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           if self.calendarHelper.getYear(for: selectedDate) >= 1970{
+               self.scrollToDate(date: selectedDate, animated: false)
+           }
+       }
+    }
+    
+    // MARK: - Standard Tableview methods
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -261,30 +294,5 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedRow = indexPath.row
         self.performSegue(withIdentifier: "weeklyEventCellTapped", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let events = EventListController().getEventsByDate(currentDate: self.selectedDate)
-        
-        if (segue.identifier == "weeklyEventCellTapped") {
-            let destinationVC = segue.destination as! EventDetailsController
-
-            if selectedRow != nil {
-                destinationVC.event = events[self.selectedRow!]
-                destinationVC.eventID = events[self.selectedRow!].objectID
-            }
-        }
-    }
-
-    @objc func scrollToToday(_ notification: Notification) {
-        scrollToToday()
-    }
-    
-    @objc func scrollToDate(_ notification: Notification) {
-       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
-           if self.calendarHelper.getYear(for: selectedDate) >= 1970{
-               self.scrollToDate(date: selectedDate, animated: false)
-           }
-       }
     }
 }

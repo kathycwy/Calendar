@@ -11,6 +11,8 @@ import SwiftUI
 
 class EventDetailsController: CalendarUIViewController {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var allDayLabel: UILabel!
     @IBOutlet weak var startDate: UILabel!
@@ -20,13 +22,15 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var calendarDot: UIImageView!
     @IBOutlet weak var url: UITextView!
     @IBOutlet weak var notes: UILabel!
+    @IBOutlet weak var remindTime: UILabel!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
     
     
-    //MARK: - viewDidLoad
+    //MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -75,11 +79,8 @@ class EventDetailsController: CalendarUIViewController {
         let color = EventListController().getCalendarColor(name: calendar.text ?? "None")
         calendarDot.tintColor = color
         notes.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
+        remindTime.text = String(event!.value(forKeyPath: Constants.EventsAttribute.remindOptionAttribute) as? String ?? "")
         
-    }
-    
-    @IBAction func editButtonTapped(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "editButtonTapped", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,6 +89,12 @@ class EventDetailsController: CalendarUIViewController {
             let destinationVC = segue.destination as! EditEventController
             destinationVC.event = self.event
         }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "editButtonTapped", sender: self)
     }
         
     @IBAction func deleteButtonTapped(_ sender: UIButton) {

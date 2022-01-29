@@ -4,11 +4,14 @@
 //
 //  Created by C Chan on 28/1/2022.
 //
+//  A helper class for updating the app icon
 
 import Foundation
 import UIKit
 
 class AppIconHelper {
+    
+    // MARK: - Properties
     
     let application = UIApplication.shared
     

@@ -1,14 +1,17 @@
 //
-//  CalendarViewController.swift
+//  YearCollectionViewFlowLayout.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A Delegate extension class for YearViewController
 
 import UIKit
 
 class YearCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
-
+    
+    // MARK: - Properties
+    
     var itemsPerRow: CGFloat = 3
     var rowPerSection: CGFloat = 4
     let defaultCellHeight: CGFloat = 200
@@ -16,6 +19,8 @@ class YearCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
     let minimumCellHeight: CGFloat = 200
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
+    
+    // MARK: - Init
 
     override init() {
         super.init()
@@ -34,7 +39,9 @@ class YearCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
         minimumLineSpacing = 10
         minimumInteritemSpacing = 5
     }
-
+    
+    // MARK: - Standard CollectionView methods
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

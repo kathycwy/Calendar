@@ -1,13 +1,16 @@
 //
-//  CalendarViewController.swift
+//  WeekCollectionViewFlowLayout.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A Delegate extension class for WeekViewController
 
 import UIKit
 
 class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate  {
+    
+    // MARK: - Properties
     
     var itemsPerRow: CGFloat = 8
     var rowPerSection: CGFloat = 1
@@ -23,6 +26,8 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
     private var isInsertingCellsToTop: Bool = false
     private var contentSizeWhenInsertingToTop: CGSize?
     
+    // MARK: - Init
+
     init(isAsInnerCollectionView: Bool){
         super.init()
         self.configLayout()
@@ -51,6 +56,8 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
         self.isLoaded = isLoaded
     }
     
+    // MARK: - Standard CollectionView methods
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -78,27 +85,6 @@ class WeekCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVie
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-    
-    /*
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        
-        if indexPath.section == collectionView.numberOfSections - 1 {
-            if indexPath.row == 0 {
-                parentLoadNextBatch()
-            }
-        }
-        else if isLoaded && indexPath.section == 0 {
-            if indexPath.row == 1 {
-                contentSizeWhenInsertingToTop = collectionViewContentSize
-                parentLoadPrevBatch()
-                isInsertingCellsToTop = true
-            }
-        }
-    }
-     */
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.setSelectedCell(indexPath)

@@ -1,14 +1,17 @@
 //
-//  CalendarViewControllerExtension.swift
+//  YearCollectionViewDataSource.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A DataSource extension class for YearViewController
 
 import UIKit
 
 class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
-
+    
+    // MARK: - Properties
+    
     private var calendarYears: [CalendarYear] = []
     private var calendarHelper: CalendarHelper = CalendarHelper()
     private let numOfCells: Int = 12
@@ -16,22 +19,8 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private let defNumOfCells: Int = 12
     private var selectedIndexPath: IndexPath? = nil
     private var selectedInnerIndexPath: IndexPath? = nil
-
-    // Number of years shown
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if calendarYears.count == 0{
-            return defNumOfYears
-        }
-        return calendarYears.count
-    }
-
-    // Number of months shown in a particular year
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if calendarYears.count == 0{
-            return defNumOfCells
-        }
-        return calendarYears[section].calendarMonths.count
-    }
+    
+    // MARK: - Helper functions
     
     func getCalendarYears() -> [CalendarYear]{
         return self.calendarYears
@@ -67,6 +56,24 @@ class YearCollectionViewDataSource : NSObject, UICollectionViewDataSource {
             }
         }
         return self.calendarYears
+    }
+    
+    // MARK: - Standard CollectionView methods
+    
+    // Number of years shown
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if calendarYears.count == 0{
+            return defNumOfYears
+        }
+        return calendarYears.count
+    }
+
+    // Number of months shown in a particular year
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if calendarYears.count == 0{
+            return defNumOfCells
+        }
+        return calendarYears[section].calendarMonths.count
     }
     
     // Contrusting the header of the collection view - Showing Year

@@ -1,13 +1,16 @@
 //
-//  CalendarViewController.swift
+//  MonthCollectionViewFlowLayout.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A Delegate extension class for MonthViewController
 
 import UIKit
 
 class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - Properties
     
     private var isAsInnerCollectionView: Bool = false
     var itemsPerRow: CGFloat = 7
@@ -18,6 +21,8 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
     internal var parentLoadNextBatch: (() -> Void)!
     internal var parentLoadPrevBatch: (() -> Void)!
     var headerHeight: CGFloat = 40
+    
+    // MARK: - Init
 
     init(isAsInnerCollectionView: Bool){
         super.init()
@@ -50,7 +55,9 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
             minimumInteritemSpacing = 1
         }
     }
-
+    
+    // MARK: - Standard CollectionView methods
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -66,19 +73,6 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
         let heightPerItem = max((collectionView.frame.height - paddingSpace) / rowPerSection, isAsInnerCollectionView ? minimumInnerCellHeight : minimumCellHeight)
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
-    /*
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-     */
     
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
@@ -88,13 +82,6 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
                 parentLoadNextBatch()
             }
         }
-        /*
-        else if indexPath.section == 0 {
-            if indexPath.row == 1 {
-                parentLoadPrevBatch()
-            }
-        }
-        */
     }
     
     

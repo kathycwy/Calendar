@@ -4,11 +4,13 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A DataSource extension class for WeekViewController 
 
 import UIKit
 
 class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     
+    // MARK: - Properties
     
     //private var calendarRange: [CalendarDay] = []
     private var calendarWeeks: [CalendarWeek] = []
@@ -17,21 +19,16 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
     private let numOfCells: Int = 8
     private let defNumOfWeeks: Int = 1
     private var selectedDate: Date = Date()
+    
+    // MARK: - Init
 
     init(calendarWeeks: [CalendarWeek]){
         super.init()
         self.calendarWeeks = calendarWeeks
     }
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        self.displayWeeks.count
-    }
-
-    // Number of days shown in a particular month
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numOfCells
-    }
     
+    // MARK: - Helper functions
+
     func getDisplayWeeks() -> [CalendarWeek]{
         return self.displayWeeks
     }
@@ -44,6 +41,21 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
         self.selectedDate = newSelectedDate
         self.displayWeeks = self.calendarHelper.genCalendarWeek(selectedDate: self.selectedDate)
         return displayWeeks
+    }
+    
+    func setSelectedCell(newSelectedDate: Date) {
+        self.selectedDate = newSelectedDate
+    }
+    
+    // MARK: - Standard CollectionView methods
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        self.displayWeeks.count
+    }
+
+    // Number of days shown in a particular month
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return numOfCells
     }
     
     // Contrusting the cells of the collection view - Showing dates
@@ -112,10 +124,6 @@ class WeekCollectionViewDataSource : NSObject, UICollectionViewDataSource {
             }
         }
         return cell
-    }
-    
-    func setSelectedCell(newSelectedDate: Date) {
-        self.selectedDate = newSelectedDate
     }
     
 }

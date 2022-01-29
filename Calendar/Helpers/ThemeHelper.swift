@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 28/1/2022.
 //
+//  A helper class for updating the colour theme and switch between dark / light mode
 
 import Foundation
 import UIKit

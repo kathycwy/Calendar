@@ -1,63 +1,38 @@
+//
+//  PreferenceHeader.swift
+//  Calendar
+//
+//  Created by C Chan on 27/1/2022.
+//
+//  A cell class used for showing the setting item in preference view
+
 import UIKit
 
 class PreferenceHeader: UIView {
-    
-    // MARK: - Properties
-
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "ironman")
-        return iv
-    }()
-     
-    let colourThemeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "User Interface Settings"
-        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.appColor(.onPrimary)
-        return label
-    }()
-    
-    let notificationLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Notification Settings"
-        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        //label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.appColor(.onPrimary)
-        return label
-    }()
-    
-    let calendarSettingLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Calendar Setting"
-        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        //label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.appColor(.onPrimary)
-        return label
-    }()
-    
-    let appIconLabel: UILabel = {
-        let label = UILabel()
-        label.text = "App Icon"
-        label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
-        //label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.appColor(.onPrimary)
-        return label
-    }()
     
     // MARK: - Init
     
     func initHeader(section: Int) {
         backgroundColor = UIColor.appColor(.primary)
+        
+        let headerLabel: UILabel = {
+            let label = UILabel()
+            label.font = label.font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 16)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.textColor = UIColor.appColor(.onPrimary)
+            return label
+        }()
+        
         switch section {
             /*case 0:
+             let profileImageView: UIImageView = {
+                 let iv = UIImageView()
+                 iv.contentMode = .scaleAspectFill
+                 iv.clipsToBounds = true
+                 iv.translatesAutoresizingMaskIntoConstraints = false
+                 iv.image = UIImage(named: "ironman")
+                 return iv
+             }()
             let profileImageDimension: CGFloat = 60
             
             addSubview(profileImageView)
@@ -69,24 +44,28 @@ class PreferenceHeader: UIView {
              break
                 */
         case 0:
-            addSubview(appIconLabel)
-            appIconLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            appIconLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            headerLabel.text = "App Icon"
+            addSubview(headerLabel)
+            headerLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         case 1:
-            addSubview(colourThemeLabel)
-            colourThemeLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            colourThemeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            headerLabel.text = "User Interface Settings"
+            addSubview(headerLabel)
+            headerLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         case 2:
-            addSubview(notificationLabel)
-            notificationLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            notificationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            headerLabel.text = "Notification Settings"
+            addSubview(headerLabel)
+            headerLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         case 3:
-            addSubview(calendarSettingLabel)
-            calendarSettingLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            calendarSettingLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            headerLabel.text = "Calendar Setting"
+            addSubview(headerLabel)
+            headerLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
             break
         default:
             break

@@ -4,13 +4,19 @@
 //
 //  Created by Aparna Joshi on 26/01/22.
 //
+//  A header class used for showing the date in Day View
 
 import Foundation
 import UIKit
 
 class DayHeader : UITableViewHeaderFooterView {
+    
+    // MARK: - Properties
+    
     let dayLabel = LightPaddingLabel()
     let dowLabel = LightPaddingLabel()
+    
+    // MARK: - Init
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

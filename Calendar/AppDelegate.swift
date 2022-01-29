@@ -10,7 +10,9 @@ import CoreData
 import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    let notificationCenter = UNUserNotificationCenter.current()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Initialise user setting variables
@@ -32,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
         notificationCenter.requestAuthorization(options: [.alert, .sound]) {
             (permissionGranted, error) in
             if (!permissionGranted) {
@@ -44,6 +46,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ThemeHelper.applyTheme()
         
         return true
+    }
+    
+    func checkAuthorization(checkNotificationStatus isEnabled : ((Bool)->())? = nil){
+            notificationCenter.getNotificationSettings { (setttings) in
+                    switch setttings.authorizationStatus{
+                    case .authorized:
+                        isEnabled?(true)
+                    case .denied:
+                        isEnabled?(false)
+                    case .notDetermined:
+                        isEnabled?(false)
+                    default:
+                        isEnabled?(false)
+                    }
+                }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // Here we actually handle the notification
+        print("Notification received with identifier \(notification.request.identifier)")
+        // So we call the completionHandler telling that the notification should display a banner and play the notification sound - this will happen while the app is in foreground
+        completionHandler([.banner, .sound])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
     }
 
     // MARK: UISceneSession Lifecycle

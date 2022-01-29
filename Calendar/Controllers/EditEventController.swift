@@ -11,6 +11,8 @@ import SwiftUI
 
 class EditEventController: CalendarUIViewController {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var allDaySwitch: UISwitch!
@@ -26,8 +28,8 @@ class EditEventController: CalendarUIViewController {
     var fetchedEvents: [NSManagedObject] = []
     var calendarOption: String = "None"
     
-    
-    //MARK: - viewDidLoad
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         endDateField.minimumDate = startDateField.date
@@ -82,6 +84,8 @@ class EditEventController: CalendarUIViewController {
             return .off
         }
     }
+    
+    // MARK: - Actions
     
     @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
         if allDaySwitch.isOn {

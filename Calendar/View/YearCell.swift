@@ -4,16 +4,32 @@
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  A cell class used for showing the dates in Year View
 
 import Foundation
 import UIKit
 import SwiftUI
 
 class YearCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var monthCollectionView : UICollectionView!
     
     var calendarMonths: [CalendarMonth] = []
     
+    lazy var collectionViewDataSource : MonthCollectionViewDataSource = {
+        let dataSource = MonthCollectionViewDataSource(calendarMonths: self.calendarMonths, selectedDate: Date(), isAsInnerCollectionView: true)
+        return dataSource
+    }()
+    
+    lazy var collectionViewFlowLayout : MonthCollectionViewFlowLayout = {
+        let layout = MonthCollectionViewFlowLayout(isAsInnerCollectionView: true)
+        return layout
+    }()
+    
+    // MARK: - Init
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         initCell()
@@ -41,6 +57,15 @@ class YearCell: UICollectionViewCell {
         self.monthCollectionView.addGestureRecognizer(tap)
     }
     
+    func initCell() {
+        self.monthCollectionView.isScrollEnabled = false
+        self.monthCollectionView.layoutIfNeeded()
+        self.monthCollectionView.dataSource = self.collectionViewDataSource
+        self.monthCollectionView.delegate = self.collectionViewFlowLayout
+    }
+    
+    // MARK: - Actions
+
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.monthCollectionView?.indexPathForItem(at: sender.location(in: self.monthCollectionView)) {
             /*
@@ -61,27 +86,12 @@ class YearCell: UICollectionViewCell {
         }
     }
     
-    func initCell() {
-        self.monthCollectionView.isScrollEnabled = false
-        self.monthCollectionView.layoutIfNeeded()
-        self.monthCollectionView.dataSource = self.collectionViewDataSource
-        self.monthCollectionView.delegate = self.collectionViewFlowLayout
-    }
+    // MARK: Helper functions
     
     func activateCell(calendarMonths: [CalendarMonth]){
         initCell()
         self.calendarMonths = self.collectionViewDataSource.getInitCalendar(calendarMonths: calendarMonths)
         self.monthCollectionView.reloadData()
     }
-    
-    lazy var collectionViewDataSource : MonthCollectionViewDataSource = {
-        let dataSource = MonthCollectionViewDataSource(calendarMonths: self.calendarMonths, selectedDate: Date(), isAsInnerCollectionView: true)
-        return dataSource
-    }()
-    
-    lazy var collectionViewFlowLayout : MonthCollectionViewFlowLayout = {
-        let layout = MonthCollectionViewFlowLayout(isAsInnerCollectionView: true)
-        return layout
-    }()
 
 }
