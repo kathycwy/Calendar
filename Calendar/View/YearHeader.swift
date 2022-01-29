@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 class YearHeader: UICollectionReusableView {
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var yearLabel : UILabel!
     
+    // MARK: - Init
+
     override func prepareForReuse() {
         super.prepareForReuse()
         yearLabel.text = ""

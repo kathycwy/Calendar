@@ -8,6 +8,9 @@
 import Foundation
 
 struct CalendarHelper {
+    
+    // MARK: - Properties
+    
     var calendar = Calendar.current
     
     func nextMonth(date: Date) -> Date{

@@ -9,6 +9,9 @@ import UIKit
 import CoreData
 
 class SearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
     var events: [NSManagedObject] = []
@@ -16,6 +19,8 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     var selectedRow: Int? = 0
     var savedSearchText: String? = ""
     
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = rowHeight
@@ -24,14 +29,15 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
-
-    //MARK: - Table view will appear
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         events = getEventsFromSearch(searchText: savedSearchText!)
         self.tableView.reloadData()
     }
     
+
+    // MARK: - Helper Functions
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         savedSearchText = searchText
@@ -72,7 +78,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
-    //MARK: - Standard Tableview methods
+    // MARK: - Standard Tableview methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count

@@ -9,12 +9,16 @@ import Foundation
 import UIKit
 
 class WeekDayCell: UICollectionViewCell {
-
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var dayOfWeekLabel : PaddingLabel!
     @IBOutlet weak var dateLabel : PaddingLabel!
     @IBOutlet weak var taskLabel : PaddingLabel!
     var rollingWeekNumber: Int = -1
     
+    // MARK: - Init
+
     override func prepareForReuse() {
         initDateLabel()
     }
@@ -55,6 +59,8 @@ class WeekDayCell: UICollectionViewCell {
         taskLabel.text = ""
     }
     
+    // MARK: - Helper functions
+
     // Call this function if there are events on this day
     func setTaskIndicator(numberOfTasks: Int = 10){
         taskLabel.text = String(numberOfTasks)

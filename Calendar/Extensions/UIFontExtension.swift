@@ -9,6 +9,9 @@ enum FontType : String{
 }
 
 struct AppFontSize {
+    
+    // MARK: - Properties
+    
     static let smallInnerCollectionViewCell = 10
     static let smallInnerCollectionViewHeader = 11
     static let smallTableViewCellInfo = 11

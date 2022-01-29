@@ -11,7 +11,6 @@ class Preferences {
    var colourTheme = true, fontSize = true, notification = true
 }
 
-
 enum PrefRowIdentifier : String {
     case colourTheme = "Colour Theme"
     case fontSize = "Font Size"

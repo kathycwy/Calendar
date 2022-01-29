@@ -9,7 +9,9 @@ import UIKit
 import SwiftUI
 
 class MonthViewController: CalendarUIViewController {
-
+    
+    // MARK: - Properties
+    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var dowStackView: UIStackView!
@@ -26,24 +28,25 @@ class MonthViewController: CalendarUIViewController {
     
     let calendarHelper = CalendarHelper()
     
-    func getLabelsInView(view: UIView) -> [UILabel] {
-        var results = [UILabel]()
-        for subview in view.subviews as [UIView] {
-            if let label = subview as? UILabel {
-                results += [label]
-            } else {
-                results += getLabelsInView(view: subview)
-            }
-        }
-        return results
-    }
+    lazy var collectionViewFlowLayout : MonthCollectionViewFlowLayout = {
+        let layout = MonthCollectionViewFlowLayout()
+        layout.parentLoadNextBatch = loadNextBatch
+        layout.parentLoadPrevBatch = loadPrevBatch
+        return layout
+    }()
+
+    lazy var collectionViewDataSource: MonthCollectionViewDataSource = {
+        let collectionView = MonthCollectionViewDataSource(calendarMonths: calendarMonths, selectedDate: selectedDate)
+        return collectionView
+    }()
     
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initCollectionView()
         self.initView()
         self.initGestureRecognizer()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,14 +65,6 @@ class MonthViewController: CalendarUIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //self.view.layoutIfNeeded()
-    }
-    
-    @objc func rotated() {
-        if UIDevice.current.orientation.isLandscape {
-            self.scrollToDate(date: self.selectedDate, animated: false)
-        } else {
-            self.scrollToDate(date: self.selectedDate, animated: false)
-        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -118,6 +113,17 @@ class MonthViewController: CalendarUIViewController {
         self.collectionView.addGestureRecognizer(tap)
          
     }
+    
+    // MARK: - Actions
+    
+    @objc func rotated() {
+        if UIDevice.current.orientation.isLandscape {
+            self.scrollToDate(date: self.selectedDate, animated: false)
+        } else {
+            self.scrollToDate(date: self.selectedDate, animated: false)
+        }
+    }
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
@@ -132,6 +138,8 @@ class MonthViewController: CalendarUIViewController {
             }
         }
     }
+
+    // MARK: - Helper functions
     
     func setSelectedCell(indexPath: IndexPath) {
         self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
@@ -147,17 +155,19 @@ class MonthViewController: CalendarUIViewController {
         }
     }
     
-    lazy var collectionViewFlowLayout : MonthCollectionViewFlowLayout = {
-        let layout = MonthCollectionViewFlowLayout()
-        layout.parentLoadNextBatch = loadNextBatch
-        layout.parentLoadPrevBatch = loadPrevBatch
-        return layout
-    }()
-
-    lazy var collectionViewDataSource: MonthCollectionViewDataSource = {
-        let collectionView = MonthCollectionViewDataSource(calendarMonths: calendarMonths, selectedDate: selectedDate)
-        return collectionView
-    }()
+    // MARK: - Helper functions
+    
+    func getLabelsInView(view: UIView) -> [UILabel] {
+        var results = [UILabel]()
+        for subview in view.subviews as [UIView] {
+            if let label = subview as? UILabel {
+                results += [label]
+            } else {
+                results += getLabelsInView(view: subview)
+            }
+        }
+        return results
+    }
     
     func calculateIndexPathsToReload(from newcalendarMonths: [CalendarMonth]) -> [IndexPath] {
       let startIndex = self.calendarMonths.count - newcalendarMonths.count
@@ -254,17 +264,6 @@ class MonthViewController: CalendarUIViewController {
         }
     }
     
-    /*
-    @IBAction func prevMonth(_ sender: Any) {
-        selectedDate = calendarHelper.previousMonth(date: selectedDate)
-        reloadCalendar()
-    }
-    
-    @IBAction func nextMonth(_ sender: Any) {
-        selectedDate = calendarHelper.nextMonth(date: selectedDate)
-        reloadCalendar()
-    }
-     */
     @objc func scrollToToday(_ notification: Notification) {
         self.scrollToDate(date: self.calendarHelper.getCurrentDate())
     }
@@ -276,6 +275,7 @@ class MonthViewController: CalendarUIViewController {
            }
        }
     }
+    
     override func reloadUI() {
         self.collectionView.reloadData()
         self.dowStackView.backgroundColor = .appColor(.primary)

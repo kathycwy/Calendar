@@ -10,6 +10,8 @@ import UIKit
 
 class AppIconHelper {
     
+    // MARK: - Properties
+    
     let application = UIApplication.shared
     
     enum AppIcon: String {

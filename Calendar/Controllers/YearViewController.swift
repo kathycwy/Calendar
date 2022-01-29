@@ -9,7 +9,9 @@ import UIKit
 import SwiftUI
 
 class YearViewController: CalendarUIViewController {
-
+    
+    // MARK: - Properties
+    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -24,18 +26,19 @@ class YearViewController: CalendarUIViewController {
     
     let calendarHelper = CalendarHelper()
     
-    func getLabelsInView(view: UIView) -> [UILabel] {
-        var results = [UILabel]()
-        for subview in view.subviews as [UIView] {
-            if let label = subview as? UILabel {
-                results += [label]
-            } else {
-                results += getLabelsInView(view: subview)
-            }
-        }
-        return results
-    }
+    lazy var collectionViewFlowLayout : YearCollectionViewFlowLayout = {
+        let layout = YearCollectionViewFlowLayout()
+        layout.parentLoadNextBatch = loadNextBatch
+        return layout
+    }()
+
+    lazy var collectionViewDataSource: YearCollectionViewDataSource = {
+        let collectionView = YearCollectionViewDataSource()
+        return collectionView
+    }()
     
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initCollectionView()
@@ -58,7 +61,6 @@ class YearViewController: CalendarUIViewController {
         super.viewWillLayoutSubviews()
         if isScrolled && self.collectionView.visibleCells.count > 0 {
             self.collectionView.collectionViewLayout.invalidateLayout()
-            
         }
     }
     
@@ -85,16 +87,19 @@ class YearViewController: CalendarUIViewController {
         //if #available(iOS 10.0, *) {self.collectionView.isPrefetchingEnabled = false}
     }
     
-    lazy var collectionViewFlowLayout : YearCollectionViewFlowLayout = {
-        let layout = YearCollectionViewFlowLayout()
-        layout.parentLoadNextBatch = loadNextBatch
-        return layout
-    }()
-
-    lazy var collectionViewDataSource: YearCollectionViewDataSource = {
-        let collectionView = YearCollectionViewDataSource()
-        return collectionView
-    }()
+    // MARK: - Helper functions
+    
+    func getLabelsInView(view: UIView) -> [UILabel] {
+        var results = [UILabel]()
+        for subview in view.subviews as [UIView] {
+            if let label = subview as? UILabel {
+                results += [label]
+            } else {
+                results += getLabelsInView(view: subview)
+            }
+        }
+        return results
+    }
     
     func setSelectedCell(indexPath: IndexPath) {
         if let prevIndexPath: IndexPath = self.selectedIndexPath {

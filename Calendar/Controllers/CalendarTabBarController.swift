@@ -2,9 +2,13 @@ import UIKit
 
 class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    // MARK: - Properties
+    
     var freshLaunch:Bool = true
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
+    
+    // MARK: - Init
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +33,8 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
        }
        return true
    }
+    
+    // MARK: - Helper functions
     
     func reloadUI() {
         self.view.setNeedsDisplay()
