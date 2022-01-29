@@ -1,24 +1,20 @@
 //
-//  WeeklyEventCell.swift
+//  SearchEventCell.swift
 //  Calendar
 //
 //  Created by Wingyin Chan on 29.01.22.
 //
-//  A cell class used for showing the events in Week View, Search View and Event List View
 
 import UIKit
 
-class EventCell: UITableViewCell {
+class SearchEventCell: UITableViewCell
+{
     
-    // MARK: - Properties
+    @IBOutlet weak var colorBar: UIView!
+    @IBOutlet weak var endDateLabel: PaddingLabel!
+    @IBOutlet weak var startDateLabel: PaddingLabel!
+    @IBOutlet weak var titleLabel: PaddingLabel!
     
-    IBOutlet weak var colorBar: UIView!
-    IBOutlet weak var endDateLabel: PaddingLabel!
-    IBOutlet weak var startDateLabel: PaddingLabel!
-    IBOutlet weak var titleLabel: PaddingLabel!
-    
-    // MARK: - Init
-
     func initCell(indexPath: IndexPath) {
         if (indexPath.row % 2 == 0) {
             self.backgroundColor = UIColor.appColor(.surface)
@@ -55,3 +51,4 @@ class EventCell: UITableViewCell {
         
         
 }
+

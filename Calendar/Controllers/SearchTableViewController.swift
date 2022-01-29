@@ -114,6 +114,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventLoc))
         
+        cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
         cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
