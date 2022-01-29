@@ -22,6 +22,7 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var notesField: UITextField!
+    @IBOutlet weak var remindButton: UIButton!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
