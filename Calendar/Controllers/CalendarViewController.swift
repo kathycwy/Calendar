@@ -2,6 +2,8 @@ import UIKit
 
 class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var dayContainerView: UIView!
     @IBOutlet weak var monthContainerView: UIView!
     @IBOutlet weak var yearContainerView: UIView!
@@ -22,6 +24,8 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
     var arrLabels = ["Search", "Preferences"]
     var isSideMenuOpen: Bool = false
     
+    // MARK: - Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenuView.isHidden = true
@@ -36,34 +40,6 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         yearContainerView.alpha = 0.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(switchSegment(_:)), name: Notification.Name(rawValue: "switchSegment"), object: nil)
-    }
-    
-    @IBAction func didChangeIndex(_ sender: UISegmentedControl) {
-        let selectedIndex = sender.selectedSegmentIndex
-        switch selectedIndex {
-        case 0:
-            dayContainerView.alpha = 1.0
-            weekContainerView.alpha = 0.0
-            monthContainerView.alpha = 0.0
-            yearContainerView.alpha = 0.0
-        case 1:
-            dayContainerView.alpha = 0.0
-            weekContainerView.alpha = 1.0
-            monthContainerView.alpha = 0.0
-            yearContainerView.alpha = 0.0
-        case 2:
-            dayContainerView.alpha = 0.0
-            weekContainerView.alpha = 0.0
-            monthContainerView.alpha = 1.0
-            yearContainerView.alpha = 0.0
-        case 3:
-            dayContainerView.alpha = 0.0
-            weekContainerView.alpha = 0.0
-            monthContainerView.alpha = 0.0
-            yearContainerView.alpha = 1.0
-        default:
-            break
-        }
     }
     
     func setCalendar(calendarYears: [CalendarYear] = []) -> [CalendarYear] {
@@ -110,6 +86,42 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
 
     }
     
+    // MARK: - Helper functions
+    
+    override func reloadUI() {
+        super.reloadUI()
+        self.sideMenuTableView.reloadData()
+    }
+    // MARK: - Actions
+    
+    @IBAction func didChangeIndex(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        switch selectedIndex {
+        case 0:
+            dayContainerView.alpha = 1.0
+            weekContainerView.alpha = 0.0
+            monthContainerView.alpha = 0.0
+            yearContainerView.alpha = 0.0
+        case 1:
+            dayContainerView.alpha = 0.0
+            weekContainerView.alpha = 1.0
+            monthContainerView.alpha = 0.0
+            yearContainerView.alpha = 0.0
+        case 2:
+            dayContainerView.alpha = 0.0
+            weekContainerView.alpha = 0.0
+            monthContainerView.alpha = 1.0
+            yearContainerView.alpha = 0.0
+        case 3:
+            dayContainerView.alpha = 0.0
+            weekContainerView.alpha = 0.0
+            monthContainerView.alpha = 0.0
+            yearContainerView.alpha = 1.0
+        default:
+            break
+        }
+    }
+    
     @objc func switchSegment(_ notification: Notification) {
         let selectedDate: Date? = (notification.userInfo?["date"] ?? nil) as? Date
         let switchToView: String? = notification.userInfo?["view"] as? String
@@ -135,6 +147,33 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         self.calendarViewSegmentedControl.sendActions(for: UIControl.Event.valueChanged)
         
     }
+    
+    @IBAction func sideMenuButton(_ sender: Any) {
+        sideMenuView.isHidden = false
+        sideMenuTableView.isHidden = false
+        self.view.bringSubviewToFront(sideMenuView)
+        if !isSideMenuOpen {
+            isSideMenuOpen = true
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            }
+        } else {
+            sideMenuView.isHidden = true
+            sideMenuTableView.isHidden = true
+            isSideMenuOpen = false
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            UIView.animate(withDuration: 0.3) {
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            }
+        }
+    }
+    
+    // MARK: - Standard Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrLabels.count
@@ -185,37 +224,6 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         cell.icon.image = image?.tinted(with: UIColor.appColor(.primary)!)
 
         return cell
-    }
-    
-    @IBAction func sideMenuButton(_ sender: Any) {
-        sideMenuView.isHidden = false
-        sideMenuTableView.isHidden = false
-        self.view.bringSubviewToFront(sideMenuView)
-        if !isSideMenuOpen {
-            isSideMenuOpen = true
-            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-            UIView.animate(withDuration: 0.3) {
-                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-            }
-        } else {
-            sideMenuView.isHidden = true
-            sideMenuTableView.isHidden = true
-            isSideMenuOpen = false
-            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-            UIView.animate(withDuration: 0.3) {
-                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-            }
-        }
-        
-    }
-    
-    override func reloadUI() {
-        super.reloadUI()
-        self.sideMenuTableView.reloadData()
     }
     
 }

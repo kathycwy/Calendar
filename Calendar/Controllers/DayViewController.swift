@@ -11,6 +11,8 @@ import CoreData
 
 class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var hourTableView: UITableView!
     
     var selectedDay: Date = Date()
@@ -22,7 +24,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     let calendarHelper = CalendarHelper()
     var nRef = 1
     
-    
+    // MARK: - Init
+
     override func loadView() {
         super.loadView()
         
@@ -66,6 +69,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         self.hourTableView.addGestureRecognizer(rightSwipe)
     }
     
+    // MARK: - Actions
+
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
@@ -87,6 +92,38 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
     }
     
+    // MARK: - Helper functions
+
+    func formatHour(hour: Int) -> String {
+        return String(format: "%02d:%02d", hour, 0)
+    }
+    
+    func scrollToToday(){
+        self.selectedDay = self.calendarHelper.getCurrentDate()
+        self.setDayView()
+    }
+    
+    func scrollToDate(date: Date){
+        self.selectedDay = date
+        self.setDayView()
+    }
+    
+    @objc func scrollToToday(_ notification: Notification) {
+        scrollToToday()
+    }
+    
+    @objc func scrollToDate(_ notification: Notification) {
+       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
+           self.scrollToDate(date: selectedDate)
+       }
+    }
+    
+    override func reloadUI() {
+        super.reloadUI()
+        self.setDayView(scroll: false)
+        self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
+    }
+
     func setDayView(scroll: Bool = true) {
         for tag in viewTags {
             if let z = view.viewWithTag(tag) as! UIButton? {
@@ -102,6 +139,8 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             }
         }
     }
+    
+    // MARK: - Standard Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hours.count
@@ -244,36 +283,6 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             hourTableView.addSubview(eventButton)
             viewTags.append(tag)
         }
-    }
-    
-    func formatHour(hour: Int) -> String {
-        return String(format: "%02d:%02d", hour, 0)
-    }
-    
-    func scrollToToday(){
-        self.selectedDay = self.calendarHelper.getCurrentDate()
-        self.setDayView()
-    }
-    
-    func scrollToDate(date: Date){
-        self.selectedDay = date
-        self.setDayView()
-    }
-    
-    @objc func scrollToToday(_ notification: Notification) {
-        scrollToToday()
-    }
-    
-    @objc func scrollToDate(_ notification: Notification) {
-       if let selectedDate = (notification.userInfo?["date"] ?? nil) as? Date{
-           self.scrollToDate(date: selectedDate)
-       }
-    }
-    
-    override func reloadUI() {
-        super.reloadUI()
-        self.setDayView(scroll: false)
-        self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
     }
 }
 

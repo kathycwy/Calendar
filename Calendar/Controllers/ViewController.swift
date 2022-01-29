@@ -9,6 +9,8 @@ import UIKit
 import SwiftUI
 
 class ViewController: UIViewController {
+    
+    // MARK: - Init
 
     override func viewDidLoad() {
         super.viewDidLoad()

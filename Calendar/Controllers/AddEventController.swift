@@ -31,7 +31,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet private var notesField: UITextField!
     
-    // MARK: -
     var managedObjectContext: NSManagedObjectContext?
     var events: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
@@ -41,7 +40,11 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var selectedRow = 0
     var rowHeight = 80
 
-    // MARK: - Actions
+    // MARK: - Init
+    
+    func initUI(){
+        pageTitleLabel.textColor = .appColor(.navigationTitle)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +104,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
 
     }
     
+    // MARK: - Actions
+    
     @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
         if allDaySwitch.isOn {
             startDateField.datePickerMode = .date
@@ -152,9 +157,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         self.present(alert, animated: true, completion: nil)
     }
     
-    func initUI(){
-        pageTitleLabel.textColor = .appColor(.navigationTitle)
-    }
+    // MARK: - Standard PickerView methods
     
     func numberOfComponents(in endRepeatIntPicker: UIPickerView) -> Int {
         return 1
@@ -238,7 +241,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     }
     
     
-    ///////////// CoreData //////////
+    // MARK: - CoreData
+    
     @IBAction func addEvent(_ sender: Any) {
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

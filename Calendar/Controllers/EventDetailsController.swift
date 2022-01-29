@@ -11,6 +11,8 @@ import SwiftUI
 
 class EventDetailsController: CalendarUIViewController {
     
+    // MARK: - Properties
+    
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var allDayLabel: UILabel!
     @IBOutlet weak var startDate: UILabel!
@@ -24,7 +26,8 @@ class EventDetailsController: CalendarUIViewController {
     var fetchedEvents: [NSManagedObject] = []
     
     
-    //MARK: - viewDidLoad
+    //MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -68,16 +71,18 @@ class EventDetailsController: CalendarUIViewController {
         
     }
     
-    @IBAction func editButtonTapped(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "editButtonTapped", sender: self)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == "editButtonTapped") {
             let destinationVC = segue.destination as! EditEventController
             destinationVC.event = self.event
         }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "editButtonTapped", sender: self)
     }
         
     @IBAction func deleteButtonTapped(_ sender: UIButton) {

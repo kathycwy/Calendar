@@ -8,9 +8,14 @@
 import UIKit
 
 class DayCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet weak var topTimeLabel: UILabel!
     @IBOutlet weak var bottomTimeLabel: UILabel!
     @IBOutlet weak var separatorLine: UIView!
+    
+    // MARK: - Init
 
     var topTime: String = "" {
         didSet {

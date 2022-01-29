@@ -10,6 +10,8 @@ import CoreData
 
 class EventListController: UITableViewController {
     
+    // MARK: - Properties
+    
     var events: [NSManagedObject] = []
     let rowHeight: CGFloat = 80.0
     var selectedRow: Int?
@@ -20,12 +22,27 @@ class EventListController: UITableViewController {
         self.tableView.estimatedRowHeight = rowHeight
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
+    
+    // MARK: - Init
 
-    //MARK: - Table view will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateView()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "eventCellTapped") {
+            let destinationVC = segue.destination as! EventDetailsController
+            
+            if selectedRow != nil {
+                destinationVC.event = self.events[self.selectedRow!]
+                destinationVC.eventID = self.events[self.selectedRow!].objectID
+            }
+        }
+    }
+    
+    // MARK: - Helper functions
     
     func getEventsByStartDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
         fetchEvents()
@@ -135,11 +152,12 @@ class EventListController: UITableViewController {
         }
     }
 
-    //MARK: - Standard Tableview methods
+    // MARK: - Standard Tableview methods
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
     }
-    // MARK:  init the Cell with data
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = events[indexPath.row]
         
@@ -184,25 +202,4 @@ class EventListController: UITableViewController {
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if (segue.identifier == "eventCellTapped") {
-            let destinationVC = segue.destination as! EventDetailsController
-            
-            if selectedRow != nil {
-                destinationVC.event = self.events[self.selectedRow!]
-                destinationVC.eventID = self.events[self.selectedRow!].objectID
-            }
-        }
-        
-    }
-}
-
-extension Date {
-    public var removeTimeStamp : Date? {
-       guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
-        return nil
-       }
-       return date
-   }
 }

@@ -1,6 +1,9 @@
 import UIKit
 
 class FieldUILabel: PaddingLabel {
+    
+    // MARK: - Init
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         font = font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 15)

@@ -7,13 +7,16 @@
 
 import UIKit
 
-class EventCell: UITableViewCell
-{
+class EventCell: UITableViewCell {
+    
+    // MARK: - Properties
     
     @IBOutlet weak var endDateLabel: PaddingLabel!
     @IBOutlet weak var startDateLabel: PaddingLabel!
     @IBOutlet weak var titleLabel: PaddingLabel!
     
+    // MARK: - Init
+
     func initCell(indexPath: IndexPath) {
         if (indexPath.row % 2 == 0) {
             self.backgroundColor = UIColor.appColor(.surface)
