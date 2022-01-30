@@ -84,7 +84,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
 
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -93,7 +93,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             
         }
         else if sender.direction == .right {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -212,7 +212,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                         if let endDate = event.value(forKeyPath: "endDate") as? Date {
                             let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
                             
-                            let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
+                            let minutes = CGFloat((formatter.string(from: max(startDateTime, startDate)) as NSString).floatValue)
                             
                             let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
                             let height = max(rowHeight / 3600 * elapsedTime, 30)

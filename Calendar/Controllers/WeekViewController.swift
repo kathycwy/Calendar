@@ -150,20 +150,20 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
-            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -7)
-            
-            UIView.transition(with: self.view,
-                              duration: 0.3,
-                              options: .transitionCurlDown,
-                              animations: {
-                self.reloadCalendar(newSelectedDate: self.selectedDate) })
-            
-        } else if sender.direction == .right {
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
             
             UIView.transition(with: self.view,
                               duration: 0.3,
                               options: .transitionCurlUp,
+                              animations: {
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
+            
+        } else if sender.direction == .right {
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -7)
+            
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCurlDown,
                               animations: {
                 self.reloadCalendar(newSelectedDate: self.selectedDate) })
         }
