@@ -71,6 +71,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         super.viewDidLoad()
         zoomInUsersLocation()
         checkAuthrizationStatus(locationManager: manager)
+        mapView.addGestureRecognizer(onetapGesture)
         startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
         endRepeatDatePicker.minimumDate = endDateField.date
