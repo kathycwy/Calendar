@@ -11,6 +11,9 @@ import SwiftUI
 
 class EditEventController: CalendarUIViewController {
     
+    
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    
     // MARK: - Properties
     
     @IBOutlet weak var pageTitleLabel: UILabel!
@@ -24,10 +27,11 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var notesField: UITextField!
     @IBOutlet weak var remindButton: UIButton!
     
-    var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
     var calendarOption: String = "None"
+    var remindOption: String = ""
+    var initialRemindOption: String = ""
     
     // MARK: - Init
 
@@ -35,6 +39,12 @@ class EditEventController: CalendarUIViewController {
         super.viewDidLoad()
         endDateField.minimumDate = startDateField.date
         pageTitleLabel.textColor = .appColor(.navigationTitle)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc fileprivate func willEnterForeground() {
+        self.changeRemindButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +86,63 @@ class EditEventController: CalendarUIViewController {
         urlField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")
         notesField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
         
+        let remindButtonClosure = { (action: UIAction) in
+            self.remindOption = action.title
+        }
+        
+        //if notifications are not authorized, disable the menu and treat as regular button
+        self.changeRemindButton()
+        
+        var arrMenu:[UIAction] = [
+            UIAction(title: EventsStruct.remindNever, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remindOnDate, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind5Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind10Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind15Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind30Min, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Hr, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind2Hr, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Day, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind2Day, handler: remindButtonClosure),
+            UIAction(title: EventsStruct.remind1Wk, handler: remindButtonClosure),
+          ]
+        switch self.initialRemindOption {
+        case EventsStruct.remindNever:
+            arrMenu[0] = UIAction(title: EventsStruct.remindNever, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remindOnDate:
+            arrMenu[1] = UIAction(title: EventsStruct.remindOnDate, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind5Min:
+            arrMenu[2] = UIAction(title: EventsStruct.remind5Min, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind10Min:
+            arrMenu[3] = UIAction(title: EventsStruct.remind10Min, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind15Min:
+            arrMenu[4] = UIAction(title: EventsStruct.remind15Min, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind30Min:
+            arrMenu[5] = UIAction(title: EventsStruct.remind30Min, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind1Hr:
+            arrMenu[6] = UIAction(title: EventsStruct.remind1Hr, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind2Hr:
+            arrMenu[7] = UIAction(title: EventsStruct.remind2Hr, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind1Day:
+            arrMenu[8] = UIAction(title: EventsStruct.remind1Day, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind2Day:
+            arrMenu[9] = UIAction(title: EventsStruct.remind2Day, state: .on, handler: remindButtonClosure)
+        case EventsStruct.remind1Wk:
+            arrMenu[10] = UIAction(title: EventsStruct.remind1Wk, state: .on, handler: remindButtonClosure)
+        default:
+            arrMenu[0] = UIAction(title: EventsStruct.remindNever, state: .on, handler: remindButtonClosure)
+        }
+        remindButton.menu = UIMenu(children: arrMenu)
+    }
+    
+    func changeRemindButton() {
+        self.appDelegate?.checkAuthorization {  (isEnabled) in
+            if (isEnabled == false) {
+                self.remindButton.showsMenuAsPrimaryAction = false
+            } else {
+                self.remindButton.showsMenuAsPrimaryAction = true
+            }
+        }
     }
     
     func calendarOptionState(option: String, selectedOption: String) -> UIMenuElement.State {
@@ -102,6 +169,58 @@ class EditEventController: CalendarUIViewController {
         endDateField.minimumDate = startDateField.date
     }
     
+    func calcRemindTime (startDate: Date, remindOption: String) -> Date {
+        
+        var result = startDate
+        let localStartDate = startDate
+                
+        switch remindOption {
+        case EventsStruct.remindOnDate:
+            return result
+        case EventsStruct.remind5Min:
+            result = Calendar.current.date(byAdding: .minute, value: -5, to: localStartDate)! as Date
+        case EventsStruct.remind10Min:
+            result = Calendar.current.date(byAdding: .minute, value: -10, to: localStartDate)! as Date
+        case EventsStruct.remind15Min:
+            result = Calendar.current.date(byAdding: .minute, value: -15, to: localStartDate)! as Date
+        case EventsStruct.remind30Min:
+            result = Calendar.current.date(byAdding: .minute, value: -30, to: localStartDate)! as Date
+        case EventsStruct.remind1Hr:
+            result = Calendar.current.date(byAdding: .hour, value: -1, to: localStartDate)! as Date
+        case EventsStruct.remind2Hr:
+            result = Calendar.current.date(byAdding: .hour, value: -2, to: localStartDate)! as Date
+        case EventsStruct.remind1Day:
+            result = Calendar.current.date(byAdding: .day, value: -1, to: localStartDate)! as Date
+        case EventsStruct.remind2Day:
+            result = Calendar.current.date(byAdding: .day, value: -2, to: localStartDate)! as Date
+        case EventsStruct.remind1Wk:
+            result = Calendar.current.date(byAdding: .day, value: -7, to: localStartDate)! as Date
+        default:
+            return result
+        }
+        return result
+    }
+    
+    @IBAction func remindButtonPressed(_ sender: Any) {
+        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+        if isNotificationEnabled == false {
+            self.remindButton.showsMenuAsPrimaryAction = false
+            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
+            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
+                else {
+                    return
+                }
+                if (UIApplication.shared.canOpenURL(settingsURL)) {
+                    UIApplication.shared.open(settingsURL) { (_) in }
+                }
+            }
+            alert.addAction(goToSettings)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
+            self.present(alert, animated: true)
+        }
+    }
+    
     @IBAction func updateEvent(_ sender: Any) {
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -120,7 +239,13 @@ class EditEventController: CalendarUIViewController {
             let calendarOption = self.calendarOption
             let url = urlField.text
             let notes = notesField.text
-
+            var remindOption = self.remindOption
+            //Handles case when notifications are disabled after selecting an option
+            let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+            if isNotificationEnabled == false {
+                remindOption = EventsStruct.remindNever
+            }
+            
             // set all-day event to 00:00 - 23:59
             if allDaySwitchState {
                 let formatter = DateFormatter()
@@ -144,6 +269,17 @@ class EditEventController: CalendarUIViewController {
             updatingEvent.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
             updatingEvent.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             updatingEvent.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
+            updatingEvent.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
+            let remindTime = calcRemindTime(startDate: startDate, remindOption: remindOption)
+            let notificationID = String(self.event!.value(forKeyPath: Constants.EventsAttribute.notificationIDAttribute) as? String ?? "")
+            //update the existing or create a new notification
+            if remindOption != EventsStruct.remindNever {
+                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, startDate: startDate, endDate: endDate, notID: notificationID)
+            }
+            //the notification was initially set but changed to never, delete the notification
+            else if self.initialRemindOption != EventsStruct.remindNever && remindOption == EventsStruct.remindNever {
+                self.appDelegate?.deleteNotification(notID: notificationID)
+            }
 
             try managedContext.save()
             
