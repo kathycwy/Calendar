@@ -152,9 +152,13 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     func changeRemindButton() {
         self.appDelegate?.checkAuthorization {  (isEnabled) in
             if (isEnabled == false) {
-                self.remindButton.showsMenuAsPrimaryAction = false
+                DispatchQueue.main.async {
+                    self.remindButton.showsMenuAsPrimaryAction = false
+                }
             } else {
-                self.remindButton.showsMenuAsPrimaryAction = true
+                DispatchQueue.main.async {
+                    self.remindButton.showsMenuAsPrimaryAction = true
+                }
             }
         }
     }
@@ -397,6 +401,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
 
         for repeatEventDate in repeatEventDates {
             let event = NSManagedObject(entity: entity, insertInto: managedContext)
+            let notificationID = UUID().uuidString
             event.setValue(title, forKeyPath: Constants.EventsAttribute.titleAttribute)
             event.setValue(allDaySwitchState, forKeyPath: Constants.EventsAttribute.allDayAttribute)
             event.setValue(repeatEventDate[0], forKeyPath: Constants.EventsAttribute.startDateAttribute)
@@ -408,12 +413,11 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
             event.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
-            event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
             event.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
+            event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
             let remindTime = calcRemindTime(startDate: repeatEventDate[0], remindOption: remindOption)
-            let eventObjectIDString = event.objectID.uriRepresentation().absoluteString
             if remindOption != EventsStruct.remindNever {
-                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, startDate: repeatEventDate[0], endDate: repeatEventDate[1], notID: eventObjectIDString)
+                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
             }
             
             do {

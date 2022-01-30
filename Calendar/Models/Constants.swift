@@ -47,6 +47,7 @@ struct Constants {
         static let urlAttribute: String = "url"
         static let notesAttribute: String = "notes"
         static let remindOptionAttribute: String = "remindOption"
+        static let notificationIDAttribute: String = "notificationID"
     }
     
     // event repeating options

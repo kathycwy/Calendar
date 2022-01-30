@@ -1014,6 +1014,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kT-lU-LtP">
                                                 <rect key="frame" x="57.5" y="0.0" width="296.5" height="30"/>
                                                 <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="remindButtonPressed:" destination="wO8-KG-OKN" eventType="touchUpInside" id="1lU-Mg-yJC"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

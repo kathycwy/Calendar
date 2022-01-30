@@ -63,11 +63,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func scheduleNotification(eventTitle: String, remindDate: Date, startDate: Date, endDate: Date, notID: String) {
+    func scheduleNotification(eventTitle: String, remindDate: Date, remindOption: String, notID: String) {
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
         content.title = eventTitle
-        content.body = "Scheduled from " + formattedDate(date: startDate) + " to " + formattedDate(date: endDate)
+        content.body = formatMessage(remindOption: remindOption)
         
         let dateCompRemind = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: remindDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateCompRemind, repeats: false)
@@ -81,10 +81,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func formattedDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y, HH:mm"
-        return formatter.string(from: date)
+    func deleteNotification(notID: String) {
+        self.notificationCenter.getPendingNotificationRequests { (notificationRequests) in
+           var identifiers: [String] = []
+           for notification:UNNotificationRequest in notificationRequests {
+               if notification.identifier == notID {
+                  identifiers.append(notification.identifier)
+               }
+           }
+        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+    }
+    
+    func formatMessage(remindOption: String) -> String {
+        var message = ""
+        switch remindOption {
+        case EventsStruct.remindOnDate:
+            message = "Starting Now"
+        case EventsStruct.remind5Min:
+            message = "Starting in 5 Minutes"
+        case EventsStruct.remind10Min:
+            message = "Starting in 10 Minutes"
+        case EventsStruct.remind15Min:
+            message = "Starting in 15 Minutes"
+        case EventsStruct.remind30Min:
+            message = "Starting in 30 Minutes"
+        case EventsStruct.remind1Hr:
+            message = "Starting in 1 Hour"
+        case EventsStruct.remind2Hr:
+            message = "Starting in 2 Hours"
+        case EventsStruct.remind1Day:
+            message = "Starting in 1 Day"
+        case EventsStruct.remind2Day:
+            message = "Starting in 2 Days"
+        case EventsStruct.remind1Wk:
+            message = "Starting in 1 Week"
+        default:
+            return message
+        }
+        return message
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
