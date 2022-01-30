@@ -152,9 +152,13 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     func changeRemindButton() {
         self.appDelegate?.checkAuthorization {  (isEnabled) in
             if (isEnabled == false) {
-                self.remindButton.showsMenuAsPrimaryAction = false
+                DispatchQueue.main.async {
+                    self.remindButton.showsMenuAsPrimaryAction = false
+                }
             } else {
-                self.remindButton.showsMenuAsPrimaryAction = true
+                DispatchQueue.main.async {
+                    self.remindButton.showsMenuAsPrimaryAction = true
+                }
             }
         }
     }
@@ -413,7 +417,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
             let remindTime = calcRemindTime(startDate: repeatEventDate[0], remindOption: remindOption)
             if remindOption != EventsStruct.remindNever {
-                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, startDate: repeatEventDate[0], endDate: repeatEventDate[1], notID: notificationID)
+                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
             }
             
             do {
