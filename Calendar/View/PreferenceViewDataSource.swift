@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 29/1/2022.
 //
+//  A DataSource extension class for PreferencesViewController
 
 import UIKit
 
@@ -12,7 +13,7 @@ class PreferencesDataSource: NSObject, UITableViewDelegate, UITableViewDataSourc
     // MARK: - Standard Tableview methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -20,7 +21,7 @@ class PreferencesDataSource: NSObject, UITableViewDelegate, UITableViewDataSourc
         case 0: return 1
         case 1: return 3
         case 2: return 1
-        case 3: return 1
+        //case 3: return 1
         default: return 0
         }
     }

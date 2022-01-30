@@ -4,6 +4,7 @@
 //
 //  Created by Wingyin Chan on 16.01.22.
 //
+//  To control the functionalities of the event list page
 
 import UIKit
 import CoreData

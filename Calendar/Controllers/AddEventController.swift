@@ -4,6 +4,7 @@
 //
 //  Created by Aparna Joshi on 14/01/22.
 //
+//  To control the functionalities of the add event page
 
 import UIKit
 import CoreData
