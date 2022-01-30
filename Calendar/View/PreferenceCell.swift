@@ -72,6 +72,7 @@ class PreferenceCell: UITableViewCell {
                break
             }
             break
+        /*
         case 2:
             switch(indexPath.row)
             {
@@ -83,7 +84,8 @@ class PreferenceCell: UITableViewCell {
                break
             }
             break
-        case 3:
+        */
+        case 2:
             switch(indexPath.row)
             {
             case 0:

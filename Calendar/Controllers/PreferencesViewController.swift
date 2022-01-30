@@ -1,9 +1,10 @@
 //
-//  ViewController.swift
+//  PreferencesViewController.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  To control the functionalities of the perference page
 
 import UIKit
 

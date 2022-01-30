@@ -70,7 +70,7 @@ class MonthCollectionViewFlowLayout : UICollectionViewFlowLayout, UICollectionVi
         let widthPerItem = availableWidth / itemsPerRow
 
         paddingSpace = flow.sectionInset.top + flow.sectionInset.bottom + (minimumLineSpacing * rowPerSection)
-        let heightPerItem = max((collectionView.frame.height - paddingSpace) / rowPerSection, isAsInnerCollectionView ? minimumInnerCellHeight : minimumCellHeight)
+        let heightPerItem = max((collectionView.frame.height - paddingSpace - 40) / rowPerSection, isAsInnerCollectionView ? minimumInnerCellHeight : minimumCellHeight)
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
     

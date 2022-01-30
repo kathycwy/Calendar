@@ -4,6 +4,7 @@
 //
 //  Created by C Chan on 22/1/2022.
 //
+//  To control the functionalities of Day View
 
 import UIKit
 import SwiftUI

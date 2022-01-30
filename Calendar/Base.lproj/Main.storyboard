@@ -507,20 +507,19 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" contentInsetAdjustmentBehavior="scrollableAxes" translatesAutoresizingMaskIntoConstraints="NO" id="67T-6e-roI">
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
-                                        <rect key="frame" x="15" y="0.0" width="384" height="1227"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
+                                        <rect key="frame" x="25" y="0.0" width="364" height="1227"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-5P-pxG">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Event" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PvK-i8-31C">
-                                                        <rect key="frame" x="0.0" y="10" width="364" height="40"/>
+                                                        <rect key="frame" x="0.0" y="10" width="344" height="40"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="PvK-i8-31C" secondAttribute="bottom" constant="10" id="IMZ-Ah-xOc"/>
                                                     <constraint firstItem="PvK-i8-31C" firstAttribute="leading" secondItem="ewF-5P-pxG" secondAttribute="leading" id="PPU-yc-aGN"/>
@@ -530,16 +529,16 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rQc-ra-cX1">
-                                                <rect key="frame" x="0.0" y="75" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="75" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSx-R4-r4t" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hir-mg-mCB">
-                                                        <rect key="frame" x="0.0" y="20.5" width="384" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -550,16 +549,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lg-rn-4sA">
-                                                <rect key="frame" x="0.0" y="150" width="384" height="31"/>
+                                                <rect key="frame" x="0.0" y="150" width="364" height="31"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All-day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ns4-Mn-PlS" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="315" height="31"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xVF-Zs-MWt">
-                                                        <rect key="frame" x="335" y="0.0" width="51" height="31"/>
+                                                        <rect key="frame" x="315" y="0.0" width="51" height="31"/>
                                                         <connections>
                                                             <action selector="switchAllDayDatePicker:" destination="pXJ-Nq-GYX" eventType="valueChanged" id="mhN-6g-LvP"/>
                                                         </connections>
@@ -567,7 +566,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CRf-fH-L2r">
-                                                <rect key="frame" x="0.0" y="196" width="384" height="50"/>
+                                                <rect key="frame" x="0.0" y="196" width="364" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twt-li-H2r" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
@@ -579,7 +578,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="oQQ-3h-1Cc">
-                                                        <rect key="frame" x="78" y="0.0" width="306" height="50"/>
+                                                        <rect key="frame" x="78" y="0.0" width="286" height="50"/>
                                                         <connections>
                                                             <action selector="updateEndDatePicker:" destination="pXJ-Nq-GYX" eventType="valueChanged" id="W1l-yf-nl5"/>
                                                         </connections>
@@ -590,7 +589,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A8T-7i-Qun">
-                                                <rect key="frame" x="0.0" y="261" width="384" height="50"/>
+                                                <rect key="frame" x="0.0" y="261" width="364" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYo-f9-awL" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
@@ -602,7 +601,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="44U-Rh-zgp">
-                                                        <rect key="frame" x="78" y="0.0" width="306" height="50"/>
+                                                        <rect key="frame" x="78" y="0.0" width="286" height="50"/>
                                                         <connections>
                                                             <action selector="updateEndRepeatDatePicker:" destination="pXJ-Nq-GYX" eventType="valueChanged" id="Rye-jS-C3D"/>
                                                         </connections>
@@ -613,7 +612,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVX-ns-c0r">
-                                                <rect key="frame" x="0.0" y="326" width="384" height="30"/>
+                                                <rect key="frame" x="0.0" y="326" width="364" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Lc-wY-y9x" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="54" height="30"/>
@@ -622,7 +621,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M8U-uR-vhF">
-                                                        <rect key="frame" x="54" y="0.0" width="330" height="30"/>
+                                                        <rect key="frame" x="54" y="0.0" width="310" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
                                                             <action selector="repeatButtonTapped:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="Ux2-hf-nrJ"/>
@@ -631,10 +630,10 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="euS-nH-brL">
-                                                <rect key="frame" x="0.0" y="371" width="384" height="80"/>
+                                                <rect key="frame" x="0.0" y="371" width="364" height="80"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="5Db-NJ-eqV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39t-fe-8mN" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="87.5" height="20.5"/>
@@ -643,7 +642,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eM7-TL-Myq">
-                                                                <rect key="frame" x="87.5" y="0.0" width="296.5" height="30"/>
+                                                                <rect key="frame" x="87.5" y="0.0" width="276.5" height="30"/>
                                                                 <state key="normal" title="Button"/>
                                                             </button>
                                                         </subviews>
@@ -652,10 +651,10 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="right" translatesAutoresizingMaskIntoConstraints="NO" id="LA7-6L-Rtn">
-                                                        <rect key="frame" x="0.0" y="30" width="384" height="50"/>
+                                                        <rect key="frame" x="0.0" y="30" width="364" height="50"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Od3-Gt-OPC">
-                                                                <rect key="frame" x="0.0" y="0.0" width="149.5" height="50"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="129.5" height="50"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="After 1 Time(s)"/>
                                                                 <connections>
@@ -663,7 +662,7 @@
                                                                 </connections>
                                                             </button>
                                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-zm-Xw5">
-                                                                <rect key="frame" x="149.5" y="0.0" width="234.5" height="50"/>
+                                                                <rect key="frame" x="129.5" y="0.0" width="234.5" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="3TP-6J-Afb"/>
                                                                 </constraints>
@@ -676,16 +675,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Uit-5g-A7T">
-                                                <rect key="frame" x="0.0" y="466" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="466" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0k-B4-mBv" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U6z-BG-qjZ">
-                                                        <rect key="frame" x="0.0" y="20.5" width="384" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -695,10 +694,10 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="teU-jH-CeM">
-                                                <rect key="frame" x="0.0" y="541" width="384" height="446"/>
+                                                <rect key="frame" x="0.0" y="541" width="364" height="446"/>
                                                 <subviews>
                                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSs-aJ-7Ys">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="384"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="384"/>
                                                         <gestureRecognizers/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="384" id="0Ks-Yx-fNH"/>
@@ -708,23 +707,17 @@
                                                         </connections>
                                                     </mapView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Mj-Y1-SAC">
-                                                        <rect key="frame" x="0.0" y="384" width="384" height="31"/>
+                                                        <rect key="frame" x="0.0" y="384" width="364" height="31"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="filled" title="Current Location">
-                                                            <color key="baseForegroundColor" systemColor="labelColor"/>
-                                                            <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
-                                                        </buttonConfiguration>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Current Location"/>
                                                         <connections>
                                                             <action selector="recenterToUsersLocation:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="7dO-Sb-FA5"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4B-hR-KoL">
-                                                        <rect key="frame" x="0.0" y="415" width="384" height="31"/>
+                                                        <rect key="frame" x="0.0" y="415" width="364" height="31"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="filled" title="Set Location">
-                                                            <color key="baseForegroundColor" systemColor="labelColor"/>
-                                                            <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
-                                                        </buttonConfiguration>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Set Location"/>
                                                         <connections>
                                                             <action selector="saveLocationCoordinate:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="D6r-SU-YiE"/>
                                                         </connections>
@@ -732,7 +725,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36L-ip-aLR">
-                                                <rect key="frame" x="0.0" y="1002" width="384" height="30"/>
+                                                <rect key="frame" x="0.0" y="1002" width="364" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtB-9H-8AE" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="68.5" height="30"/>
@@ -741,22 +734,22 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CC3-TD-ZjX">
-                                                        <rect key="frame" x="68.5" y="0.0" width="315.5" height="30"/>
+                                                        <rect key="frame" x="68.5" y="0.0" width="295.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pIY-Zz-quz">
-                                                <rect key="frame" x="0.0" y="1047" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="1047" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1V-2I-Flb" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eOM-as-qL5">
-                                                        <rect key="frame" x="0.0" y="20.5" width="384" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -766,16 +759,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9XL-yi-ckl">
-                                                <rect key="frame" x="0.0" y="1122" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="1122" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4i-hM-jdX" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eXq-kd-C4j">
-                                                        <rect key="frame" x="0.0" y="20.5" width="384" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -785,7 +778,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2TG-ep-1EF">
-                                                <rect key="frame" x="0.0" y="1197" width="384" height="30"/>
+                                                <rect key="frame" x="0.0" y="1197" width="364" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w2-9x-kjF" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
@@ -794,7 +787,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CNI-1f-Q1c">
-                                                        <rect key="frame" x="57.5" y="0.0" width="326.5" height="30"/>
+                                                        <rect key="frame" x="57.5" y="0.0" width="306.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
                                                             <action selector="remindButtonPressed:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="Jkm-aO-H6t"/>
@@ -814,11 +807,9 @@
                         <viewLayoutGuide key="safeArea" id="Flq-sn-XLY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="67T-6e-roI" secondAttribute="trailing" id="Liw-QZ-IbK"/>
-                            <constraint firstItem="67T-6e-roI" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" id="MLP-bf-VFt"/>
                             <constraint firstItem="67T-6e-roI" firstAttribute="top" secondItem="Flq-sn-XLY" secondAttribute="top" id="ahY-Rm-qqe"/>
-                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="kCd-4C-K3M" secondAttribute="trailing" constant="15" id="fz5-FM-7JH"/>
-                            <constraint firstItem="kCd-4C-K3M" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" constant="15" id="lMH-zo-vzn"/>
+                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="kCd-4C-K3M" secondAttribute="trailing" constant="25" id="fz5-FM-7JH"/>
+                            <constraint firstItem="kCd-4C-K3M" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" constant="25" id="lMH-zo-vzn"/>
                             <constraint firstItem="Flq-sn-XLY" firstAttribute="bottom" secondItem="67T-6e-roI" secondAttribute="bottom" id="o18-KC-Vzd"/>
                         </constraints>
                     </view>
@@ -878,19 +869,18 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="1087"/>
+                                        <rect key="frame" x="25" y="0.0" width="364" height="1087"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50h-Zl-nWK">
-                                                <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Event" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppG-YR-xwc">
-                                                        <rect key="frame" x="0.0" y="10" width="334" height="40"/>
+                                                        <rect key="frame" x="0.0" y="10" width="344" height="40"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="84w-0a-y8g"/>
                                                     <constraint firstItem="ppG-YR-xwc" firstAttribute="leading" secondItem="50h-Zl-nWK" secondAttribute="leading" id="H48-Rz-gbw"/>
@@ -900,16 +890,16 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-ZC-gcP">
-                                                <rect key="frame" x="0.0" y="75" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="75" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lm-wF-eZq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QLi-QZ-KJn">
-                                                        <rect key="frame" x="0.0" y="20.5" width="354" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -919,16 +909,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLw-Yb-hTh">
-                                                <rect key="frame" x="0.0" y="150" width="354" height="31"/>
+                                                <rect key="frame" x="0.0" y="150" width="364" height="31"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All-day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvn-TK-oWk" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="315" height="31"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q8e-pb-cKk">
-                                                        <rect key="frame" x="305" y="0.0" width="51" height="31"/>
+                                                        <rect key="frame" x="315" y="0.0" width="51" height="31"/>
                                                         <connections>
                                                             <action selector="switchAllDayDatePicker:" destination="wO8-KG-OKN" eventType="valueChanged" id="9nx-ng-oxH"/>
                                                         </connections>
@@ -936,7 +926,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TF7-rF-7GN">
-                                                <rect key="frame" x="0.0" y="196" width="354" height="50"/>
+                                                <rect key="frame" x="0.0" y="196" width="364" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rSj-XO-BsD" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
@@ -948,7 +938,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="eiI-wI-ePU">
-                                                        <rect key="frame" x="78" y="0.0" width="276" height="50"/>
+                                                        <rect key="frame" x="78" y="0.0" width="286" height="50"/>
                                                         <connections>
                                                             <action selector="updateEndDatePicker:" destination="wO8-KG-OKN" eventType="valueChanged" id="Yuf-Jp-cW2"/>
                                                         </connections>
@@ -959,7 +949,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6td-bc-Kxq">
-                                                <rect key="frame" x="0.0" y="261" width="354" height="50"/>
+                                                <rect key="frame" x="0.0" y="261" width="364" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUv-vh-7c8" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
@@ -971,7 +961,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="JCP-FO-gbq">
-                                                        <rect key="frame" x="78" y="0.0" width="276" height="50"/>
+                                                        <rect key="frame" x="78" y="0.0" width="286" height="50"/>
                                                     </datePicker>
                                                 </subviews>
                                                 <constraints>
@@ -979,16 +969,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gjP-B5-PWT">
-                                                <rect key="frame" x="0.0" y="326" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="326" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ryI-kI-enu" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2zL-BQ-Cnn">
-                                                        <rect key="frame" x="0.0" y="20.5" width="354" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -998,7 +988,7 @@
                                                 </constraints>
                                             </stackView>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Fps-sp-n9T">
-                                                <rect key="frame" x="0.0" y="401" width="354" height="354"/>
+                                                <rect key="frame" x="0.0" y="401" width="364" height="354"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="354" id="eUC-rO-P2F"/>
@@ -1008,7 +998,7 @@
                                                 </connections>
                                             </mapView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dq3-Hh-Vk5">
-                                                <rect key="frame" x="0.0" y="770" width="354" height="31"/>
+                                                <rect key="frame" x="0.0" y="770" width="364" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="Current Location"/>
                                                 <connections>
@@ -1016,7 +1006,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYG-1H-gYf">
-                                                <rect key="frame" x="0.0" y="816" width="354" height="31"/>
+                                                <rect key="frame" x="0.0" y="816" width="364" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="Set Location"/>
                                                 <connections>
@@ -1024,7 +1014,7 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rEY-S1-4HW">
-                                                <rect key="frame" x="0.0" y="862" width="354" height="30"/>
+                                                <rect key="frame" x="0.0" y="862" width="364" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zX6-qX-Dfj" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="68.5" height="30"/>
@@ -1033,22 +1023,22 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sbT-zI-op3">
-                                                        <rect key="frame" x="68.5" y="0.0" width="285.5" height="30"/>
+                                                        <rect key="frame" x="68.5" y="0.0" width="295.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xU7-oO-cM3">
-                                                <rect key="frame" x="0.0" y="907" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="907" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JX8-X2-wBY" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2UY-xN-FVy">
-                                                        <rect key="frame" x="0.0" y="20.5" width="354" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -1058,16 +1048,16 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="85F-IX-SZK">
-                                                <rect key="frame" x="0.0" y="982" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="982" width="364" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aN5-im-EZi" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jl0-NM-PGA">
-                                                        <rect key="frame" x="0.0" y="20.5" width="354" height="39.5"/>
+                                                        <rect key="frame" x="0.0" y="20.5" width="364" height="39.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -1077,7 +1067,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yet-dk-bB1">
-                                                <rect key="frame" x="0.0" y="1057" width="354" height="30"/>
+                                                <rect key="frame" x="0.0" y="1057" width="364" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cM-Kx-Nrr" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
@@ -1086,7 +1076,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kT-lU-LtP">
-                                                        <rect key="frame" x="57.5" y="0.0" width="296.5" height="30"/>
+                                                        <rect key="frame" x="57.5" y="0.0" width="306.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
                                                             <action selector="remindButtonPressed:" destination="wO8-KG-OKN" eventType="touchUpInside" id="1lU-Mg-yJC"/>
@@ -1099,22 +1089,19 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="sQC-hF-Zy8" firstAttribute="top" secondItem="SIu-Pu-5TN" secondAttribute="top" id="7mY-Pt-uU9"/>
-                                    <constraint firstItem="GWR-bc-O7K" firstAttribute="trailing" secondItem="sQC-hF-Zy8" secondAttribute="trailing" id="CND-c1-2KB"/>
-                                    <constraint firstItem="sQC-hF-Zy8" firstAttribute="bottom" secondItem="GWR-bc-O7K" secondAttribute="bottom" id="DbR-oN-ZEF"/>
-                                    <constraint firstItem="GWR-bc-O7K" firstAttribute="bottom" secondItem="sQC-hF-Zy8" secondAttribute="bottom" id="Kru-94-Lky"/>
-                                    <constraint firstItem="sQC-hF-Zy8" firstAttribute="leading" secondItem="SIu-Pu-5TN" secondAttribute="leading" constant="15" id="NGL-Yq-Gvy"/>
+                                    <constraint firstAttribute="trailing" secondItem="sQC-hF-Zy8" secondAttribute="trailing" id="CND-c1-2KB"/>
+                                    <constraint firstItem="sQC-hF-Zy8" firstAttribute="bottom" secondItem="SIu-Pu-5TN" secondAttribute="bottom" id="DbR-oN-ZEF"/>
+                                    <constraint firstAttribute="bottom" secondItem="sQC-hF-Zy8" secondAttribute="bottom" id="Kru-94-Lky"/>
+                                    <constraint firstItem="sQC-hF-Zy8" firstAttribute="leading" secondItem="SIu-Pu-5TN" secondAttribute="leading" constant="25" id="NGL-Yq-Gvy"/>
                                     <constraint firstItem="sQC-hF-Zy8" firstAttribute="top" secondItem="SIu-Pu-5TN" secondAttribute="top" id="cDD-7H-UsU"/>
-                                    <constraint firstItem="sQC-hF-Zy8" firstAttribute="leading" secondItem="SIu-Pu-5TN" secondAttribute="leading" id="is6-WQ-YUM"/>
-                                    <constraint firstAttribute="trailing" secondItem="sQC-hF-Zy8" secondAttribute="trailing" constant="15" id="ous-DD-tmg"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="GWR-bc-O7K"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="9Tw-3R-nSW"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9g9-oJ-M6c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="9g9-oJ-M6c" firstAttribute="trailing" secondItem="SIu-Pu-5TN" secondAttribute="trailing" id="Arf-MR-YHv"/>
+                            <constraint firstItem="9g9-oJ-M6c" firstAttribute="trailing" secondItem="sQC-hF-Zy8" secondAttribute="trailing" constant="25" id="TCx-Or-1J6"/>
                             <constraint firstItem="9g9-oJ-M6c" firstAttribute="bottom" secondItem="SIu-Pu-5TN" secondAttribute="bottom" id="Uo3-tG-GzI"/>
                             <constraint firstItem="SIu-Pu-5TN" firstAttribute="top" secondItem="9g9-oJ-M6c" secondAttribute="top" id="xbu-wf-qcv"/>
                             <constraint firstItem="SIu-Pu-5TN" firstAttribute="leading" secondItem="9g9-oJ-M6c" secondAttribute="leading" id="yJK-Xc-eI9"/>
@@ -1277,6 +1264,184 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1e-uE-faT">
+                                <rect key="frame" x="0.0" y="88" width="414" height="618"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
+                                        <rect key="frame" x="25" y="35" width="364" height="613"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlh-ap-DqX">
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="80"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="80"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="eventTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReO-mL-ARS">
+                                                                <rect key="frame" x="0.0" y="0.0" width="314" height="54.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="allDay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9H-Io-Ie2" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="59.5" width="314" height="20.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="80" id="S1q-Fm-GCJ"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8o-Yh-hiG">
+                                                        <rect key="frame" x="314" y="0.0" width="50" height="80"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="N0b-8C-lZM"/>
+                                                        </constraints>
+                                                        <state key="normal">
+                                                            <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8w-fg-yxU">
+                                                <rect key="frame" x="0.0" y="109" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Starts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6k-RO-Zxq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="45.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7a-BP-q0c">
+                                                        <rect key="frame" x="45.5" y="0.0" width="318.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X4k-r3-LYq">
+                                                <rect key="frame" x="0.0" y="158.5" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bph-dI-mtb" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="endDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibG-kZ-FYF">
+                                                        <rect key="frame" x="38" y="0.0" width="326" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQV-pF-ECu">
+                                                <rect key="frame" x="0.0" y="208" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bh1-50-FBr" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="65.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iff-jx-Og1">
+                                                        <rect key="frame" x="65.5" y="0.0" width="298.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3Kg-I7-wWi">
+                                                <rect key="frame" x="0.0" y="257.5" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hix-Pq-ZVE" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1T3-2T-CNQ">
+                                                        <rect key="frame" x="297" y="0.0" width="41.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="y3b-28-RfI">
+                                                        <rect key="frame" x="348.5" y="2" width="15.5" height="16"/>
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8EC-2i-T9e">
+                                                <rect key="frame" x="0.0" y="307" width="364" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Of-am-JEq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="2" height="50"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="url" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="yD3-R2-u6y">
+                                                        <rect key="frame" x="2" y="0.0" width="362" height="50"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="textColor" systemColor="labelColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" textContentType="url"/>
+                                                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                                    </textView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqF-eR-3id">
+                                                <rect key="frame" x="0.0" y="386" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ee-h5-Rel" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="321.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="notes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noC-AE-PqP">
+                                                        <rect key="frame" x="321.5" y="0.0" width="42.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RB9-WT-8P8">
+                                                <rect key="frame" x="0.0" y="435.5" width="364" height="128"/>
+                                            </mapView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYt-Yz-YGd">
+                                                <rect key="frame" x="0.0" y="592.5" width="364" height="20.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7p-0o-UOS" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="273.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="remindTime" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cl-ws-HZZ">
+                                                        <rect key="frame" x="273.5" y="0.0" width="90.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="nhs-bh-W8K" firstAttribute="bottom" secondItem="j1e-uE-faT" secondAttribute="bottom" id="C8X-Fx-8gR"/>
+                                    <constraint firstItem="nhs-bh-W8K" firstAttribute="leading" secondItem="j1e-uE-faT" secondAttribute="leading" constant="25" id="feD-l9-CIY"/>
+                                    <constraint firstItem="nhs-bh-W8K" firstAttribute="top" secondItem="j1e-uE-faT" secondAttribute="top" id="vHO-U0-DW2"/>
+                                </constraints>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NII-Ka-zdz">
                                 <rect key="frame" x="50" y="713.5" width="314" height="30.5"/>
                                 <state key="normal" title="Button"/>
@@ -1295,185 +1460,18 @@
                                     <action selector="deleteButtonTapped:" destination="eW7-Iv-mGl" eventType="touchUpInside" id="QJV-G6-UJi"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
-                                <rect key="frame" x="30" y="108" width="354" height="589"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlh-ap-DqX">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
-                                                <rect key="frame" x="0.0" y="0.0" width="304" height="80"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="eventTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReO-mL-ARS">
-                                                        <rect key="frame" x="0.0" y="0.0" width="304" height="54.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="allDay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9H-Io-Ie2" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="59.5" width="304" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="80" id="S1q-Fm-GCJ"/>
-                                                </constraints>
-                                            </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8o-Yh-hiG">
-                                                <rect key="frame" x="304" y="0.0" width="50" height="80"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="N0b-8C-lZM"/>
-                                                </constraints>
-                                                <state key="normal">
-                                                    <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8w-fg-yxU">
-                                        <rect key="frame" x="0.0" y="106" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Starts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6k-RO-Zxq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7a-BP-q0c">
-                                                <rect key="frame" x="45.5" y="0.0" width="308.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X4k-r3-LYq">
-                                        <rect key="frame" x="0.0" y="152.5" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bph-dI-mtb" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="38" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="endDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibG-kZ-FYF">
-                                                <rect key="frame" x="38" y="0.0" width="316" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQV-pF-ECu">
-                                        <rect key="frame" x="0.0" y="199" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bh1-50-FBr" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="65.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iff-jx-Og1">
-                                                <rect key="frame" x="65.5" y="0.0" width="288.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3Kg-I7-wWi">
-                                        <rect key="frame" x="0.0" y="245.5" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hix-Pq-ZVE" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="277" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1T3-2T-CNQ">
-                                                <rect key="frame" x="287" y="0.0" width="41.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="y3b-28-RfI">
-                                                <rect key="frame" x="338.5" y="2" width="15.5" height="16"/>
-                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
-                                            </imageView>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8EC-2i-T9e">
-                                        <rect key="frame" x="0.0" y="292" width="354" height="50"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Of-am-JEq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="32" height="50"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="url" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="yD3-R2-u6y">
-                                                <rect key="frame" x="32" y="0.0" width="322" height="50"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <color key="textColor" systemColor="labelColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" textContentType="url"/>
-                                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                            </textView>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqF-eR-3id">
-                                        <rect key="frame" x="0.0" y="368" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ee-h5-Rel" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="311.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="notes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noC-AE-PqP">
-                                                <rect key="frame" x="311.5" y="0.0" width="42.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RB9-WT-8P8">
-                                        <rect key="frame" x="0.0" y="414.5" width="354" height="128"/>
-                                    </mapView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYt-Yz-YGd">
-                                        <rect key="frame" x="0.0" y="568.5" width="354" height="20.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7p-0o-UOS" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="263.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="remindTime" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cl-ws-HZZ">
-                                                <rect key="frame" x="263.5" y="0.0" width="90.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hZn-s7-yFj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="nhs-bh-W8K" firstAttribute="top" secondItem="hZn-s7-yFj" secondAttribute="top" constant="20" id="9ep-Cg-Q5R"/>
-                            <constraint firstItem="NII-Ka-zdz" firstAttribute="top" secondItem="nhs-bh-W8K" secondAttribute="bottom" priority="100" constant="20" id="9wG-J3-Nxp"/>
-                            <constraint firstItem="hZn-s7-yFj" firstAttribute="trailing" secondItem="nhs-bh-W8K" secondAttribute="trailing" constant="30" id="AAw-0s-0sx"/>
-                            <constraint firstItem="hZn-s7-yFj" firstAttribute="bottom" secondItem="NII-Ka-zdz" secondAttribute="bottom" constant="20" id="AQg-AM-4X1"/>
-                            <constraint firstItem="hZn-s7-yFj" firstAttribute="trailing" secondItem="NII-Ka-zdz" secondAttribute="trailing" constant="50" id="hZ5-pV-q8r"/>
+                            <constraint firstItem="j1e-uE-faT" firstAttribute="top" secondItem="hZn-s7-yFj" secondAttribute="top" id="1hI-NG-bvl"/>
+                            <constraint firstItem="NII-Ka-zdz" firstAttribute="bottom" secondItem="hZn-s7-yFj" secondAttribute="bottom" constant="-20" id="AQg-AM-4X1"/>
+                            <constraint firstItem="j1e-uE-faT" firstAttribute="trailing" secondItem="hZn-s7-yFj" secondAttribute="trailing" id="Wlm-NH-hU0"/>
+                            <constraint firstItem="NII-Ka-zdz" firstAttribute="trailing" secondItem="hZn-s7-yFj" secondAttribute="trailing" constant="-50" id="hZ5-pV-q8r"/>
+                            <constraint firstItem="hZn-s7-yFj" firstAttribute="trailing" secondItem="nhs-bh-W8K" secondAttribute="trailing" constant="25" id="lRM-Ew-pse"/>
                             <constraint firstItem="NII-Ka-zdz" firstAttribute="leading" secondItem="hZn-s7-yFj" secondAttribute="leading" constant="50" id="lzE-RC-wow"/>
-                            <constraint firstItem="nhs-bh-W8K" firstAttribute="leading" secondItem="hZn-s7-yFj" secondAttribute="leading" constant="30" id="qmL-6c-HWV"/>
+                            <constraint firstItem="j1e-uE-faT" firstAttribute="leading" secondItem="hZn-s7-yFj" secondAttribute="leading" id="q9H-MP-bnc"/>
+                            <constraint firstItem="j1e-uE-faT" firstAttribute="bottom" secondItem="NII-Ka-zdz" secondAttribute="top" constant="10" id="tPk-Zc-wiB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Event details" id="vtq-OB-7ul">
@@ -18913,9 +18911,6 @@ AAAAD0GWA
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="placeholderTextColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

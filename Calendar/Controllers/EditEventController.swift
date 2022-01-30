@@ -4,6 +4,7 @@
 //
 //  Created by Wingyin Chan on 17.01.22.
 //
+//  To control the functionalities of the edit event page
 
 import UIKit
 import CoreData
