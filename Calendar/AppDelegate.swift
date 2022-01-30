@@ -81,6 +81,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    func deleteNotification(notID: String) {
+        self.notificationCenter.getPendingNotificationRequests { (notificationRequests) in
+           var identifiers: [String] = []
+           for notification:UNNotificationRequest in notificationRequests {
+               if notification.identifier == notID {
+                  identifiers.append(notification.identifier)
+               }
+           }
+        self.notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+    }
+    
     func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM y, HH:mm"

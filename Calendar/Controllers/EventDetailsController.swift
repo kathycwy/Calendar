@@ -11,6 +11,8 @@ import SwiftUI
 
 class EventDetailsController: CalendarUIViewController {
     
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    
     // MARK: - Properties
     
     @IBOutlet weak var eventTitle: UILabel!
@@ -88,6 +90,7 @@ class EventDetailsController: CalendarUIViewController {
         if (segue.identifier == "editButtonTapped") {
             let destinationVC = segue.destination as! EditEventController
             destinationVC.event = self.event
+            destinationVC.initialRemindOption = remindTime.text!
         }
     }
     
@@ -139,6 +142,9 @@ class EventDetailsController: CalendarUIViewController {
             //simply save the hohle table view. A bit uniffcient but simple
             self.fetchedEvents = target.fetchedEvents
         }
+        // Delete the notification associated with the event
+        let notificationID = String(self.event!.value(forKeyPath: Constants.EventsAttribute.notificationIDAttribute) as? String ?? "")
+        self.appDelegate?.deleteNotification(notID: notificationID)
         // Find the index of the event that is to be deleted from the array
         let index = fetchedEvents.firstIndex(where: {$0.objectID  == eventID})!
         // delete it from Core data
