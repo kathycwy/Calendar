@@ -87,6 +87,7 @@
 		42BBE021279C8B0C00FAAED0 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BBE020279C8B0C00FAAED0 /* DayViewController.swift */; };
 		42D2C3DD27A5A82B0007C6C1 /* FieldUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D2C3DC27A5A82A0007C6C1 /* FieldUILabel.swift */; };
 		42D4AD6B27A676BC003CE711 /* EventButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4AD6A27A676BC003CE711 /* EventButton.swift */; };
+		42D4AD6D27A6E68E003CE711 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4AD6C27A6E68E003CE711 /* UINavigationControllerExtension.swift */; };
 		42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C2279471ED009FB999 /* WeekDayCell.swift */; };
 		42D7E8C7279479F9009FB999 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C6279479F9009FB999 /* EventCell.swift */; };
 		42D7E8C927947E92009FB999 /* WeekCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */; };
@@ -189,6 +190,7 @@
 		42BBE020279C8B0C00FAAED0 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
 		42D2C3DC27A5A82A0007C6C1 /* FieldUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldUILabel.swift; sourceTree = "<group>"; };
 		42D4AD6A27A676BC003CE711 /* EventButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventButton.swift; sourceTree = "<group>"; };
+		42D4AD6C27A6E68E003CE711 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		42D7E8C2279471ED009FB999 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
 		42D7E8C6279479F9009FB999 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		42D7E8C827947E92009FB999 /* WeekCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 				42B2BAB827A4092900B85935 /* UIViewControllerExtension.swift */,
 				42B2BAB727A4092800B85935 /* UserDefaultsExtension.swift */,
 				42B2BAC727A412FA00B85935 /* UIImageExtension.swift */,
+				42D4AD6C27A6E68E003CE711 /* UINavigationControllerExtension.swift */,
 				42FC65FA27A551AD0091CBC9 /* NSAttributedStringExtension.swift */,
 				4227B37627A5D06F004689DF /* DateExtension.swift */,
 				4236D907278F29140034C01F /* PaddingLabel.swift */,
@@ -550,6 +553,7 @@
 				4236D910278F41650034C01F /* YearCollectionViewFlowLayout.swift in Sources */,
 				4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */,
 				422B2CB9276CBF04002C8AED /* SceneDelegate.swift in Sources */,
+				42D4AD6D27A6E68E003CE711 /* UINavigationControllerExtension.swift in Sources */,
 				422B2CCF276CC132002C8AED /* CalendarHelper.swift in Sources */,
 				42D7E8C3279471ED009FB999 /* WeekDayCell.swift in Sources */,
 				42B2BAC827A412FA00B85935 /* UIImageExtension.swift in Sources */,

@@ -48,11 +48,6 @@ class YearViewController: CalendarUIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //self.reloadCalendar(calendarYears: [])
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }

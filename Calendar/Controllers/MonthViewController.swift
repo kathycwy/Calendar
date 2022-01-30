@@ -68,6 +68,7 @@ class MonthViewController: CalendarUIViewController {
         //self.view.layoutIfNeeded()
     }
     
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if isScrolled && self.collectionView.visibleCells.count > 0 {
@@ -132,8 +133,10 @@ class MonthViewController: CalendarUIViewController {
                 self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
                 if self.calendarMonths[indexPath.section].calendarDays[indexPath.item].isDate == true {
                     if let date = self.calendarMonths[indexPath.section].calendarDays[indexPath.item].date {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": date as Any])
-                        
+                        //NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": date as Any])
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "switchSegment"),
+                                                       object: nil,
+                                                       userInfo: ["date": date as Any, "view":"d"])
                     }
                 }
             }

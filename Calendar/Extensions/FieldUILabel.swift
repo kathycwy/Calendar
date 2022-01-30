@@ -19,7 +19,7 @@ class FieldUILabel: PaddingLabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        font = font.withSize(UIFont.appFontSize(.tableViewCellInfo) ?? 15)
+        font = font.withSize(UIFont.appFontSize(.collectionViewCell) ?? 15)
     }
     
 }

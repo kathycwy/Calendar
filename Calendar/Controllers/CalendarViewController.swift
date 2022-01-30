@@ -18,6 +18,9 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
     var monthViewController: MonthViewController!
     var yearViewController: YearViewController!
     
+    var lastView: String = "m"
+    var lastSelectedDate: Date = Date()
+    
     let calendarHelper = CalendarHelper()
     private var calendarYears: [CalendarYear] = []
     
@@ -40,6 +43,7 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         yearContainerView.alpha = 0.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(switchSegment(_:)), name: Notification.Name(rawValue: "switchSegment"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setLastSelectedDate(_:)), name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil)
     }
     
     func setCalendar(calendarYears: [CalendarYear] = []) -> [CalendarYear] {
@@ -80,6 +84,13 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
             self.yearViewController = (segue.destination as! YearViewController)
             self.yearViewController.reloadCalendar(calendarYears: self.calendarYears)
             break
+        case "addEventSegue":
+            let destinationVC = (segue.destination as! AddEventController)
+            if (self.calendarHelper.getCurrentDate() < self.lastSelectedDate) {
+                destinationVC.lastView = self.lastView
+                destinationVC.newStartDate = self.lastSelectedDate
+            }
+            break
         default:
            break
         }
@@ -92,27 +103,32 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         super.reloadUI()
         self.sideMenuTableView.reloadData()
     }
+    
     // MARK: - Actions
     
     @IBAction func didChangeIndex(_ sender: UISegmentedControl) {
         let selectedIndex = sender.selectedSegmentIndex
         switch selectedIndex {
         case 0:
+            lastView = "d"
             dayContainerView.alpha = 1.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 0.0
             yearContainerView.alpha = 0.0
         case 1:
+            lastView = "w"
             dayContainerView.alpha = 0.0
             weekContainerView.alpha = 1.0
             monthContainerView.alpha = 0.0
             yearContainerView.alpha = 0.0
         case 2:
+            lastView = "m"
             dayContainerView.alpha = 0.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 1.0
             yearContainerView.alpha = 0.0
         case 3:
+            lastView = "y"
             dayContainerView.alpha = 0.0
             weekContainerView.alpha = 0.0
             monthContainerView.alpha = 0.0
@@ -128,16 +144,20 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         switch (switchToView)
         {
         case "d":
+            lastView = "d"
             self.calendarViewSegmentedControl.selectedSegmentIndex = 0
             break
         case "w":
+            lastView = "w"
             self.calendarViewSegmentedControl.selectedSegmentIndex = 1
             break
         case "m":
+            lastView = "m"
             self.monthViewController.scrollToDate(date: selectedDate)
             self.calendarViewSegmentedControl.selectedSegmentIndex = 2
             break
         case "y":
+            lastView = "y"
             self.calendarViewSegmentedControl.selectedSegmentIndex = 3
             break
         default:
@@ -170,6 +190,12 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
                 self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
                 self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
             }
+        }
+    }
+    
+    @objc func setLastSelectedDate(_ notification: Notification) {
+        if let date = (notification.userInfo?["date"] ?? nil) as? Date {
+            self.lastSelectedDate = date
         }
     }
     

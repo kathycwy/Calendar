@@ -22,6 +22,10 @@ struct CalendarHelper {
         return calendar.date(byAdding: .month, value: -1, to: date)!
     }
     
+    func addMinute(date: Date, n: Int) -> Date{
+        return calendar.date(byAdding: .minute, value: n, to: date)!
+    }
+    
     func addDay(date: Date, n: Int) -> Date{
         return calendar.date(byAdding: .day, value: n, to: date)!
     }
@@ -132,6 +136,13 @@ struct CalendarHelper {
     func weekOfYear(date: Date) -> Int{
         let components = calendar.dateComponents([.weekOfYear], from: date)
         return components.weekOfYear!
+    }
+    
+    func removeTimeStamp(fromDate: Date) -> Date {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: fromDate)) else {
+            fatalError("Failed to strip time from Date object")
+        }
+        return date
     }
     
     func getStartOfDayTime(date: Date) -> Date?{

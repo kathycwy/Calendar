@@ -45,6 +45,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var remindOption: String = ""
     var selectedRow = 0
     var rowHeight = 80
+    var lastView: String = ""
+    var newStartDate: Date = Date()
 
     // MARK: - Init
     
@@ -64,6 +66,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             title: " ", style: .plain, target: nil, action: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        if lastView == "d" || lastView == "w" {
+            self.startDateField.date = newStartDate
+            self.endDateField.date = CalendarHelper().addMinute(date: self.startDateField.date, n: 60)
+            lastView = ""
+        }
     }
     
     @objc fileprivate func willEnterForeground() {
@@ -149,6 +157,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
 
     }
     
+    // MARK: Helper functions
+    
     func changeRemindButton() {
         self.appDelegate?.checkAuthorization {  (isEnabled) in
             if (isEnabled == false) {
@@ -162,6 +172,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             }
         }
     }
+    
     // MARK: - Actions
     
     @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
@@ -213,6 +224,26 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func remindButtonPressed(_ sender: Any) {
+        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+        if isNotificationEnabled == false {
+            self.remindButton.showsMenuAsPrimaryAction = false
+            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
+            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
+                else {
+                    return
+                }
+                if (UIApplication.shared.canOpenURL(settingsURL)) {
+                    UIApplication.shared.open(settingsURL) { (_) in }
+                }
+            }
+            alert.addAction(goToSettings)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
+            self.present(alert, animated: true)
+        }
     }
     
     // MARK: - Standard PickerView methods
@@ -328,26 +359,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             return result
         }
         return result
-    }
-    
-    @IBAction func remindButtonPressed(_ sender: Any) {
-        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
-        if isNotificationEnabled == false {
-            self.remindButton.showsMenuAsPrimaryAction = false
-            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
-            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
-                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
-                else {
-                    return
-                }
-                if (UIApplication.shared.canOpenURL(settingsURL)) {
-                    UIApplication.shared.open(settingsURL) { (_) in }
-                }
-            }
-            alert.addAction(goToSettings)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
-            self.present(alert, animated: true)
-        }
     }
     
     // MARK: - CoreData
