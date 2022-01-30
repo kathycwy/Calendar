@@ -174,21 +174,21 @@ class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UIT
         self.view.bringSubviewToFront(sideMenuView)
         if !isSideMenuOpen {
             isSideMenuOpen = true
-            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 195)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 195)
             UIView.animate(withDuration: 0.3) {
-                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 195)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 195)
             }
         } else {
             sideMenuView.isHidden = true
             sideMenuTableView.isHidden = true
             isSideMenuOpen = false
-            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
-            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 300)
+            sideMenuView.frame = CGRect(x: 0, y: 0, width: 209, height: 195)
+            sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 209, height: 195)
             UIView.animate(withDuration: 0.3) {
-                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
-                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 300)
+                self.sideMenuView.frame = CGRect(x: 0, y: 0, width: 0, height: 195)
+                self.sideMenuTableView.frame = CGRect(x: 0, y: 0, width: 0, height: 195)
             }
         }
     }

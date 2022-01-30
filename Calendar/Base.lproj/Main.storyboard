@@ -69,10 +69,18 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXF-5C-6ps">
+                                                    <rect key="frame" x="174" y="9.5" width="65" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bottomTimeLabel" destination="BrF-oo-dKh" id="zR5-2X-l26"/>
+                                            <outlet property="nowTime" destination="DXF-5C-6ps" id="2Ai-oG-aQm"/>
                                             <outlet property="separatorLine" destination="Agk-Kv-7sr" id="ZSJ-YG-D74"/>
                                             <outlet property="topTimeLabel" destination="LdC-a4-0h7" id="Wdt-Un-nGs"/>
                                         </connections>

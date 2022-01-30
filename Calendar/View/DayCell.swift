@@ -15,6 +15,7 @@ class DayCell: UITableViewCell {
     @IBOutlet weak var topTimeLabel: UILabel!
     @IBOutlet weak var bottomTimeLabel: UILabel!
     @IBOutlet weak var separatorLine: UIView!
+    @IBOutlet weak var nowTime: UILabel!
     
     // MARK: - Init
     
@@ -29,11 +30,19 @@ class DayCell: UITableViewCell {
         self.bottomTimeLabel.textColor = UIColor.appColor(.tertiary)
         self.bottomTimeLabel.textAlignment = .right
         self.bottomTimeLabel.font = bottomTimeLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 11)
+        
         self.separatorLine.backgroundColor = UIColor.appColor(.tertiary)
+        self.separatorLine.isHidden = false
+        
+        self.nowTime.textColor = UIColor.red
+        self.nowTime.isHidden = true
+        self.nowTime.textAlignment = .right
+        self.nowTime.font = bottomTimeLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 11)
 
         self.bottomTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         self.topTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         self.separatorLine.translatesAutoresizingMaskIntoConstraints = false
+        self.nowTime.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             self.bottomTimeLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0),
@@ -46,6 +55,9 @@ class DayCell: UITableViewCell {
             self.separatorLine.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.separatorLine.heightAnchor.constraint(equalToConstant: 1),
             self.separatorLine.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0),
+            
+            self.nowTime.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0),
+            self.nowTime.widthAnchor.constraint(equalToConstant: 50),
             ])
     }
 }

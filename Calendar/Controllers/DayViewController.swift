@@ -35,9 +35,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         hourTableView.separatorStyle = .none
         
         // As buffer region for scrolling
-        let footerView = UIView()
-        footerView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: rowHeight)
-        hourTableView.tableFooterView = footerView
+        //let footerView = UIView()
+        //footerView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: rowHeight)
+        //hourTableView.tableFooterView = footerView
     }
     
     override func viewDidLoad() {
@@ -103,8 +103,10 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
     
     @objc func eventButtonClicked(_ sender: EventButton) {
-        self.selectedEvent = sender.event
-        self.performSegue(withIdentifier: "dayToEventDetailSegue", sender: self)
+        if sender.event != nil {
+            self.selectedEvent = sender.event
+            self.performSegue(withIdentifier: "dayToEventDetailSegue", sender: self)
+        }
     }
     
     // MARK: - Helper functions
@@ -162,7 +164,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     // MARK: - Standard Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return hours.count + 1
+        return hours.count + 2
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -185,26 +187,85 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             cell.topTimeLabel.text = "All-day"
         }
         
-        
         if indexPath.row > 1 {
             cell.topTimeLabel.text = String(indexPath.row - 2) + ":00"
         }
-        if indexPath.row > 0 {
+        
+        if indexPath.row > 0 && indexPath.row < hours.count + 1 {
             cell.bottomTimeLabel.text = String(indexPath.row - 1) + ":00"
         }
         
-        // Shift label otherwise cannot shown properly
-        if indexPath.row == hours.count {
-            let rect: CGRect = cell.bottomTimeLabel.frame
-            cell.bottomTimeLabel.frame = rect.offsetBy(dx: 0, dy: -4)
-        }
-        
-        if indexPath.row > 0 {
+        if indexPath.row > 0 && indexPath.row < hours.count + 1 {
             let events = EventListController().getEventsByStartDateAndTime(date: self.selectedDay, hour: hours[indexPath.row - 1])
             self.insertEvents(indexPath: indexPath, events: events)
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYYMMDD"
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "YYYYMMDDHH"
+            let curTime = self.calendarHelper.getCurrentDatetime()
+            if (formatter.string(from: self.selectedDay) + String(hours[indexPath.row - 1]) ==
+                formatter2.string(from: curTime)) {
+                
+                self.insertTodayLine(indexPath: indexPath, curTime: curTime)
+            }
+        }
+        
+        if (indexPath.row == 0 || indexPath.row == hours.count + 1) {
+            cell.separatorLine.isHidden = true
         }
         
         return cell
+    }
+    
+    func insertTodayLine(indexPath: IndexPath, curTime: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm"
+        let minutes = CGFloat((formatter.string(from: curTime) as NSString).floatValue)
+        let offsetY = rowHeight * (minutes / 60)
+        let rectCellTable = hourTableView.rectForRow(at: indexPath)
+        let rectCellView = view.convert(rectCellTable, to: hourTableView.superview)
+        let x_loc = 60
+        let tag = 9999
+        
+        if let oldButton = view.viewWithTag(tag) as! EventButton? {
+            oldButton.removeFromSuperview()
+        }
+
+        let frame = CGRect(x: CGFloat(x_loc), y: rectCellView.origin.y + offsetY, width: rectCellView.width, height: 1)
+        
+        let eventButton: EventButton = {
+            let eventButton = EventButton()
+            eventButton.frame = frame
+            eventButton.backgroundColor = UIColor.red
+            eventButton.tag = tag
+            return eventButton
+        }()
+        
+        hourTableView.addSubview(eventButton)
+        viewTags.append(tag)
+        
+        let text = "Now"
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor,
+                                    value: UIColor.red,
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        attributedText.addAttribute(.font,
+                                    value: UIFont.boldSystemFont(ofSize: (UIFont.appFontSize(.innerCollectionViewHeader) ?? 11) - 2),
+                                    range: attributedText.getRangeOfString(textToFind: text))
+        
+        let eventButton2: EventButton = {
+            let eventButton = EventButton()
+            eventButton.frame = CGRect(x: CGFloat(20), y: rectCellView.origin.y + offsetY, width: 30, height: 1)
+            eventButton.backgroundColor = .clear
+            eventButton.layer.borderWidth = 0
+            eventButton.tag = tag + 1
+            eventButton.setAttributedTitle(attributedText, for: .normal)
+            return eventButton
+        }()
+        
+        hourTableView.addSubview(eventButton2)
+        viewTags.append(tag + 1)
     }
     
     func insertEvents(indexPath: IndexPath, events: [NSManagedObject]) {
