@@ -729,6 +729,8 @@
 				INFOPLIST_FILE = Calendar/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -761,6 +763,8 @@
 				INFOPLIST_FILE = Calendar/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
