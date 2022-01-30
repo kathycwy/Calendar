@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 import SwiftUI
+import EventKit
+import EventKitUI
 
 class EventDetailsController: CalendarUIViewController {
     
@@ -23,11 +25,12 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var url: UITextView!
     @IBOutlet weak var notes: UILabel!
     @IBOutlet weak var remindTime: UILabel!
+    @IBOutlet weak var shareButton: UIButton!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
-    
+    var savedEventId : String = ""
     
     //MARK: - Init
     
@@ -81,12 +84,30 @@ class EventDetailsController: CalendarUIViewController {
         notes.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
         remindTime.text = String(event!.value(forKeyPath: Constants.EventsAttribute.remindOptionAttribute) as? String ?? "")
         
+        let iCalButtonClosure = { (action: UIAction) in
+            self.saveToICal()
+        }
+        
+        let copyDetailsClosure = { (action: UIAction) in
+            self.performSegue(withIdentifier: "copyDetailsButtonTapped", sender: self)
+        }
+                          
+        shareButton.menu = UIMenu(children: [
+            UIAction(title: "Share to iCalendar", handler: iCalButtonClosure),
+            UIAction(title: "Copy event details", handler: copyDetailsClosure)
+          ])
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == "editButtonTapped") {
             let destinationVC = segue.destination as! EditEventController
+            destinationVC.event = self.event
+        }
+        
+        if (segue.identifier == "copyDetailsButtonTapped") {
+            let destinationVC = segue.destination as! CopyDetailsController
             destinationVC.event = self.event
         }
     }
@@ -156,4 +177,54 @@ class EventDetailsController: CalendarUIViewController {
         // go back to previous controller
         navigationController?.popViewController(animated: true)
     }
+    
+    ////////////// Share to iCalendar
+    
+    func createEvent(eventStore: EKEventStore, title: String, startDate: Date, endDate: Date, isAllDay: Bool) {
+        let event = EKEvent(eventStore: eventStore)
+
+        event.title = title
+        event.startDate = startDate as Date
+        event.endDate = endDate as Date
+        event.calendar = eventStore.defaultCalendarForNewEvents
+        event.isAllDay = isAllDay
+        do {
+            try eventStore.save(event, span: .thisEvent)
+            savedEventId = event.eventIdentifier
+        } catch let error as NSError {
+            print("Could not create event. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func saveToICal() {
+        let eventStore = EKEventStore()
+
+        let title = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        let startDate = event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now
+        let endDate = event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now
+        let isAllDay = event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false
+
+        if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
+            eventStore.requestAccess(to: .event, completion: {
+                granted, error in
+                self.createEvent(eventStore: eventStore, title: title , startDate: startDate, endDate: endDate, isAllDay: isAllDay)
+            })
+        } else {
+            createEvent(eventStore: eventStore, title: title, startDate: startDate, endDate: endDate, isAllDay: isAllDay)
+        }
+        
+        let dialogMessage = UIAlertController(title: "Event added to iCalendar", message: nil, preferredStyle: .alert)
+        
+        // Create Close button with action handlder
+        let close = UIAlertAction(title: "Close", style: .cancel) { (action) -> Void in
+        }
+        
+        //Add OK and Cancel button to dialog message
+        dialogMessage.addAction(close)
+        
+        // Present dialog message to user
+        self.present(dialogMessage, animated: true, completion: nil)
+    }
+    
+    
 }

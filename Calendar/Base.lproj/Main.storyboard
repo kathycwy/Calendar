@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -1192,37 +1193,52 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
                                 <rect key="frame" x="30" y="20" width="354" height="435"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlh-ap-DqX">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="eventTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReO-mL-ARS">
-                                                <rect key="frame" x="0.0" y="0.0" width="354" height="54.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="allDay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9H-Io-Ie2" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="59.5" width="354" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zrk-z5-0zQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="304" height="80"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="eventTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReO-mL-ARS">
+                                                        <rect key="frame" x="0.0" y="0.0" width="304" height="54.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="allDay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9H-Io-Ie2" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="59.5" width="304" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="80" id="S1q-Fm-GCJ"/>
+                                                </constraints>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8o-Yh-hiG">
+                                                <rect key="frame" x="304" y="0.0" width="50" height="80"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="N0b-8C-lZM"/>
+                                                </constraints>
+                                                <state key="normal">
+                                                    <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                                </state>
+                                            </button>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="S1q-Fm-GCJ"/>
-                                        </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8w-fg-yxU">
                                         <rect key="frame" x="0.0" y="106" width="354" height="20.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Starts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6k-RO-Zxq" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="283" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="startDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7a-BP-q0c">
-                                                <rect key="frame" x="283" y="0.0" width="71" height="20.5"/>
+                                                <rect key="frame" x="45.5" y="0.0" width="308.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1338,9 +1354,6 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="q8w-fg-yxU" firstAttribute="top" secondItem="Zrk-z5-0zQ" secondAttribute="bottom" constant="30" id="TmH-JP-BR0"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hZn-s7-yFj"/>
@@ -1377,14 +1390,92 @@
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
                         <outlet property="notes" destination="noC-AE-PqP" id="7sg-ZB-IxC"/>
                         <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
+                        <outlet property="shareButton" destination="Y8o-Yh-hiG" id="wGA-OW-wQH"/>
                         <outlet property="startDate" destination="X7a-BP-q0c" id="WMK-Nk-Xg9"/>
                         <outlet property="url" destination="yD3-R2-u6y" id="yIM-MP-Nze"/>
                         <segue destination="wO8-KG-OKN" kind="show" identifier="editButtonTapped" id="cor-3I-WJO"/>
+                        <segue destination="nFy-D5-jEX" kind="popoverPresentation" identifier="copyDetailsButtonTapped" popoverAnchorView="uGN-qp-JgU" id="2SI-8d-HFK">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w12-b1-Mt0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2628.985507246377" y="2045.7589285714284"/>
+        </scene>
+        <!--Copy Details Controller-->
+        <scene sceneID="YEn-md-6cT">
+            <objects>
+                <viewController id="nFy-D5-jEX" customClass="CopyDetailsController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A6k-Fb-EvC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="671"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CA8-Wd-HhC">
+                                <rect key="frame" x="20" y="20" width="374" height="631"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BnE-oV-6GL">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="gLr-wQ-S0S"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                                        <connections>
+                                            <action selector="closeView:" destination="nFy-D5-jEX" eventType="touchUpInside" id="gTN-aI-CHW"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit and copy the below text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5h-V4-7cn" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="B8P-Ox-W7b">
+                                        <rect key="frame" x="0.0" y="95.5" width="374" height="465.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnw-Id-CLw">
+                                        <rect key="frame" x="0.0" y="581" width="374" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="lKK-V0-8kH"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Copy"/>
+                                        <connections>
+                                            <action selector="copyButton:" destination="nFy-D5-jEX" eventType="touchUpInside" id="7Sx-1f-k3K"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="q5h-V4-7cn" firstAttribute="top" secondItem="BnE-oV-6GL" secondAttribute="bottom" constant="30" id="NCS-J8-36s"/>
+                                    <constraint firstItem="BnE-oV-6GL" firstAttribute="top" secondItem="CA8-Wd-HhC" secondAttribute="top" constant="10" id="PQe-9S-w2p"/>
+                                    <constraint firstAttribute="bottom" secondItem="fnw-Id-CLw" secondAttribute="bottom" constant="50" id="Za9-h2-2Mf"/>
+                                    <constraint firstAttribute="trailing" secondItem="BnE-oV-6GL" secondAttribute="trailing" constant="10" id="wDN-9S-2m3"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dB4-ad-BS5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CA8-Wd-HhC" firstAttribute="top" secondItem="dB4-ad-BS5" secondAttribute="top" constant="20" id="TDZ-oo-9xz"/>
+                            <constraint firstItem="CA8-Wd-HhC" firstAttribute="leading" secondItem="dB4-ad-BS5" secondAttribute="leading" constant="20" id="YcY-OG-lPT"/>
+                            <constraint firstItem="dB4-ad-BS5" firstAttribute="bottom" secondItem="CA8-Wd-HhC" secondAttribute="bottom" constant="20" id="nmL-pV-Jto"/>
+                            <constraint firstAttribute="trailing" secondItem="CA8-Wd-HhC" secondAttribute="trailing" constant="20" id="pFX-DU-YAA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="g5Y-hO-8GF"/>
+                    <connections>
+                        <outlet property="textView" destination="B8P-Ox-W7b" id="Hag-8k-QWh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0a2-8d-mbv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3539" y="2061"/>
         </scene>
         <!--Calendar-->
         <scene sceneID="aNf-Um-BxO">
@@ -18709,6 +18800,8 @@ AAAAD0GWA
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="Teal-background">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
