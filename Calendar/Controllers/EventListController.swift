@@ -8,18 +8,27 @@
 import UIKit
 import CoreData
 
-class EventListController: UITableViewController {
+class EventListController: UITableViewController, UISearchBarDelegate {
+    
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var eventFilterButton: UIBarButtonItem!
     
     // MARK: - Properties
     
     var events: [NSManagedObject] = []
+    var filteredEvents: [NSManagedObject] = []
     let rowHeight: CGFloat = 80.0
     var selectedRow: Int?
+    var savedSearchText: String? = ""
+    var filterCalendarName: String = "All"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = rowHeight
         self.tableView.estimatedRowHeight = rowHeight
+
+        searchBar.delegate = self
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -27,8 +36,77 @@ class EventListController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.fetchEvents()
+        
+        let eventFilterClosure = { (action: UIAction) in
+            self.filterCalendarName = action.title
+            if action.title != "All" {
+                self.filteredEvents = self.getEventsByCalendar(events: self.events, name: action.title)
+            } else {
+                self.fetchEvents()
+            }
+            if self.savedSearchText != "" {
+                self.filteredEvents = self.getEventsFromSearch(events: self.filteredEvents, searchText: self.savedSearchText!)
+            }
+            self.tableView.reloadData()
+        }
+        
+        eventFilterButton.menu = UIMenu(children: [
+            UIAction(title: "All", handler: eventFilterClosure),
+            UIAction(title: Constants.CalendarConstants.calendarNone, handler: eventFilterClosure),
+            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, handler: eventFilterClosure),
+            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, handler: eventFilterClosure),
+            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, handler: eventFilterClosure)
+          ])
+        
         self.tableView.reloadData()
+    }
+    
+    // MARK: - Cancel button disappear and give it its function 'to cancel the search'
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // to stop activly type into searchbar
+        searchBar.resignFirstResponder()
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.setShowsCancelButton(false, animated: true)
+        // delete search field when stoped editing
+        searchBar.searchTextField.text = ""
+        // here show again hohle data
+        savedSearchText = ""
+        filteredEvents = events
+        filterCalendarName = "All"
+        self.tableView.reloadData()
+    }
+    
+    //MARK: -  search bar - is called when text in search bar change
+    // remeber you have to inherit from UISearchBarDelegate
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        self.savedSearchText = searchText
+        self.filteredEvents = getEventsByCalendar(events: events, name: filterCalendarName)
+        if searchText != "" {
+            self.filteredEvents = getEventsFromSearch(events: filteredEvents, searchText: searchText)
+        }
+        
+        self.tableView.reloadData()
+    }
+
+    func getEventsFromSearch(events: [NSManagedObject], searchText: String) -> [NSManagedObject] {
+        var eventsFromSearch: [NSManagedObject] = []
+        for event in events {
+            let event_title = event.value(forKeyPath: "title") as! String
+
+            if event_title.lowercased().contains(searchText.lowercased()) {
+                eventsFromSearch.append(event)
+            }
+        }
+        return eventsFromSearch
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -123,26 +201,19 @@ class EventListController: UITableViewController {
         return eventsPerDate
     }
     
-    func updateView(){
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
-        let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
-        fetchRequest.sortDescriptors = [sort]
-        
-        do {
-            // fetch the entitiy
-            events = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+    func getEventsByCalendar(events: [NSManagedObject], name: String) -> [NSManagedObject] {
+        var eventsPerCalendar: [NSManagedObject] = []
+        if name != "All" {
+            for event in events {
+                if event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as! String == name {
+                        eventsPerCalendar.append(event)
+                }
+            }
+        } else {
+            eventsPerCalendar = self.events
         }
         
-        self.tableView.reloadData()
-    
+        return eventsPerCalendar
     }
     
     func fetchEvents(){
@@ -161,6 +232,8 @@ class EventListController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+        
+        filteredEvents = events
     }
 
     func getCalendarColor(name: String) -> UIColor {
@@ -169,11 +242,11 @@ class EventListController: UITableViewController {
     
     //MARK: - Standard Tableview methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.count
+        return filteredEvents.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let event = events[indexPath.row]
+        let event = filteredEvents[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
         cell.initCell(indexPath: indexPath)
