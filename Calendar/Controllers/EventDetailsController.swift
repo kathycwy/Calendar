@@ -10,6 +10,8 @@ import CoreData
 import SwiftUI
 import EventKit
 import EventKitUI
+import MapKit
+import CoreLocation
 
 class EventDetailsController: CalendarUIViewController {
     
@@ -28,6 +30,7 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var notes: UILabel!
     @IBOutlet weak var remindTime: UILabel!
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
@@ -98,7 +101,19 @@ class EventDetailsController: CalendarUIViewController {
             UIAction(title: "Share to iCalendar", handler: iCalButtonClosure),
             UIAction(title: "Copy event details", handler: copyDetailsClosure)
           ])
-        
+//        Show location
+        let EventLocationAnnotation = MKPointAnnotation()
+        let coordinateLatitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute) as! Double
+        let coordinateLongitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute) as! Double
+                      EventLocationAnnotation.coordinate = CLLocationCoordinate2D.init(latitude:coordinateLatitude, longitude: coordinateLongitude)
+                      
+                      
+                      
+                      let region = MKCoordinateRegion.init(center: EventLocationAnnotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+                      mapView.setRegion(region, animated: true)
+                      mapView.addAnnotation(EventLocationAnnotation)
+                      
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
