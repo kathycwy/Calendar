@@ -37,19 +37,20 @@ class MonthCell: UICollectionViewCell {
         layer.borderWidth = 0
         taskLabel.backgroundColor = UIColor.appColor(.background)
         taskLabel.text = ""
+        taskLabel.isHidden = true
     }
     
     // MARK: - Helper functions
 
     // Call this function if there are events on this day
-    func setTaskIndicator(numberOfTasks: Int = 10){
+    func setTaskIndicator(numberOfTasks: Int = 0){
         taskLabel.text = String(numberOfTasks)
         taskLabel.textColor = UIColor.appColor(.surface)
         taskLabel.layer.masksToBounds = true
         taskLabel.backgroundColor = UIColor.appColor(.onSurface)
         taskLabel.layer.cornerRadius = taskLabel.frame.width/2
         taskLabel.font = taskLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 8)
-        
+        taskLabel.isHidden = false
     }
     
 }
