@@ -55,7 +55,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
     
     func initTime() {
-         for hour in 0 ... 23 {
+         for hour in -1 ... 23 {
              hours.append(hour)
          }
     }
@@ -176,10 +176,21 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         cell.initCell()
         
         // Set up label
-        if indexPath.row > 0 {
-            cell.topTimeLabel.text = String(indexPath.row - 1) + ":00"
+        if indexPath.row == 0 {
+            cell.bottomTimeLabel.text = "All day"
         }
-        cell.bottomTimeLabel.text = String(indexPath.row) + ":00"
+        
+        if indexPath.row == 1 {
+            cell.topTimeLabel.text = "All day"
+        }
+        
+        
+        if indexPath.row > 1 {
+            cell.topTimeLabel.text = String(indexPath.row - 2) + ":00"
+        }
+        if indexPath.row > 0 {
+            cell.bottomTimeLabel.text = String(indexPath.row - 1) + ":00"
+        }
         
         // Shift label otherwise cannot shown properly
         if indexPath.row == hours.count {
@@ -210,18 +221,27 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                 for event in events {
                     if let startDate = event.value(forKeyPath: "startDate") as? Date {
                         if let endDate = event.value(forKeyPath: "endDate") as? Date {
-                            let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
-                            
-                            let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
-                            
-                            let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
-                            let height = max(rowHeight / 3600 * elapsedTime, 30)
-                            let offsetY = rowHeight * (minutes / 60)
-                            let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                            insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
-                            
+                            if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
+                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                                let height = rowHeight
+                                let offsetY = CGFloat(rowHeight * -1)
+                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                            }
+                            else {
+                                let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
+                                
+                                let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
+                                
+                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                                let height = max(rowHeight / 3600 * elapsedTime, 30)
+                                let offsetY = rowHeight * (minutes / 60)
+                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                            }
                         }
                     }
+                    
                     index = index + 1
                 }
             }
