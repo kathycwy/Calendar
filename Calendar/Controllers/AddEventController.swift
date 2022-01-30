@@ -142,17 +142,17 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         self.changeRemindButton()
         
         remindButton.menu = UIMenu(children: [
-            UIAction(title: EventsStruct.remindNever, state: .on, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remindOnDate, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind5Min, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind10Min, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind15Min, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind30Min, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind1Hr, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind2Hr, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind1Day, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind2Day, handler: remindButtonClosure),
-            UIAction(title: EventsStruct.remind1Wk, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remindNever, state: .on, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remindOnDate, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind5Min, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind10Min, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind15Min, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind30Min, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind1Hr, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind2Hr, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind1Day, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind2Day, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind1Wk, handler: remindButtonClosure),
           ])
 
     }
@@ -335,25 +335,25 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         let localStartDate = startDate
                 
         switch remindOption {
-        case EventsStruct.remindOnDate:
+        case Constants.RemindOptions.remindOnDate:
             return result
-        case EventsStruct.remind5Min:
+        case Constants.RemindOptions.remind5Min:
             result = Calendar.current.date(byAdding: .minute, value: -5, to: localStartDate)! as Date
-        case EventsStruct.remind10Min:
+        case Constants.RemindOptions.remind10Min:
             result = Calendar.current.date(byAdding: .minute, value: -10, to: localStartDate)! as Date
-        case EventsStruct.remind15Min:
+        case Constants.RemindOptions.remind15Min:
             result = Calendar.current.date(byAdding: .minute, value: -15, to: localStartDate)! as Date
-        case EventsStruct.remind30Min:
+        case Constants.RemindOptions.remind30Min:
             result = Calendar.current.date(byAdding: .minute, value: -30, to: localStartDate)! as Date
-        case EventsStruct.remind1Hr:
+        case Constants.RemindOptions.remind1Hr:
             result = Calendar.current.date(byAdding: .hour, value: -1, to: localStartDate)! as Date
-        case EventsStruct.remind2Hr:
+        case Constants.RemindOptions.remind2Hr:
             result = Calendar.current.date(byAdding: .hour, value: -2, to: localStartDate)! as Date
-        case EventsStruct.remind1Day:
+        case Constants.RemindOptions.remind1Day:
             result = Calendar.current.date(byAdding: .day, value: -1, to: localStartDate)! as Date
-        case EventsStruct.remind2Day:
+        case Constants.RemindOptions.remind2Day:
             result = Calendar.current.date(byAdding: .day, value: -2, to: localStartDate)! as Date
-        case EventsStruct.remind1Wk:
+        case Constants.RemindOptions.remind1Wk:
             result = Calendar.current.date(byAdding: .day, value: -7, to: localStartDate)! as Date
         default:
             return result
@@ -387,7 +387,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         //Handles case when notifications are disabled after selecting an option
         let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
         if isNotificationEnabled == false {
-            remindOption = EventsStruct.remindNever
+            remindOption = Constants.RemindOptions.remindNever
         }
         
         // set all-day event to 00:00 - 23:59
@@ -427,7 +427,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
             event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
             let remindTime = calcRemindTime(startDate: repeatEventDate[0], remindOption: remindOption)
-            if remindOption != EventsStruct.remindNever {
+            if remindOption != Constants.RemindOptions.remindNever {
                 self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
             }
             
