@@ -64,6 +64,7 @@ class MonthViewController: CalendarUIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.collectionView.reloadData()
         //self.view.layoutIfNeeded()
     }
     
