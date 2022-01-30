@@ -504,10 +504,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" contentInsetAdjustmentBehavior="scrollableAxes" translatesAutoresizingMaskIntoConstraints="NO" id="67T-6e-roI">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67T-6e-roI">
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
+                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
                                         <rect key="frame" x="25" y="0.0" width="364" height="1227"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-5P-pxG">
@@ -654,7 +654,7 @@
                                                         <rect key="frame" x="0.0" y="30" width="364" height="50"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Od3-Gt-OPC">
-                                                                <rect key="frame" x="0.0" y="0.0" width="129.5" height="50"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="50"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="After 1 Time(s)"/>
                                                                 <connections>
@@ -662,7 +662,7 @@
                                                                 </connections>
                                                             </button>
                                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="Y61-zm-Xw5">
-                                                                <rect key="frame" x="129.5" y="0.0" width="234.5" height="50"/>
+                                                                <rect key="frame" x="119.5" y="0.0" width="244.5" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="3TP-6J-Afb"/>
                                                                 </constraints>
@@ -798,19 +798,15 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="kCd-4C-K3M" firstAttribute="bottom" secondItem="67T-6e-roI" secondAttribute="bottom" id="4WN-ea-yoM"/>
-                                    <constraint firstAttribute="top" secondItem="kCd-4C-K3M" secondAttribute="top" id="uVE-kZ-Bbp"/>
-                                </constraints>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Flq-sn-XLY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="67T-6e-roI" firstAttribute="top" secondItem="Flq-sn-XLY" secondAttribute="top" id="ahY-Rm-qqe"/>
-                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="kCd-4C-K3M" secondAttribute="trailing" constant="25" id="fz5-FM-7JH"/>
-                            <constraint firstItem="kCd-4C-K3M" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" constant="25" id="lMH-zo-vzn"/>
-                            <constraint firstItem="Flq-sn-XLY" firstAttribute="bottom" secondItem="67T-6e-roI" secondAttribute="bottom" id="o18-KC-Vzd"/>
+                            <constraint firstItem="67T-6e-roI" firstAttribute="top" secondItem="Flq-sn-XLY" secondAttribute="top" id="2Fd-N0-rGj"/>
+                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="67T-6e-roI" secondAttribute="trailing" id="D3v-vt-3EY"/>
+                            <constraint firstItem="Flq-sn-XLY" firstAttribute="bottom" secondItem="67T-6e-roI" secondAttribute="bottom" id="Gwu-gr-dqS"/>
+                            <constraint firstItem="67T-6e-roI" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" id="rw2-RG-l9a"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add event" id="gb3-2E-2pC">
