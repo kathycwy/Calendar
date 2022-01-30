@@ -710,7 +710,10 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Mj-Y1-SAC">
                                                         <rect key="frame" x="0.0" y="384" width="384" height="31"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="filled" title="Current Location"/>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Current Location">
+                                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                                            <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
+                                                        </buttonConfiguration>
                                                         <connections>
                                                             <action selector="recenterToUsersLocation:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="7dO-Sb-FA5"/>
                                                         </connections>
@@ -718,7 +721,10 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4B-hR-KoL">
                                                         <rect key="frame" x="0.0" y="415" width="384" height="31"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="filled" title="Set Location"/>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Set Location">
+                                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                                            <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
+                                                        </buttonConfiguration>
                                                         <connections>
                                                             <action selector="saveLocationCoordinate:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="D6r-SU-YiE"/>
                                                         </connections>
@@ -1435,7 +1441,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RB9-WT-8P8">
+                                    <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RB9-WT-8P8">
                                         <rect key="frame" x="0.0" y="414.5" width="354" height="128"/>
                                     </mapView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYt-Yz-YGd">
@@ -18907,6 +18913,9 @@ AAAAD0GWA
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="placeholderTextColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

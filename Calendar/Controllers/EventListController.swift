@@ -248,7 +248,6 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = filteredEvents[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
         cell.initCell(indexPath: indexPath)
         
