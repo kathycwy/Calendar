@@ -306,7 +306,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         // Set text
         let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
         let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
-        let text = eventTitle + "\n" + eventLoc
+        let text = eventTitle + ((eventLoc == " ") ? "" : ("\n" + eventLoc))
         
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
@@ -322,28 +322,38 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventLoc))
         
-        if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-            let eventColour: UIColor? = nil
-            cell.backgroundColor = eventColour?.withAlphaComponent(0.3) ?? .appColor(.primary)?.withAlphaComponent(0.4)
-        }
-        
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYYMMDD"
-        if let fromDate = event.value(forKeyPath: "startDate") as? Date {
-            if let toDate = event.value(forKeyPath: "endDate") as? Date {
-                if formatter.string(from: fromDate) == formatter.string(from: toDate) {
-                    formatter.dateFormat = "HH:mm"
-                }
-                else {
-                    formatter.dateFormat = "d MMM y, HH:mm"
+        if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false == false) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYYMMDD"
+            if let fromDate = event.value(forKeyPath: "startDate") as? Date {
+                if let toDate = event.value(forKeyPath: "endDate") as? Date {
+                    if formatter.string(from: fromDate) == formatter.string(from: toDate) {
+                        formatter.dateFormat = "HH:mm"
+                    }
+                    else {
+                        formatter.dateFormat = "d MMM y, HH:mm"
+                    }
                 }
             }
-        }
         cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
+        }
+        else{
+            cell.startDateLabel.text = "All-Day"
+            cell.startDateLabel.textColor = .white
+            cell.endDateLabel.text = ""
+            
+            cell.titleLabel.textColor = .white
+            if (indexPath.row % 2 == 0) {
+                cell.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+            }
+            else {
+                cell.backgroundColor = UIColor.red.withAlphaComponent(0.3)
+            }
+        }
         return cell
     }
     

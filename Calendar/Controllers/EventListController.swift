@@ -224,7 +224,8 @@ class EventListController: UITableViewController, UISearchBarDelegate {
 
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
         let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
-        fetchRequest.sortDescriptors = [sort]
+        let sort2 = NSSortDescriptor(key:Constants.EventsAttribute.allDayAttribute, ascending: false)
+        fetchRequest.sortDescriptors = [sort, sort2]
         
         do {
             // fetch the entitiy
