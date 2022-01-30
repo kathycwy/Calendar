@@ -20,6 +20,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     var hours = [Int]()
     let rowHeight: CGFloat = 70.0
     var viewTags: [Int] = []
+    var selectedEvent: NSManagedObject? = nil
     
     let calendarHelper = CalendarHelper()
     var nRef = 1
@@ -69,6 +70,17 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         self.hourTableView.addGestureRecognizer(rightSwipe)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "dayToEventDetailSegue") {
+            let destinationVC = segue.destination as! EventDetailsController
+            
+            if let event = selectedEvent {
+                destinationVC.event = event
+                destinationVC.eventID = event.objectID
+            }
+        }
+    }
+    
     // MARK: - Actions
 
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
@@ -89,7 +101,11 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                               animations: { self.setDayView() })
             NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDay as Any])
         }
-        
+    }
+    
+    @objc func eventButtonClicked(_ sender: EventButton) {
+        self.selectedEvent = sender.event
+        self.performSegue(withIdentifier: "dayToEventDetailSegue", sender: self)
     }
     
     // MARK: - Helper functions
@@ -127,7 +143,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     func setDayView(scroll: Bool = true) {
         // Remove all eventButtons
         for tag in viewTags {
-            if let oldButton = view.viewWithTag(tag) as! UIButton? {
+            if let oldButton = view.viewWithTag(tag) as! EventButton? {
                 oldButton.removeFromSuperview()
             }
         }
@@ -244,14 +260,17 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
         let tag = indexPath.row * 100 + index
         
-        if let oldButton = view.viewWithTag(tag) as! UIButton? {
+        if let oldButton = view.viewWithTag(tag) as! EventButton? {
             oldButton.removeFromSuperview()
         }
 
         let frame = CGRect(x: CGFloat(x_loc) + offsetX, y: rectCellView.origin.y + offsetY, width: width, height: height)
         
-        let eventButton: UIButton = {
-            let eventButton = UIButton()
+        let eventButton: EventButton = {
+            let eventButton = EventButton()
+            eventButton.event = event
+            eventButton.displayedStartDate = startDate
+            eventButton.displayedEndDate = endDate
             eventButton.frame = frame
             eventButton.backgroundColor = .appColor(.primary)?.withAlphaComponent(0.6)
             eventButton.titleLabel?.numberOfLines = 0
@@ -261,6 +280,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             eventButton.tag = tag
             eventButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             eventButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
+            eventButton.addTarget(self, action: "eventButtonClicked:", for: .touchUpInside)
             return eventButton
         }()
         
