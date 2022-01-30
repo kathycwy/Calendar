@@ -1,9 +1,11 @@
 //
-//  ViewController.swift
+//  YearViewController.swift
 //  Calendar
 //
 //  Created by C Chan on 17/12/2021.
 //
+//  To control the functionalities of Year View
+
 
 import UIKit
 import SwiftUI

@@ -1,3 +1,11 @@
+//
+//  CalendarViewController.swift
+//  Calendar
+//
+//  Created by C Chan on 17/12/2021.
+//
+//  To control the functionalities of the nav bar
+
 import UIKit
 
 class CalendarViewController: CalendarUIViewController, UITableViewDelegate, UITableViewDataSource {
