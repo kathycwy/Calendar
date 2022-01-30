@@ -24,6 +24,7 @@ enum AssetsColor : String{
     case work
     case school
     case textFieldBackground
+    case viewBackground
 }
 
 extension UIColor {

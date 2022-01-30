@@ -133,6 +133,13 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         rightSwipe.direction = .right
         self.collectionView.addGestureRecognizer(leftSwipe)
         self.collectionView.addGestureRecognizer(rightSwipe)
+        
+        let leftDaySwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleDaySwipe(_:)))
+        let rightDaySwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleDaySwipe(_:)))
+        leftDaySwipe.direction = .left
+        rightDaySwipe.direction = .right
+        self.tableView.addGestureRecognizer(leftDaySwipe)
+        self.tableView.addGestureRecognizer(rightDaySwipe)
          
     }
     
@@ -143,6 +150,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
             if indexPath.item > 0 {
                 self.selectedDate = self.displayWeeks[0].calendarDays[indexPath.item - 1].date!
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDate as Any])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
                 self.setSelectedCell()
             }
         }
@@ -150,20 +158,49 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
+            
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCurlUp,
+                              animations: {
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
+            
+        } else if sender.direction == .right {
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -7)
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
             
             UIView.transition(with: self.view,
                               duration: 0.3,
                               options: .transitionCurlDown,
                               animations: {
                 self.reloadCalendar(newSelectedDate: self.selectedDate) })
+        }
+    }
+    
+    @objc func handleDaySwipe(_ sender: UISwipeGestureRecognizer){
+        if sender.direction == .left {
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 1)
             
-        } else if sender.direction == .right {
-            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
             
             UIView.transition(with: self.view,
                               duration: 0.3,
-                              options: .transitionCurlUp,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                self.reloadCalendar(newSelectedDate: self.selectedDate) })
+            
+        } else if sender.direction == .right {
+            self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: -1)
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
+            
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
                               animations: {
                 self.reloadCalendar(newSelectedDate: self.selectedDate) })
         }
@@ -188,6 +225,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     func reloadCalendar(newSelectedDate: Date) {
         self.selectedDate = newSelectedDate
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
         self.displayWeeks = self.collectionViewDataSource.loadDisplayWeek(newSelectedDate: self.selectedDate)
         if isScrolled {
             self.collectionView.reloadData()
@@ -230,6 +268,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         else {
             self.selectedDate = date!
             self.setSelectedCell()
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
         }
     }
     

@@ -70,7 +70,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "dayToEventDetailSegue") {
+        if segue.identifier == "dayToEventDetailSegue" {
             let destinationVC = segue.destination as! EventDetailsController
             
             if let event = selectedEvent {
@@ -84,7 +84,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
 
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -93,7 +93,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             
         }
         else if sender.direction == .right {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -140,6 +140,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
 
     func setDayView(scroll: Bool = true) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDay) as Any])
         // Remove all eventButtons
         for tag in viewTags {
             if let oldButton = view.viewWithTag(tag) as! EventButton? {
@@ -177,11 +178,11 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
         // Set up label
         if indexPath.row == 0 {
-            cell.bottomTimeLabel.text = "All day"
+            cell.bottomTimeLabel.text = "All-day"
         }
         
         if indexPath.row == 1 {
-            cell.topTimeLabel.text = "All day"
+            cell.topTimeLabel.text = "All-day"
         }
         
         
@@ -221,23 +222,24 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                 for event in events {
                     if let startDate = event.value(forKeyPath: "startDate") as? Date {
                         if let endDate = event.value(forKeyPath: "endDate") as? Date {
-                            if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
-                                let height = rowHeight
-                                let offsetY = CGFloat(rowHeight * -1)
-                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                            // All day event
+                            if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false) {
+                              let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                              let height = rowHeight
+                              let offsetY = CGFloat(rowHeight * -1)
+                              let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                              insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
                             }
                             else {
-                                let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
-                                
-                                let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
-                                
-                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
-                                let height = max(rowHeight / 3600 * elapsedTime, 30)
-                                let offsetY = rowHeight * (minutes / 60)
-                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                              let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
+                              
+                              let minutes = CGFloat((formatter.string(from: max(startDateTime, startDate)) as NSString).floatValue)
+                              
+                              let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                              let height = max(rowHeight / 3600 * elapsedTime, 30)
+                              let offsetY = rowHeight * (minutes / 60)
+                              let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                              insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
                             }
                         }
                     }
@@ -257,7 +259,10 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
         let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
         let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
-        let eventDate: String = start + " - " + end
+        var eventDate: String = ""
+        if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false == false) {
+            eventDate = start + " - " + end
+        }
         let text = eventTitle + "\n" + eventDate + "\n" + eventLoc
         var eventColour: UIColor? = nil
         if let attr = event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) {
@@ -279,7 +284,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         }
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
-                                    value: eventColour ?? UIColor.appColor(.onPrimary) as Any,
+                                    value: eventDate == "" ? UIColor.white : (eventColour ?? UIColor.appColor(.onPrimary)) as Any,
                                     range: attributedText.getRangeOfString(textToFind: text))
         attributedText.addAttribute(.font,
                                     value: UIFont.boldSystemFont(ofSize: (UIFont.appFontSize(.collectionViewCell) ?? 11) - 2),
@@ -309,7 +314,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             eventButton.displayedStartDate = startDate
             eventButton.displayedEndDate = endDate
             eventButton.frame = frame
-            eventButton.backgroundColor = eventColour?.withAlphaComponent(0.3) ?? .appColor(.primary)?.withAlphaComponent(0.6)
+            eventButton.backgroundColor = eventDate == "" ? eventColour?.withAlphaComponent(0.5) ?? UIColor.red.withAlphaComponent(0.5) : eventColour?.withAlphaComponent(0.3) ?? .appColor(.primary)?.withAlphaComponent(0.6)
             eventButton.titleLabel?.numberOfLines = 0
             eventButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
             eventButton.setAttributedTitle(attributedText, for: .normal)
@@ -318,6 +323,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             eventButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             eventButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
             eventButton.addTarget(self, action: #selector(self.eventButtonClicked(_:)), for: .touchUpInside)
+            eventButton.layer.borderWidth = 2.0
+            eventButton.layer.borderColor = eventButton.backgroundColor?.cgColor
+            eventButton.titleEdgeInsets.left = 0.5
             return eventButton
         }()
         
