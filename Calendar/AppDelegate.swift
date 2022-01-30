@@ -96,25 +96,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func formatMessage(remindOption: String) -> String {
         var message = ""
         switch remindOption {
-        case EventsStruct.remindOnDate:
+        case Constants.RemindOptions.remindOnDate:
             message = "Starting Now"
-        case EventsStruct.remind5Min:
+        case Constants.RemindOptions.remind5Min:
             message = "Starting in 5 Minutes"
-        case EventsStruct.remind10Min:
+        case Constants.RemindOptions.remind10Min:
             message = "Starting in 10 Minutes"
-        case EventsStruct.remind15Min:
+        case Constants.RemindOptions.remind15Min:
             message = "Starting in 15 Minutes"
-        case EventsStruct.remind30Min:
+        case Constants.RemindOptions.remind30Min:
             message = "Starting in 30 Minutes"
-        case EventsStruct.remind1Hr:
+        case Constants.RemindOptions.remind1Hr:
             message = "Starting in 1 Hour"
-        case EventsStruct.remind2Hr:
+        case Constants.RemindOptions.remind2Hr:
             message = "Starting in 2 Hours"
-        case EventsStruct.remind1Day:
+        case Constants.RemindOptions.remind1Day:
             message = "Starting in 1 Day"
-        case EventsStruct.remind2Day:
+        case Constants.RemindOptions.remind2Day:
             message = "Starting in 2 Days"
-        case EventsStruct.remind1Wk:
+        case Constants.RemindOptions.remind1Wk:
             message = "Starting in 1 Week"
         default:
             return message
