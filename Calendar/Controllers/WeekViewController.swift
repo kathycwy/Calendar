@@ -283,6 +283,11 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventLoc))
         
+        if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
+            let eventColour: UIColor? = nil
+            cell.backgroundColor = eventColour?.withAlphaComponent(0.3) ?? .appColor(.primary)?.withAlphaComponent(0.4)
+        }
+        
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
         

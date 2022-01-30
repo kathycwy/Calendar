@@ -55,7 +55,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
     
     func initTime() {
-         for hour in 0 ... 23 {
+         for hour in -1 ... 23 {
              hours.append(hour)
          }
     }
@@ -176,10 +176,21 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         cell.initCell()
         
         // Set up label
-        if indexPath.row > 0 {
-            cell.topTimeLabel.text = String(indexPath.row - 1) + ":00"
+        if indexPath.row == 0 {
+            cell.bottomTimeLabel.text = "All day"
         }
-        cell.bottomTimeLabel.text = String(indexPath.row) + ":00"
+        
+        if indexPath.row == 1 {
+            cell.topTimeLabel.text = "All day"
+        }
+        
+        
+        if indexPath.row > 1 {
+            cell.topTimeLabel.text = String(indexPath.row - 2) + ":00"
+        }
+        if indexPath.row > 0 {
+            cell.bottomTimeLabel.text = String(indexPath.row - 1) + ":00"
+        }
         
         // Shift label otherwise cannot shown properly
         if indexPath.row == hours.count {
@@ -231,6 +242,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                             }
                         }
                     }
+                    
                     index = index + 1
                 }
             }
