@@ -9,6 +9,8 @@ import UIKit
 import CoreData
 import EventKit
 import EventKitUI
+import MapKit
+import CoreLocation
 
 final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
@@ -34,7 +36,9 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet private var notesField: UITextField!
     @IBOutlet weak var remindButton: UIButton!
     
+    @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet var onetapGesture: UITapGestureRecognizer!
     var managedObjectContext: NSManagedObjectContext?
     var events: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
@@ -48,6 +52,14 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var lastView: String = ""
     var newStartDate: Date = Date()
 
+        
+      let manager = CLLocationManager()
+      let selectedLocation = MKPointAnnotation()
+      var eventLocation:CLLocationCoordinate2D?
+      var annotationAdded = false
+      var locationAdded = false
+      var userLocationEnabled = false
+
     // MARK: - Init
     
     func initUI(){
@@ -56,6 +68,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        zoomInUsersLocation()
+        checkAuthrizationStatus(locationManager: manager)
         startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
         endRepeatDatePicker.minimumDate = endDateField.date
@@ -72,6 +86,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             self.endDateField.date = CalendarHelper().addMinute(date: self.startDateField.date, n: 60)
             lastView = ""
         }
+
     }
     
     @objc fileprivate func willEnterForeground() {
@@ -80,7 +95,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+       
         // responding to End Repeat button
         let repeatButtonClosure = { (action: UIAction) in
             self.repeatOption = action.title
@@ -156,6 +171,92 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
           ])
 
     }
+    
+    
+    // MARK: Location Service Functions
+    
+    @IBAction func tapToSelect(_ sender: Any) {
+       //        If there is already a pin dropped, remove the previous pin
+               if annotationAdded{
+                   mapView.removeAnnotation(selectedLocation)
+               }
+               
+               
+               let location = onetapGesture.location(in: mapView)
+               let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
+               selectedLocation.coordinate = locationInMap
+               mapView.addAnnotation(selectedLocation)
+               annotationAdded = true
+           }
+    @IBAction func recenterToUsersLocation(_ sender: Any) {
+            zoomInUsersLocation()
+        }
+        
+        @IBAction func saveLocationCoordinate(_ sender: Any) {
+           
+            if annotationAdded {
+                 eventLocation = selectedLocation.coordinate
+                locationAdded = true
+            }else{
+                if userLocationEnabled{
+                    eventLocation = manager.location?.coordinate
+                    locationAdded = true
+                } else{
+                    showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
+                    
+                }
+            }
+          
+            
+        }
+    
+    func zoomInUsersLocation(){
+           if let usersLocation = manager.location?.coordinate {
+               let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+               mapView.setRegion(region, animated: true)
+           }
+       }
+    func showAlert(title: String, description: String){
+         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: goToSettings(alert:)))
+         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+         self.present(alert, animated: true)
+     }
+     
+     
+     func goToSettings(alert: UIAlertAction!){
+         let url = URL(string: UIApplication.openSettingsURLString)!
+         UIApplication.shared.open(url) { _ in print("succeed")
+         }
+     }
+    
+    func checkAuthrizationStatus(locationManager: CLLocationManager){
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            if CLLocationManager.locationServicesEnabled(){
+                locationManager.requestWhenInUseAuthorization()
+            }else{
+                showAlert(title: "Get Location failed", description: "Locationservice is disabled, please check your device settings!")
+            }
+            break;
+        case .restricted:
+            showAlert(title: "Get Location failed", description: "Request restricted!")
+            break;
+        case .denied:
+            showAlert(title: "Request denied!", description: "Locationrequest denied, you can change it in your device settings")
+        case .authorizedAlways:
+            userLocationEnabled = true
+            break;
+        case .authorizedWhenInUse:
+            userLocationEnabled = true
+            break;
+        @unknown default:
+            break;
+        }
+    }
+    
+
     
     // MARK: Helper functions
     
@@ -379,7 +480,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         let repeatOption = self.repeatOption
         let endRepeatOption = self.endRepeatOption
         let endRepeatDate = endRepeatDatePicker.date
-        let location = locationField.text
+        var location = locationField.text
         let calendarOption = self.calendarOption
         let url = urlField.text
         let notes = notesField.text
@@ -420,12 +521,23 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(repeatOption, forKeyPath: Constants.EventsAttribute.repeatOptionAttribute)
             event.setValue(endRepeatOption, forKeyPath: Constants.EventsAttribute.endRepeatOptionAttribute)
             event.setValue(endRepeatDate, forKeyPath: Constants.EventsAttribute.endRepeatDateAttribute)
-            event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+//            event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
             event.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
             event.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
             event.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
             event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
+            if locationAdded{
+                location = "Location added"
+                let locationCoordinateLatitude = eventLocation?.latitude
+                let locationCoordinateLongitude = eventLocation?.longitude
+                event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+                event.setValue(locationCoordinateLongitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute)
+                event.setValue(locationCoordinateLatitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute)
+            }else{
+                location = "Location not added"
+                event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+            }
             let remindTime = calcRemindTime(startDate: repeatEventDate[0], remindOption: remindOption)
             if remindOption != Constants.RemindOptions.remindNever {
                 self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
@@ -443,6 +555,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         navigationController?.popViewController(animated: true)
 
     }
+
   
 
     

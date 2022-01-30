@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 import SwiftUI
+import MapKit
+import CoreLocation
 
 class EditEventController: CalendarUIViewController {
     
@@ -25,6 +27,8 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var notesField: UITextField!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var onetapGesture: UITapGestureRecognizer!
     @IBOutlet weak var remindButton: UIButton!
     
     var event: NSManagedObject?
@@ -33,6 +37,13 @@ class EditEventController: CalendarUIViewController {
     var remindOption: String = ""
     var initialRemindOption: String = ""
     
+    
+  let manager = CLLocationManager()
+  let selectedLocation = MKPointAnnotation()
+  var eventLocation:CLLocationCoordinate2D?
+  var annotationAdded = false
+  var locationAdded = false
+  var userLocationEnabled = false
     // MARK: - Init
 
     override func viewDidLoad() {
@@ -42,6 +53,92 @@ class EditEventController: CalendarUIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
+    
+    
+    // MARK: Location Service Functions
+    
+    @IBAction func tapToSelect(_ sender: Any) {
+       //        If there is already a pin dropped, remove the previous pin
+               if annotationAdded{
+                   mapView.removeAnnotation(selectedLocation)
+               }
+               
+               
+               let location = onetapGesture.location(in: mapView)
+               let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
+               selectedLocation.coordinate = locationInMap
+               mapView.addAnnotation(selectedLocation)
+               annotationAdded = true
+           }
+    @IBAction func recenterToUsersLocation(_ sender: Any) {
+            zoomInUsersLocation()
+        }
+        
+        @IBAction func saveLocationCoordinate(_ sender: Any) {
+           
+            if annotationAdded {
+                 eventLocation = selectedLocation.coordinate
+                locationAdded = true
+            }else{
+                if userLocationEnabled{
+                    eventLocation = manager.location?.coordinate
+                    locationAdded = true
+                } else{
+                    showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
+                    
+                }
+            }
+          
+            
+        }
+    
+    func zoomInUsersLocation(){
+           if let usersLocation = manager.location?.coordinate {
+               let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+               mapView.setRegion(region, animated: true)
+           }
+       }
+    func showAlert(title: String, description: String){
+         let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: goToSettings(alert:)))
+         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+         self.present(alert, animated: true)
+     }
+     
+     
+     func goToSettings(alert: UIAlertAction!){
+         let url = URL(string: UIApplication.openSettingsURLString)!
+         UIApplication.shared.open(url) { _ in print("succeed")
+         }
+     }
+    
+    func checkAuthrizationStatus(locationManager: CLLocationManager){
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            if CLLocationManager.locationServicesEnabled(){
+                locationManager.requestWhenInUseAuthorization()
+            }else{
+                showAlert(title: "Get Location failed", description: "Locationservice is disabled, please check your device settings!")
+            }
+            break;
+        case .restricted:
+            showAlert(title: "Get Location failed", description: "Request restricted!")
+            break;
+        case .denied:
+            showAlert(title: "Request denied!", description: "Locationrequest denied, you can change it in your device settings")
+        case .authorizedAlways:
+            userLocationEnabled = true
+            break;
+        case .authorizedWhenInUse:
+            userLocationEnabled = true
+            break;
+        @unknown default:
+            break;
+        }
+    }
+    
+
     
     @objc fileprivate func willEnterForeground() {
         self.changeRemindButton()
@@ -240,6 +337,7 @@ class EditEventController: CalendarUIViewController {
             let url = urlField.text
             let notes = notesField.text
             var remindOption = self.remindOption
+            var location = locationField.text
             //Handles case when notifications are disabled after selecting an option
             let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
             if isNotificationEnabled == false {
@@ -250,7 +348,6 @@ class EditEventController: CalendarUIViewController {
             if allDaySwitchState {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "d MMM y"
-                
                 let calender = Calendar.current
                 let startDateComponents = calender.dateComponents([.year, .month, .day], from: startDate)
                 var endDateComponents = calender.dateComponents([.year, .month, .day, .hour, .minute], from: endDate)
@@ -270,6 +367,18 @@ class EditEventController: CalendarUIViewController {
             updatingEvent.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             updatingEvent.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
             updatingEvent.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
+            if locationAdded{
+                location = "Location added"
+                let locationCoordinateLatitude = eventLocation?.latitude
+                let locationCoordinateLongitude = eventLocation?.longitude
+                updatingEvent.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+               updatingEvent.setValue(locationCoordinateLongitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute)
+               updatingEvent.setValue(locationCoordinateLatitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute)
+            }else{
+                location = "Location not added"
+                updatingEvent.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
+            }
+
             let remindTime = calcRemindTime(startDate: startDate, remindOption: remindOption)
             let notificationID = String(self.event!.value(forKeyPath: Constants.EventsAttribute.notificationIDAttribute) as? String ?? "")
             //update the existing or create a new notification

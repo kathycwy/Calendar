@@ -48,6 +48,9 @@ struct Constants {
         static let notesAttribute: String = "notes"
         static let remindOptionAttribute: String = "remindOption"
         static let notificationIDAttribute: String = "notificationID"
+        static let locationCoordinateLatitudeAttribute: String = "locationCoordinateLatitude"
+           static let locationCoordinateLongitudeAttribute: String = "locationCoordinateLongitude"
+
     }
     
     // event repeating options

@@ -508,7 +508,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
-                                        <rect key="frame" x="15" y="0.0" width="384" height="766"/>
+                                        <rect key="frame" x="15" y="0.0" width="384" height="1227"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-5P-pxG">
                                                 <rect key="frame" x="0.0" y="0.0" width="384" height="60"/>
@@ -694,8 +694,39 @@
                                                     <constraint firstAttribute="height" constant="60" id="qTT-BH-FsB"/>
                                                 </constraints>
                                             </stackView>
+                                            <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="teU-jH-CeM">
+                                                <rect key="frame" x="0.0" y="541" width="384" height="446"/>
+                                                <subviews>
+                                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSs-aJ-7Ys">
+                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="384"/>
+                                                        <gestureRecognizers/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="384" id="0Ks-Yx-fNH"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="UKA-Kl-rRT" appends="YES" id="9NT-Tl-EZH"/>
+                                                        </connections>
+                                                    </mapView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Mj-Y1-SAC">
+                                                        <rect key="frame" x="0.0" y="384" width="384" height="31"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Current Location"/>
+                                                        <connections>
+                                                            <action selector="recenterToUsersLocation:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="7dO-Sb-FA5"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4B-hR-KoL">
+                                                        <rect key="frame" x="0.0" y="415" width="384" height="31"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="filled" title="Set Location"/>
+                                                        <connections>
+                                                            <action selector="saveLocationCoordinate:" destination="pXJ-Nq-GYX" eventType="touchUpInside" id="D6r-SU-YiE"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36L-ip-aLR">
-                                                <rect key="frame" x="0.0" y="541" width="384" height="30"/>
+                                                <rect key="frame" x="0.0" y="1002" width="384" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtB-9H-8AE" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="68.5" height="30"/>
@@ -710,7 +741,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pIY-Zz-quz">
-                                                <rect key="frame" x="0.0" y="586" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="1047" width="384" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1V-2I-Flb" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
@@ -729,7 +760,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9XL-yi-ckl">
-                                                <rect key="frame" x="0.0" y="661" width="384" height="60"/>
+                                                <rect key="frame" x="0.0" y="1122" width="384" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4i-hM-jdX" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
@@ -748,7 +779,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2TG-ep-1EF">
-                                                <rect key="frame" x="0.0" y="736" width="384" height="30"/>
+                                                <rect key="frame" x="0.0" y="1197" width="384" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w2-9x-kjF" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
@@ -808,7 +839,9 @@
                         <outlet property="endRepeatDatePicker" destination="Y61-zm-Xw5" id="fno-Tr-8Gf"/>
                         <outlet property="endRepeatStack" destination="euS-nH-brL" id="0xg-hX-phq"/>
                         <outlet property="locationField" destination="U6z-BG-qjZ" id="0BV-PH-EIt"/>
+                        <outlet property="mapView" destination="WSs-aJ-7Ys" id="Th8-OV-pa8"/>
                         <outlet property="notesField" destination="eXq-kd-C4j" id="bOo-4l-pGT"/>
+                        <outlet property="onetapGesture" destination="UKA-Kl-rRT" id="l58-1q-giA"/>
                         <outlet property="pageTitleLabel" destination="PvK-i8-31C" id="I2n-Hn-I1Q"/>
                         <outlet property="remindButton" destination="CNI-1f-Q1c" id="GOn-rW-7Jp"/>
                         <outlet property="repeatButton" destination="M8U-uR-vhF" id="ruD-Ad-hww"/>
@@ -819,6 +852,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mWo-b7-ftO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="UKA-Kl-rRT">
+                    <connections>
+                        <action selector="tapToSelect:" destination="pXJ-Nq-GYX" id="FzK-SF-E4z"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2629" y="1357"/>
         </scene>
@@ -834,7 +872,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sQC-hF-Zy8">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="626"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="1087"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50h-Zl-nWK">
                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
@@ -953,8 +991,34 @@
                                                     <constraint firstAttribute="height" constant="60" id="5pd-IE-hf0"/>
                                                 </constraints>
                                             </stackView>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Fps-sp-n9T">
+                                                <rect key="frame" x="0.0" y="401" width="354" height="354"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="354" id="eUC-rO-P2F"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="DcP-kC-dft" appends="YES" id="40s-94-Xp4"/>
+                                                </connections>
+                                            </mapView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dq3-Hh-Vk5">
+                                                <rect key="frame" x="0.0" y="770" width="354" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Current Location"/>
+                                                <connections>
+                                                    <action selector="recenterToUsersLocation:" destination="wO8-KG-OKN" eventType="touchUpInside" id="QTg-px-NIb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYG-1H-gYf">
+                                                <rect key="frame" x="0.0" y="816" width="354" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Set Location"/>
+                                                <connections>
+                                                    <action selector="saveLocationCoordinate:" destination="wO8-KG-OKN" eventType="touchUpInside" id="lM1-Ax-N0s"/>
+                                                </connections>
+                                            </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rEY-S1-4HW">
-                                                <rect key="frame" x="0.0" y="401" width="354" height="30"/>
+                                                <rect key="frame" x="0.0" y="862" width="354" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zX6-qX-Dfj" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="68.5" height="30"/>
@@ -969,7 +1033,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xU7-oO-cM3">
-                                                <rect key="frame" x="0.0" y="446" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="907" width="354" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JX8-X2-wBY" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
@@ -988,7 +1052,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="85F-IX-SZK">
-                                                <rect key="frame" x="0.0" y="521" width="354" height="60"/>
+                                                <rect key="frame" x="0.0" y="982" width="354" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aN5-im-EZi" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="20.5"/>
@@ -1007,7 +1071,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yet-dk-bB1">
-                                                <rect key="frame" x="0.0" y="596" width="354" height="30"/>
+                                                <rect key="frame" x="0.0" y="1057" width="354" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cM-Kx-Nrr" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
@@ -1068,7 +1132,9 @@
                         <outlet property="calendarButton" destination="sbT-zI-op3" id="JqW-9X-nJ7"/>
                         <outlet property="endDateField" destination="JCP-FO-gbq" id="vzp-4B-TGD"/>
                         <outlet property="locationField" destination="2zL-BQ-Cnn" id="9GQ-yh-tAl"/>
+                        <outlet property="mapView" destination="Fps-sp-n9T" id="vsO-f5-4bP"/>
                         <outlet property="notesField" destination="jl0-NM-PGA" id="edr-Ve-dhj"/>
+                        <outlet property="onetapGesture" destination="DcP-kC-dft" id="AIy-29-Yo5"/>
                         <outlet property="pageTitleLabel" destination="ppG-YR-xwc" id="OO6-wX-eqS"/>
                         <outlet property="remindButton" destination="7kT-lU-LtP" id="Yak-xS-MOL"/>
                         <outlet property="startDateField" destination="eiI-wI-ePU" id="8N0-CJ-I5D"/>
@@ -1077,6 +1143,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8q-jL-tfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="DcP-kC-dft">
+                    <connections>
+                        <action selector="tapToSelect:" destination="wO8-KG-OKN" id="jka-1u-Ao1"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2629" y="2738"/>
         </scene>
@@ -1219,7 +1290,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-bh-W8K">
-                                <rect key="frame" x="30" y="108" width="354" height="435"/>
+                                <rect key="frame" x="30" y="108" width="354" height="589"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlh-ap-DqX">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="80"/>
@@ -1364,8 +1435,11 @@
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RB9-WT-8P8">
+                                        <rect key="frame" x="0.0" y="414.5" width="354" height="128"/>
+                                    </mapView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYt-Yz-YGd">
-                                        <rect key="frame" x="0.0" y="414.5" width="354" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="568.5" width="354" height="20.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7p-0o-UOS" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="263.5" height="20.5"/>
@@ -1416,6 +1490,7 @@
                         <outlet property="endDate" destination="ibG-kZ-FYF" id="vtC-gN-nRF"/>
                         <outlet property="eventTitle" destination="ReO-mL-ARS" id="11h-an-FCh"/>
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
+                        <outlet property="mapView" destination="RB9-WT-8P8" id="VQr-s7-iBl"/>
                         <outlet property="notes" destination="noC-AE-PqP" id="7sg-ZB-IxC"/>
                         <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
                         <outlet property="shareButton" destination="Y8o-Yh-hiG" id="wGA-OW-wQH"/>
@@ -2006,32 +2081,16 @@
             </objects>
             <point key="canvasLocation" x="2847.826086956522" y="647.87946428571422"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="7ub-Km-WhA">
-            <objects>
-                <navigationController id="dnh-9u-4XK" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MOe-S8-Xha">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="pLB-9u-UeQ" kind="relationship" relationship="rootViewController" id="4j6-P3-4o4"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="At6-8v-2eL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="83" y="-593"/>
-        </scene>
         <!--Preference-->
         <scene sceneID="GOL-Sz-dad">
             <objects>
                 <viewController storyboardIdentifier="preferences" automaticallyAdjustsScrollViewInsets="NO" id="pLB-9u-UeQ" customClass="PreferencesViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6t7-Z0-9nA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bke-qp-l7u">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preferences" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4UX-Zk-oie">
                                         <rect key="frame" x="20" y="10" width="374" height="20"/>
@@ -2050,7 +2109,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="never" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ih8-Kf-iPg">
-                                <rect key="frame" x="20" y="40" width="394" height="734"/>
+                                <rect key="frame" x="20" y="84" width="394" height="778"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="preferenceCell" id="InH-Jm-2s4" customClass="PreferenceCell" customModule="Calendar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="394" height="43.5"/>
