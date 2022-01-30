@@ -76,15 +76,30 @@ struct Constants {
         static let calendarSchool: String = "School"
         static let calendarWork: String = "Work"
         
-        static let personalColor: UIColor = .blue
-        static let schoolColor: UIColor = .orange
-        static let workColor: UIColor = .green
+        static let personalColor: UIColor = UIColor.appColor(calendarPersonal) ?? .clear
+        static let schoolColor: UIColor = UIColor.appColor(calendarSchool) ?? .clear
+        static let workColor: UIColor = UIColor.appColor(calendarWork) ?? .clear
         
         static let personalDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(personalColor, renderingMode: .alwaysOriginal)
         static let schoolDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(schoolColor, renderingMode: .alwaysOriginal)
         static let workDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(workColor, renderingMode: .alwaysOriginal)
         
         
+    }
+    
+    // event reminding options
+    struct RemindOptions {
+        static let remindNever: String = "Never"
+        static let remindOnDate: String = "On Date"
+        static let remind5Min: String = "5 Minutes Before"
+        static let remind10Min: String = "10 Minutes Before"
+        static let remind15Min: String = "15 Minutes Before"
+        static let remind30Min: String = "30 Minutes Before"
+        static let remind1Hr: String = "1 Hour Before"
+        static let remind2Hr: String = "2 Hours Before"
+        static let remind1Day: String = "1 Day Before"
+        static let remind2Day: String = "2 Days Before"
+        static let remind1Wk: String = "1 Week Before"
     }
 
 }
