@@ -84,7 +84,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
 
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -93,7 +93,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             
         }
         else if sender.direction == .right {
-            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
+            self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: -1)
             UIView.transition(with: self.hourTableView,
                               duration: 0.5,
                               options: .transitionCrossDissolve,
@@ -221,23 +221,24 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                 for event in events {
                     if let startDate = event.value(forKeyPath: "startDate") as? Date {
                         if let endDate = event.value(forKeyPath: "endDate") as? Date {
+                            // All day event
                             if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
-                                let height = rowHeight
-                                let offsetY = CGFloat(rowHeight * -1)
-                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                              let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                              let height = rowHeight
+                              let offsetY = CGFloat(rowHeight * -1)
+                              let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                              insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
                             }
                             else {
-                                let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
-                                
-                                let minutes = CGFloat((formatter.string(from: startDate) as NSString).floatValue)
-                                
-                                let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
-                                let height = max(rowHeight / 3600 * elapsedTime, 30)
-                                let offsetY = rowHeight * (minutes / 60)
-                                let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
-                                insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
+                              let elapsedTime = min(endDateTime, endDate).timeIntervalSince(max(startDateTime, startDate))
+                              
+                              let minutes = CGFloat((formatter.string(from: max(startDateTime, startDate)) as NSString).floatValue)
+                              
+                              let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
+                              let height = max(rowHeight / 3600 * elapsedTime, 30)
+                              let offsetY = rowHeight * (minutes / 60)
+                              let offsetX = (cellWidth * CGFloat(index)) + CGFloat(buffer * index)
+                              insertEvent(indexPath: indexPath, offsetX: offsetX, offsetY: offsetY, width: cellWidth, height: height, event: event, startDate: max(startDateTime, startDate), endDate: min(endDateTime, endDate), index: index)
                             }
                         }
                     }
