@@ -164,16 +164,7 @@ class EventListController: UITableViewController {
     }
 
     func getCalendarColor(name: String) -> UIColor {
-        switch name {
-        case Constants.CalendarConstants.calendarPersonal:
-            return Constants.CalendarConstants.personalColor
-        case Constants.CalendarConstants.calendarSchool:
-            return Constants.CalendarConstants.schoolColor
-        case Constants.CalendarConstants.calendarWork:
-            return Constants.CalendarConstants.workColor
-        default:
-            return .clear
-        }
+        return UIColor.appColor(name) ?? .clear
     }
     
     //MARK: - Standard Tableview methods

@@ -262,8 +262,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! EventCell
         
         cell.initCell(indexPath: indexPath)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+        
         
         // Set text
         let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
@@ -286,6 +285,19 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMDD"
+        if let fromDate = event.value(forKeyPath: "startDate") as? Date {
+            if let toDate = event.value(forKeyPath: "endDate") as? Date {
+                if formatter.string(from: fromDate) == formatter.string(from: toDate) {
+                    formatter.dateFormat = "HH:mm"
+                }
+                else {
+                    formatter.dateFormat = "d MMM y, HH:mm"
+                }
+            }
+        }
         cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
         return cell
