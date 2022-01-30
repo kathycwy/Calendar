@@ -75,6 +75,7 @@ class ThemeHelper {
         
         UILabel.appearance().textColor = .appColor(.primary)
         UITextView.appearance().textColor = .appColor(.primary)
+        UITextField.appearance().backgroundColor = .appColor(.textFieldBackground)
         UITableViewCell.appearance().backgroundColor = .appColor(.background)
         UITableViewHeaderFooterView.appearance().tintColor = .appColor(.primary)
         LightPaddingLabel.appearance().textColor = .appColor(.onPrimary)

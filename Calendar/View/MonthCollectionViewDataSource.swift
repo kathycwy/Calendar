@@ -191,16 +191,17 @@ class MonthCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICo
                 cell.dateLabel.text = displayStr
                 cell.weekLabel.text = isDisplayWeekNumber && !self.isAsInnerCollectionView ? displayWeekNum : ""
                 
-                if let currentDate = cell.cellDate {
-                    self.eventsPerDate = EventListController().getEventsByDate(currentDate: currentDate)
-                }
-                
-                if let eventsForToday = self.eventsPerDate {
-                    if !eventsForToday.isEmpty {
-                        cell.setTaskIndicator(numberOfTasks: eventsForToday.count)
+                if calendarRange[indexPath.row].isDate {
+                    if let currentDate = cell.cellDate {
+                        self.eventsPerDate = EventListController().getEventsByDate(currentDate: currentDate)
+                    }
+                    
+                    if let eventsForToday = self.eventsPerDate {
+                        if !eventsForToday.isEmpty {
+                            cell.setTaskIndicator(numberOfTasks: eventsForToday.count)
+                        }
                     }
                 }
-                
                 
                 //cell.weekLabel.text = String(indexPath.row)
                 if isSunday {

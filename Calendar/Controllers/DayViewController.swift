@@ -151,11 +151,11 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         viewTags = []
         hourTableView.reloadData()
         
-        if scroll {
+        /*if scroll {
             if !self.hourTableView.visibleCells.isEmpty {
-                self.hourTableView.scrollToRow(at: IndexPath(item: 6, section: 0), at: .top, animated: false)
+                self.hourTableView.scrollToRow(at: IndexPath(item: 8, section: 0), at: .top, animated: false)
             }
-        }
+        }*/
     }
     
     // MARK: - Standard Tableview methods
