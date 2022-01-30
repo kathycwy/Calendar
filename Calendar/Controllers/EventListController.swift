@@ -187,9 +187,6 @@ class EventListController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
         cell.initCell(indexPath: indexPath)
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM y, HH:mm"
-        
         // Set text
         let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
         let eventLoc: String = event.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? " "
@@ -209,10 +206,26 @@ class EventListController: UITableViewController {
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventLoc))
         
+        let fullFormatter = DateFormatter()
+        fullFormatter.dateFormat = "d MMM y, HH:mm"
+        
+        let allDayFormatter = DateFormatter()
+        allDayFormatter.dateFormat = "d MMM y"
+        
+        var startDateString: String, endDateString: String
+        
+        if event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false {
+            startDateString = allDayFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date) + " All-day"
+            endDateString = allDayFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date) + " All-day"
+        } else {
+            startDateString = fullFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date)
+            endDateString = fullFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
+        }
+        
         cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
-        cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date)
-        cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
+        cell.startDateLabel.text = startDateString
+        cell.endDateLabel.text = endDateString
         cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         
