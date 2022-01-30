@@ -44,13 +44,12 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         super.viewDidLoad()
         hourTableView.register(DayHeader.self, forHeaderFooterViewReuseIdentifier: "dayHeader")
         initTime()
-        setDayView()
         initGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        setDayView()
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToToday(_:)), name: Notification.Name(rawValue: "scrollToToday"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToDate(_:)), name: Notification.Name(rawValue: "scrollToDate"), object: nil)
     }
@@ -162,7 +161,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     // MARK: - Standard Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return hours.count
+        return hours.count + 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -178,18 +177,18 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
         // Set up label
         if indexPath.row > 0 {
-            cell.topTimeLabel.text = String(indexPath.row) + ":00"
+            cell.topTimeLabel.text = String(indexPath.row - 1) + ":00"
         }
-        cell.bottomTimeLabel.text = String(indexPath.row + 1) + ":00"
+        cell.bottomTimeLabel.text = String(indexPath.row) + ":00"
         
         // Shift label otherwise cannot shown properly
-        if indexPath.row == hours.count - 1 {
+        if indexPath.row == hours.count {
             let rect: CGRect = cell.bottomTimeLabel.frame
             cell.bottomTimeLabel.frame = rect.offsetBy(dx: 0, dy: -4)
         }
         
         if indexPath.row > 0 {
-            let events = EventListController().getEventsByStartDateAndTime(date: self.selectedDay, hour: hours[indexPath.row])
+            let events = EventListController().getEventsByStartDateAndTime(date: self.selectedDay, hour: hours[indexPath.row - 1])
             self.insertEvents(indexPath: indexPath, events: events)
         }
         
@@ -240,12 +239,30 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
         let eventDate: String = start + " - " + end
         let text = eventTitle + "\n" + eventDate + "\n" + eventLoc
+        var eventColour: UIColor? = nil
+        if let attr = event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) {
+            if let str = attr as? String {
+                switch str {
+                case Constants.CalendarConstants.calendarPersonal:
+                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarPersonal)
+                    break
+                case Constants.CalendarConstants.calendarSchool:
+                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarSchool)
+                    break
+                case Constants.CalendarConstants.calendarWork:
+                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarWork)
+                    break
+                default:
+                    break
+                }
+            }
+        }
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
-                                    value: UIColor.appColor(.onPrimary) as Any,
+                                    value: eventColour ?? UIColor.appColor(.onPrimary) as Any,
                                     range: attributedText.getRangeOfString(textToFind: text))
         attributedText.addAttribute(.font,
-                                    value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
+                                    value: UIFont.boldSystemFont(ofSize: (UIFont.appFontSize(.collectionViewCell) ?? 11) - 2),
                                     range: attributedText.getRangeOfString(textToFind: eventTitle))
         attributedText.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.innerCollectionViewHeader) ?? 11),
@@ -272,15 +289,15 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             eventButton.displayedStartDate = startDate
             eventButton.displayedEndDate = endDate
             eventButton.frame = frame
-            eventButton.backgroundColor = .appColor(.primary)?.withAlphaComponent(0.6)
+            eventButton.backgroundColor = eventColour?.withAlphaComponent(0.3) ?? .appColor(.primary)?.withAlphaComponent(0.6)
             eventButton.titleLabel?.numberOfLines = 0
             eventButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
             eventButton.setAttributedTitle(attributedText, for: .normal)
             eventButton.layer.cornerRadius = 2
             eventButton.tag = tag
             eventButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-            eventButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-            eventButton.addTarget(self, action: "eventButtonClicked:", for: .touchUpInside)
+            eventButton.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
+            eventButton.addTarget(self, action: #selector(self.eventButtonClicked(_:)), for: .touchUpInside)
             return eventButton
         }()
         
