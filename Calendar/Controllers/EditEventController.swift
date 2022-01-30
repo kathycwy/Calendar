@@ -274,7 +274,7 @@ class EditEventController: CalendarUIViewController {
             let notificationID = String(self.event!.value(forKeyPath: Constants.EventsAttribute.notificationIDAttribute) as? String ?? "")
             //update the existing or create a new notification
             if remindOption != EventsStruct.remindNever {
-                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, startDate: startDate, endDate: endDate, notID: notificationID)
+                self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
             }
             //the notification was initially set but changed to never, delete the notification
             else if self.initialRemindOption != EventsStruct.remindNever && remindOption == EventsStruct.remindNever {
