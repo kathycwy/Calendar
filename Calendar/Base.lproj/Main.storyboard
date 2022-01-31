@@ -2214,6 +2214,7 @@
                         <outlet property="contentView" destination="YDc-Mq-1qU" id="pl2-Tk-WDW"/>
                         <outlet property="tableView" destination="ycA-04-GPv" id="cW0-II-Mfm"/>
                         <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="6ie-4K-NZU"/>
+                        <segue destination="pnf-gb-Vad" kind="presentation" identifier="weekToEventListSegue" id="wIh-MD-A0Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2338,6 +2339,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pL8-76-e5Y"/>
+        <segue reference="WqF-Zu-IdC"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
     <resources>

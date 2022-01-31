@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 class EventListController: UITableViewController, UISearchBarDelegate {
     
@@ -23,6 +24,12 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     var selectedRow: Int?
     var savedSearchText: String? = ""
     var filterTypeName: String = "All"
+    var eventStartDate: Date?
+    var eventEndDate: Date?
+    var isForWeekView: Bool = false
+    let calendarHelper = CalendarHelper()
+    var weekEventHeader: WeekEventHeader!
+    var contextMenu: UIMenu?
     
     // MARK: - Init
     
@@ -61,6 +68,13 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             UIAction(title: Constants.ClassTypes.classAssignment, handler: eventFilterClosure),
             UIAction(title: Constants.ClassTypes.classOther, handler: eventFilterClosure)
           ])
+        
+        contextMenu = eventFilterButton.menu
+        if isForWeekView {
+            let frame = CGRect(x: 0, y: 80, width: view.frame.width, height: 10)
+            weekEventHeader = WeekEventHeader(frame: frame)
+            tableView.tableHeaderView = weekEventHeader
+        }
         
         self.tableView.reloadData()
     }
@@ -187,20 +201,55 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         return eventsPerHour
     }
     
-    func getEventsByDate(currentDate: Date) -> [NSManagedObject] {
-        fetchEvents()
+    func getEventsByDateRangeAndType(fromDate: Date, toDate: Date, name: String = "All", prevEvents: [NSManagedObject]) -> [NSManagedObject] {
+        var eventList: [NSManagedObject] = []
+        var curDate = fromDate
+        while toDate >= curDate {
+            for event in getEventsByDateAndType(currentDate: curDate, name: name, prevEvents: prevEvents) {
+                eventList.append(event)
+                curDate = self.calendarHelper.addDay(date: curDate, n: 1)
+            }
+        }
+        return eventList
+    }
+    
+    func getEventsByDateAndType(currentDate: Date, name: String = "All", prevEvents: [NSManagedObject]) -> [NSManagedObject] {
+        var eventList = getEventsByDate(currentDate: currentDate, prevEvents: events)
+        eventList = getEventsByType(events: eventList, name: name)
+        return eventList
+    }
+    
+    func getEventsByDate(currentDate: Date, prevEvents: [NSManagedObject] = [], sortedByAllDay: Bool = false) -> [NSManagedObject] {
+        var eventList = prevEvents
+        if eventList.count == 0 {
+            fetchEvents()
+            eventList = events
+        }
         var eventsPerDate: [NSManagedObject] = []
-        for event in events {
+        var eventsPerDateNotAllDay: [NSManagedObject] = []
+        for event in eventList {
             let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
             let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
-            
             if event_start_date <= event_end_date {
                 let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(currentDate)
                 if fallsBetween {
-                    eventsPerDate.append(event)
+                    if sortedByAllDay {
+                        let allDay = event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false
+                        if allDay {
+                            eventsPerDate.append(event)
+                        }
+                        else {
+                            eventsPerDateNotAllDay.append(event)
+                        }
+                    }
+                    else
+                    {
+                        eventsPerDate.append(event)
+                    }
                 }
             }
         }
+        eventsPerDate.append(contentsOf: eventsPerDateNotAllDay)
         return eventsPerDate
     }
     
@@ -210,6 +259,22 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             for event in events {
                 let type = String(event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "None")
                 if type == name {
+                    eventsPerType.append(event)
+                }
+            }
+        } else {
+            eventsPerType = self.events
+        }
+        
+        return eventsPerType
+    }
+    
+    func getEventsExceptType(events: [NSManagedObject], name: String) -> [NSManagedObject] {
+        var eventsPerType: [NSManagedObject] = []
+        if name != "All" {
+            for event in events {
+                let type = String(event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "None")
+                if type != name {
                     eventsPerType.append(event)
                 }
             }
@@ -239,10 +304,23 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         }
         
         filteredEvents = events
+        
+        if let fromDate = eventStartDate {
+            if let toDate = eventEndDate {
+                events = getEventsByDateRangeAndType(fromDate: fromDate, toDate: toDate, name: "All", prevEvents: events)
+            }
+        }
     }
 
     func getCalendarColor(name: String) -> UIColor {
         return UIColor.appColor(name) ?? .clear
+    }
+    
+    func sortForDisplay(events: [NSManagedObject]) -> [NSManagedObject] {
+        var events = getEventsByType(events: filteredEvents, name: Constants.ClassTypes.classAssignment)
+        let otherEvents = getEventsExceptType(events: filteredEvents, name: Constants.ClassTypes.classAssignment)
+        events.append(contentsOf: otherEvents)
+        return events
     }
     
     //MARK: - Standard Tableview methods
@@ -251,8 +329,20 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         return filteredEvents.count
     }
     
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if isForWeekView {
+            let view = WeekEventHeader()
+            view.initHeader(section: section)
+            view.filterButton.menu = self.contextMenu
+            return view
+        }
+        return UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let event = filteredEvents[indexPath.row]
+        let event = (eventStartDate != nil && eventEndDate != nil) ? self.sortForDisplay(events: filteredEvents)[indexPath.row] : filteredEvents[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "myEventCell", for: indexPath) as! EventCell
         cell.initCell(indexPath: indexPath)
         

@@ -167,6 +167,12 @@ struct CalendarHelper {
         return dateFormatter.string(from: date)
     }
     
+    func DateStringToDate(str: String) -> Date?{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMDD"
+        return dateFormatter.date(from: str)
+    }
+    
     func dayBefore(date: Date) -> Date {
         return Calendar.current.date(byAdding: DateComponents(day: -1), to: date)!
     }
