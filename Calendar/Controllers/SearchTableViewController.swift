@@ -97,9 +97,9 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         formatter.dateFormat = "d MMM y, HH:mm"
 
         // Set text
-        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
-        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
-        let text = eventTitle + "\n" + eventLoc
+        let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
+        let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
+        let text = eventTitle + "\n" + eventType
         
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
@@ -110,10 +110,10 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
                                     range: attributedText.getRangeOfString(textToFind: eventTitle))
         attributedText.addAttribute(.foregroundColor,
                                     value: UIColor.appColor(.secondary) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         attributedText.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
