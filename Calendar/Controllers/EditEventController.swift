@@ -30,6 +30,8 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var onetapGesture: UITapGestureRecognizer!
     @IBOutlet weak var remindButton: UIButton!
+    @IBOutlet weak var classTypeButton: UIButton!
+    @IBOutlet weak var instructorField: UITextField!
     
     // MARK: - Properties
     
@@ -38,6 +40,7 @@ class EditEventController: CalendarUIViewController {
     var calendarOption: String = "None"
     var remindOption: String = ""
     var initialRemindOption: String = ""
+    var classTypeOption: String = "Lecture"
     
     let manager = CLLocationManager()
     let selectedLocation = MKPointAnnotation()
@@ -50,9 +53,8 @@ class EditEventController: CalendarUIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // disable save button at the beginnig
-        saveButton.isEnabled = false
+    
+        saveButton.isEnabled = true
         [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         
         // set appropriate date in start/end date pickers
@@ -179,6 +181,19 @@ class EditEventController: CalendarUIViewController {
         super.viewWillAppear(animated)
     
         titleField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        
+        let classTypeButtonClosure = { (action: UIAction) in
+            self.classTypeOption = action.title
+        }
+        
+        classTypeButton.menu = UIMenu(children: [
+            UIAction(title: Constants.ClassTypes.classLecture, state: menuOptionState(option: Constants.ClassTypes.classLecture, selectedOption: classTypeOption), handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classLab, state: menuOptionState(option: Constants.ClassTypes.classLab, selectedOption: classTypeOption), handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classSeminar, state: menuOptionState(option: Constants.ClassTypes.classSeminar, selectedOption: classTypeOption), handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classAssignment, state: menuOptionState(option: Constants.ClassTypes.classAssignment, selectedOption: classTypeOption), handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classOther, state: menuOptionState(option: Constants.ClassTypes.classOther, selectedOption: classTypeOption), handler: classTypeButtonClosure)
+          ])
+        
         allDaySwitch.setOn(event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true, animated: false)
         startDateField.date =  event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now
         endDateField.date = event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now
@@ -197,20 +212,22 @@ class EditEventController: CalendarUIViewController {
             self.calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
         }
         
-        let calendarOption = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
+        var calendarOption = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
                   
         calendarButton.menu = UIMenu(children: [
-            UIAction(title: Constants.CalendarConstants.calendarNone, state: calendarOptionState(option: Constants.CalendarConstants.calendarNone, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarPersonal, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarSchool, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, state: calendarOptionState(option: Constants.CalendarConstants.calendarWork, selectedOption: calendarOption), handler: calendarButtonClosure)
+            UIAction(title: Constants.TagConstants.tagNone, state: menuOptionState(option: Constants.TagConstants.tagNone, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagRed, image: Constants.TagConstants.tagRedDot, state: menuOptionState(option: Constants.TagConstants.tagRed, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagOrange, image: Constants.TagConstants.tagOrangeDot, state: menuOptionState(option: Constants.TagConstants.tagOrange, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagGreen, image: Constants.TagConstants.tagGreenDot, state: menuOptionState(option: Constants.TagConstants.tagGreen, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagBlue, image: Constants.TagConstants.tagBlueDot, state: menuOptionState(option: Constants.TagConstants.tagBlue, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagPurple, image: Constants.TagConstants.tagPurpleDot, state: menuOptionState(option: Constants.TagConstants.tagPurple, selectedOption: calendarOption), handler: calendarButtonClosure),
           ])
         
         let color = EventListController().getCalendarColor(name: calendarOption)
         calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
-        calendarButton.titleLabel?.textColor = .black
+//        calendarButton.titleLabel?.textColor = .black
 
-        
+        instructorField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.instructorAttribute) as? String ?? "")
         urlField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")
         notesField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
         
@@ -275,7 +292,7 @@ class EditEventController: CalendarUIViewController {
         }
     }
     
-    func calendarOptionState(option: String, selectedOption: String) -> UIMenuElement.State {
+    func menuOptionState(option: String, selectedOption: String) -> UIMenuElement.State {
         if option == selectedOption {
             return .on
         } else {
@@ -380,6 +397,8 @@ class EditEventController: CalendarUIViewController {
             if isNotificationEnabled == false {
                 remindOption = Constants.RemindOptions.remindNever
             }
+            let instructor = instructorField.text
+            var classTypeOption = self.classTypeOption
             
             // set all-day event to 00:00 - 23:59
             if allDaySwitchState {
@@ -405,6 +424,8 @@ class EditEventController: CalendarUIViewController {
             updatingEvent.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             updatingEvent.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
             updatingEvent.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
+            updatingEvent.setValue(instructor, forKeyPath: Constants.EventsAttribute.instructorAttribute)
+            updatingEvent.setValue(classTypeOption, forKeyPath: Constants.EventsAttribute.classTypeAttribute)
             if locationAdded{
                 location = "Location added"
                 let locationCoordinateLatitude = eventLocation?.latitude

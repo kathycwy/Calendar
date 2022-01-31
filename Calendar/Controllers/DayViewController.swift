@@ -330,14 +330,20 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         if let attr = event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) {
             if let str = attr as? String {
                 switch str {
-                case Constants.CalendarConstants.calendarPersonal:
-                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarPersonal)
+                case Constants.TagConstants.tagRed:
+                    eventColour = UIColor.appColor(Constants.TagConstants.tagRed)
                     break
-                case Constants.CalendarConstants.calendarSchool:
-                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarSchool)
+                case Constants.TagConstants.tagOrange:
+                    eventColour = UIColor.appColor(Constants.TagConstants.tagOrange)
                     break
-                case Constants.CalendarConstants.calendarWork:
-                    eventColour = UIColor.appColor(Constants.CalendarConstants.calendarWork)
+                case Constants.TagConstants.tagGreen:
+                    eventColour = UIColor.appColor(Constants.TagConstants.tagGreen)
+                    break
+                case Constants.TagConstants.tagBlue:
+                    eventColour = UIColor.appColor(Constants.TagConstants.tagBlue)
+                    break
+                case Constants.TagConstants.tagPurple:
+                    eventColour = UIColor.appColor(Constants.TagConstants.tagPurple)
                     break
                 default:
                     break

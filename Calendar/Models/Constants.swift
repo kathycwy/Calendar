@@ -49,7 +49,9 @@ struct Constants {
         static let remindOptionAttribute: String = "remindOption"
         static let notificationIDAttribute: String = "notificationID"
         static let locationCoordinateLatitudeAttribute: String = "locationCoordinateLatitude"
-           static let locationCoordinateLongitudeAttribute: String = "locationCoordinateLongitude"
+        static let locationCoordinateLongitudeAttribute: String = "locationCoordinateLongitude"
+        static let classTypeAttribute: String = "classType"
+        static let instructorAttribute: String = "instructor"
 
     }
     
@@ -65,28 +67,26 @@ struct Constants {
         static let endRepeatAfterCertainTimes: String = "After Certain Times"
     }
     
-    // CoreData: entity and attribute names of Calendars
-    struct CalendarsAttribute {
-        static let entityName: String = "Calendars"
-        static let nameAttribute: String = "name"
-        static let colorAttribute: String = "color"
-    }
-    
     // names of the default calendars
-    struct CalendarConstants {
-        static let calendarNone: String = "None"
-        static let calendarPersonal: String = "Personal"
-        static let calendarSchool: String = "School"
-        static let calendarWork: String = "Work"
+    struct TagConstants {
+        static let tagNone: String = "None"
+        static let tagRed: String = "Red"
+        static let tagOrange: String = "Orange"
+        static let tagGreen: String = "Green"
+        static let tagBlue: String = "Blue"
+        static let tagPurple: String = "Purple"
         
-        static let personalColor: UIColor = UIColor.appColor(calendarPersonal) ?? .clear
-        static let schoolColor: UIColor = UIColor.appColor(calendarSchool) ?? .clear
-        static let workColor: UIColor = UIColor.appColor(calendarWork) ?? .clear
+        static let tagRedColor: UIColor = UIColor.appColor(tagRed) ?? .clear
+        static let tagOrangeColor: UIColor = UIColor.appColor(tagOrange) ?? .clear
+        static let tagGreenColor: UIColor = UIColor.appColor(tagGreen) ?? .clear
+        static let tagBlueColor: UIColor = UIColor.appColor(tagBlue) ?? .clear
+        static let tagPurpleColor: UIColor = UIColor.appColor(tagPurple) ?? .clear
         
-        static let personalDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(personalColor, renderingMode: .alwaysOriginal)
-        static let schoolDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(schoolColor, renderingMode: .alwaysOriginal)
-        static let workDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(workColor, renderingMode: .alwaysOriginal)
-        
+        static let tagRedDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(tagRedColor, renderingMode: .alwaysOriginal)
+        static let tagOrangeDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(tagOrangeColor, renderingMode: .alwaysOriginal)
+        static let tagGreenDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(tagGreenColor, renderingMode: .alwaysOriginal)
+        static let tagBlueDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(tagBlueColor, renderingMode: .alwaysOriginal)
+        static let tagPurpleDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(tagPurpleColor, renderingMode: .alwaysOriginal)
         
     }
     
@@ -103,6 +103,15 @@ struct Constants {
         static let remind1Day: String = "1 Day Before"
         static let remind2Day: String = "2 Days Before"
         static let remind1Wk: String = "1 Week Before"
+    }
+    
+    // class types
+    struct ClassTypes {
+        static let classLecture: String = "Lecture"
+        static let classLab: String = "Lab"
+        static let classSeminar: String = "Seminar"
+        static let classAssignment: String = "Assignment"
+        static let classOther: String = "Other"
     }
 
 }
