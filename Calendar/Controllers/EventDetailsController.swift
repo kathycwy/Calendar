@@ -62,7 +62,7 @@ class EventDetailsController: CalendarUIViewController {
             let attributedUrlString = NSAttributedString(string: urlString, attributes:[NSAttributedString.Key.link: eventURL])
             url.attributedText = attributedUrlString
         } else {
-            url.attributedText = NSAttributedString(string: "No URL added")
+            url.text = "No URL added"
         }
 
         url.textAlignment = NSTextAlignment.right
@@ -73,7 +73,11 @@ class EventDetailsController: CalendarUIViewController {
         eventTitle.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
         subtitleLabel.text = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
         if (event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-            subtitleLabel.text! += ", All-day"
+            if subtitleLabel.text!.isEmpty {
+                subtitleLabel.text! += "All-day"
+            } else {
+                subtitleLabel.text! += ", All-day"
+            }
             startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         } else {
@@ -115,7 +119,8 @@ class EventDetailsController: CalendarUIViewController {
             mapViewStack.isHidden = false
         }
         let EventLocationAnnotation = MKPointAnnotation()
-        mapView.removeAnnotation(EventLocationAnnotation)
+        let allAnnotations = self.mapView.annotations
+        self.mapView.removeAnnotations(allAnnotations)
         let coordinateLatitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute) as! Double
         let coordinateLongitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute) as! Double
         EventLocationAnnotation.coordinate = CLLocationCoordinate2D.init(latitude:coordinateLatitude, longitude: coordinateLongitude)

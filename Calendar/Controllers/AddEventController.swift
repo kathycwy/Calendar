@@ -80,7 +80,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         
         // set appropriate date in start/end date pickers
-        startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
         var dateComponent = DateComponents()
         dateComponent.hour = 1
@@ -250,10 +249,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
        
         if annotationAdded {
              eventLocation = selectedLocation.coordinate
+            locationField.text = "Location added"
             locationAdded = true
         }else{
             if userLocationEnabled{
                 eventLocation = manager.location?.coordinate
+                locationField.text = "Location added"
                 locationAdded = true
             } else{
                 showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")

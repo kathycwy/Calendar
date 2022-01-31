@@ -59,7 +59,6 @@ class EditEventController: CalendarUIViewController {
         [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         
         // set appropriate date in start/end date pickers
-        startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
         
         pageTitleLabel.textColor = .appColor(.navigationTitle)
@@ -135,10 +134,12 @@ class EditEventController: CalendarUIViewController {
        
         if annotationAdded {
              eventLocation = selectedLocation.coordinate
+            locationField.text = "Location changed"
             locationAdded = true
         }else{
             if userLocationEnabled{
                 eventLocation = manager.location?.coordinate
+                locationField.text = "Location changed"
                 locationAdded = true
             } else{
                 showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
