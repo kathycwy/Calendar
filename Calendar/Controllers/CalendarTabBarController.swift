@@ -23,6 +23,7 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
+    // To remove the "back" text of the back button
     override func viewWillAppear(_ animated: Bool) {
          if freshLaunch == true {
              freshLaunch = false
@@ -32,14 +33,14 @@ class CalendarTabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-       let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)!
+        let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)!
 
-       if selectedIndex == 0{
-           //Do any thing.
+        // Ask all the calendar view to scroll to today's date
+        if selectedIndex == 0{
            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToToday"), object: nil)
            return false
-       }
-       return true
+        }
+        return true
    }
     
     // MARK: - Helper functions

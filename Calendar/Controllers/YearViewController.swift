@@ -98,6 +98,7 @@ class YearViewController: CalendarUIViewController {
         return results
     }
     
+    // Set move the border to selected date
     func setSelectedCell(indexPath: IndexPath) {
         if let prevIndexPath: IndexPath = self.selectedIndexPath {
             if let prevInnerIndexPath: IndexPath = self.selectedInnerIndexPath{
@@ -119,6 +120,7 @@ class YearViewController: CalendarUIViewController {
         }
     }
     
+    // Get the next batch of data for collection view
     func loadNextBatch(){
         
         let lastCalendarYears = self.calendarYears.count
@@ -143,6 +145,7 @@ class YearViewController: CalendarUIViewController {
         //self.collectionView.reloadData()
     }
     
+    // For scrolling to today's date
     func scrollToToday(animated: Bool = true){
         self.scrollToDate(date: self.calendarHelper.getCurrentDate(), animated: animated)
         
@@ -164,6 +167,7 @@ class YearViewController: CalendarUIViewController {
         }
     }
     
+    // For scrolling to specific date
     override func scrollToDate(date: Date?, animated: Bool = true){
         if date != nil {
             self.selectedDate = date!

@@ -131,6 +131,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         self.tableView.estimatedRowHeight = rowHeight
     }
     
+    // Create gesture for swipping to different dates
     func initGestureRecognizer(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.collectionView.addGestureRecognizer(tap)
@@ -153,6 +154,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     // MARK: - Actions
     
+    // Tap to change the selected date or show the event list for the week
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
@@ -167,6 +169,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         }
     }
     
+    // Swipe to change week
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 7)
@@ -192,6 +195,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         }
     }
     
+    // Swipe to change day
     @objc func handleDaySwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             self.selectedDate = self.calendarHelper.addDay(date: self.selectedDate, n: 1)
@@ -219,6 +223,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     // MARK: - Helper functions
     
+    // Move the selected cell border
     func setSelectedCell() {
         if self.isLoaded {
             for indexPath in self.collectionView.indexPathsForVisibleItems {
