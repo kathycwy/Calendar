@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A35017027A772A500BB33BA /* ImportEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35016F27A772A500BB33BA /* ImportEventViewController.swift */; };
 		4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216DE4B2795BCD50045362A /* CalendarWeek.swift */; };
 		421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F70D327921984001ADEA0 /* WeekViewController.swift */; };
 		4220748927A1979F007D43AA /* UICollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220748827A1979F007D43AA /* UICollection.swift */; };
@@ -107,6 +108,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A35016F27A772A500BB33BA /* ImportEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportEventViewController.swift; sourceTree = "<group>"; };
 		4216DE4B2795BCD50045362A /* CalendarWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeek.swift; sourceTree = "<group>"; };
 		421F70D327921984001ADEA0 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
 		4220748827A1979F007D43AA /* UICollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollection.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				FBE502A127A0A27C001FEAEA /* SearchTableViewController.swift */,
 				42B2BAC527A409A800B85935 /* PreferencesViewController.swift */,
 				F27B65E427A6450700BFF8BC /* CopyDetailsController.swift */,
+				1A35016F27A772A500BB33BA /* ImportEventViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				42D7E8C927947E92009FB999 /* WeekCollectionViewDataSource.swift in Sources */,
 				4236D90C278F3E710034C01F /* YearCell.swift in Sources */,
 				4236D906278F0FBD0034C01F /* CalendarTabBarController.swift in Sources */,
+				1A35017027A772A500BB33BA /* ImportEventViewController.swift in Sources */,
 				422B2CBB276CBF04002C8AED /* ViewController.swift in Sources */,
 				422B2CDB276CCCCD002C8AED /* MonthHeader.swift in Sources */,
 				42FC65FB27A551AE0091CBC9 /* NSAttributedStringExtension.swift in Sources */,
@@ -723,8 +727,12 @@
 				DEVELOPMENT_TEAM = UQT2BA5L5W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calendar/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Access needed to import your calendar event";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Access needed to import your calendar event";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -755,8 +763,12 @@
 				DEVELOPMENT_TEAM = UQT2BA5L5W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calendar/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Access needed to import your calendar event";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Access needed to import your calendar event";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationUsageDescription = "User Location needed for quick setup";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "User Location needed for quick setup";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
