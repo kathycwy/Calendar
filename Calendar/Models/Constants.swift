@@ -49,7 +49,9 @@ struct Constants {
         static let remindOptionAttribute: String = "remindOption"
         static let notificationIDAttribute: String = "notificationID"
         static let locationCoordinateLatitudeAttribute: String = "locationCoordinateLatitude"
-           static let locationCoordinateLongitudeAttribute: String = "locationCoordinateLongitude"
+        static let locationCoordinateLongitudeAttribute: String = "locationCoordinateLongitude"
+        static let classTypeAttribute: String = "classType"
+        static let instructorAttribute: String = "instructor"
 
     }
     
@@ -87,7 +89,6 @@ struct Constants {
         static let schoolDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(schoolColor, renderingMode: .alwaysOriginal)
         static let workDot: UIImage = UIImage(systemName: "circle.fill")!.withTintColor(workColor, renderingMode: .alwaysOriginal)
         
-        
     }
     
     // event reminding options
@@ -103,6 +104,15 @@ struct Constants {
         static let remind1Day: String = "1 Day Before"
         static let remind2Day: String = "2 Days Before"
         static let remind1Wk: String = "1 Week Before"
+    }
+    
+    // class types
+    struct ClassTypes {
+        static let classLecture: String = "Lecture"
+        static let classLab: String = "Lab"
+        static let classSeminar: String = "Seminar"
+        static let classAssignment: String = "Assignment"
+        static let classOther: String = "Other"
     }
 
 }

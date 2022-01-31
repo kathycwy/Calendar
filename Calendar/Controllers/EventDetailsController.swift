@@ -19,7 +19,7 @@ class EventDetailsController: CalendarUIViewController {
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     @IBOutlet weak var eventTitle: UILabel!
-    @IBOutlet weak var allDayLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var startDate: UILabel!
     @IBOutlet weak var endDate: UILabel!
     @IBOutlet weak var location: UILabel!
@@ -30,6 +30,7 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var remindTime: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var instructor: UILabel!
     
     // MARK: - Properties
     
@@ -59,7 +60,7 @@ class EventDetailsController: CalendarUIViewController {
             let attributedUrlString = NSAttributedString(string: urlString, attributes:[NSAttributedString.Key.link: eventURL])
             url.attributedText = attributedUrlString
         } else {
-            url.attributedText = NSAttributedString(string: "No URL is added")
+            url.attributedText = NSAttributedString(string: "No URL added")
         }
 
         url.textAlignment = NSTextAlignment.right
@@ -68,13 +69,12 @@ class EventDetailsController: CalendarUIViewController {
         
         // set remaining event details to corresponding labels
         eventTitle.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        subtitleLabel.text = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
         if (event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-            allDayLabel.isHidden = false
-            allDayLabel.text = "All-day event"
+            subtitleLabel.text! += ", All-day"
             startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         } else {
-            allDayLabel.isHidden = true
             startDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         }
@@ -87,6 +87,7 @@ class EventDetailsController: CalendarUIViewController {
         }
         let color = EventListController().getCalendarColor(name: calendar.text ?? "None")
         calendarDot.tintColor = color
+        instructor.text = String(event!.value(forKeyPath: Constants.EventsAttribute.instructorAttribute) as? String ?? "No instructor added")
         notes.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
         if String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "").isEmpty {
             notes.text = "No notes added"

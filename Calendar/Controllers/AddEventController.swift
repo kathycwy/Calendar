@@ -37,6 +37,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet weak var remindButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var onetapGesture: UITapGestureRecognizer!
+    @IBOutlet weak var classTypeButton: UIButton!
+    @IBOutlet weak var instructorField: UITextField!
     
     // MARK: - Properties
     
@@ -52,6 +54,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var rowHeight = 80
     var lastView: String = ""
     var newStartDate: Date = Date()
+    var classType: String = Constants.ClassTypes.classLecture
 
     let manager = CLLocationManager()
     let selectedLocation = MKPointAnnotation()
@@ -202,7 +205,20 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             UIAction(title: Constants.RemindOptions.remind2Hr, handler: remindButtonClosure),
             UIAction(title: Constants.RemindOptions.remind1Day, handler: remindButtonClosure),
             UIAction(title: Constants.RemindOptions.remind2Day, handler: remindButtonClosure),
-            UIAction(title: Constants.RemindOptions.remind1Wk, handler: remindButtonClosure),
+            UIAction(title: Constants.RemindOptions.remind1Wk, handler: remindButtonClosure)
+          ])
+        
+        // responding to class type button
+        let classTypeButtonClosure = { (action: UIAction) in
+            self.classType = action.title
+        }
+        
+        classTypeButton.menu = UIMenu(children: [
+            UIAction(title: Constants.ClassTypes.classLecture, state: .on, handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classLab, handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classSeminar, handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classAssignment, handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classOther, handler: classTypeButtonClosure)
           ])
 
     }
@@ -521,6 +537,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         let url = urlField.text
         let notes = notesField.text
         var remindOption = self.remindOption
+        let classType = self.classType
+        let instructor = instructorField.text
         //Handles case when notifications are disabled after selecting an option
         let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
         if isNotificationEnabled == false {
@@ -563,6 +581,10 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
             event.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
             event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
+            event.setValue(remindOption, forKeyPath: Constants.EventsAttribute.remindOptionAttribute)
+            event.setValue(notificationID, forKeyPath: Constants.EventsAttribute.notificationIDAttribute)
+            event.setValue(classType, forKeyPath: Constants.EventsAttribute.classTypeAttribute)
+            event.setValue(instructor, forKeyPath: Constants.EventsAttribute.instructorAttribute)
             if locationAdded{
                 location = "Location added"
                 let locationCoordinateLatitude = eventLocation?.latitude

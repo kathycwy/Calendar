@@ -252,8 +252,8 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         
         // Set text
         let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
-        let eventLoc: String = event.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? " "
-        let text = eventTitle + "\n" + eventLoc
+        let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
+        let text = eventTitle + "\n" + eventType
         
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
@@ -264,10 +264,10 @@ class EventListController: UITableViewController, UISearchBarDelegate {
                                     range: attributedText.getRangeOfString(textToFind: eventTitle))
         attributedText.addAttribute(.foregroundColor,
                                     value: UIColor.appColor(.secondary) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         attributedText.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         
         let fullFormatter = DateFormatter()
         fullFormatter.dateFormat = "d MMM y, HH:mm"
