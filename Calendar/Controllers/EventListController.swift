@@ -225,6 +225,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
+       managedContext.automaticallyMergesChangesFromParent = true
 
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.EventsAttribute.entityName)
         let sort = NSSortDescriptor(key:Constants.EventsAttribute.startDateAttribute, ascending: true)
