@@ -73,7 +73,11 @@ class EventDetailsController: CalendarUIViewController {
         eventTitle.text = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
         subtitleLabel.text = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
         if (event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? true) {
-            subtitleLabel.text! += ", All-day"
+            if subtitleLabel.text!.isEmpty {
+                subtitleLabel.text! += "All-day"
+            } else {
+                subtitleLabel.text! += ", All-day"
+            }
             startDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateOnlyFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         } else {
