@@ -111,6 +111,7 @@ struct Constants {
         static let classLab: String = "Lab"
         static let classSeminar: String = "Seminar"
         static let classAssignment: String = "Assignment"
+        static let classExam: String = "Exam"
         static let classOther: String = "Other"
     }
 

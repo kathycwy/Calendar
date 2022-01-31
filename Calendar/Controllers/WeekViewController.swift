@@ -322,21 +322,25 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         // Set text
         let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
         let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
-        let text = eventTitle + ((eventType == " ") ? "" : ("\n" + eventType))
+        let text = ((eventType == " ") ? "" : ("\n" + eventType))
         
-        let attributedText = NSMutableAttributedString(string: text)
+        let attributedText = NSMutableAttributedString(string: eventTitle)
         attributedText.addAttribute(.foregroundColor,
                                     value: UIColor.appColor(.onSurface) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: text))
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle))
         attributedText.addAttribute(.font,
                                     value: UIFont.boldSystemFont(ofSize: UIFont.appFontSize(.collectionViewCell) ?? 11),
                                     range: attributedText.getRangeOfString(textToFind: eventTitle))
-        attributedText.addAttribute(.foregroundColor,
+        
+        let attributedText2 = NSMutableAttributedString(string: text)
+        attributedText2.addAttribute(.foregroundColor,
                                     value: UIColor.appColor(.secondary) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: eventType))
-        attributedText.addAttribute(.font,
+                                    range: attributedText2.getRangeOfString(textToFind: text))
+        attributedText2.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
-                                    range: attributedText.getRangeOfString(textToFind: eventType))
+                                    range: attributedText2.getRangeOfString(textToFind: text))
+        
+        attributedText.append(attributedText2)
         
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText

@@ -195,6 +195,7 @@ class EditEventController: CalendarUIViewController {
             UIAction(title: Constants.ClassTypes.classLab, state: menuOptionState(option: Constants.ClassTypes.classLab, selectedOption: classTypeOption), handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classSeminar, state: menuOptionState(option: Constants.ClassTypes.classSeminar, selectedOption: classTypeOption), handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classAssignment, state: menuOptionState(option: Constants.ClassTypes.classAssignment, selectedOption: classTypeOption), handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classExam, state: menuOptionState(option: Constants.ClassTypes.classExam, selectedOption: classTypeOption), handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classOther, state: menuOptionState(option: Constants.ClassTypes.classOther, selectedOption: classTypeOption), handler: classTypeButtonClosure)
           ])
         

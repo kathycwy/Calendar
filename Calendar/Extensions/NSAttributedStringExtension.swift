@@ -11,7 +11,7 @@ import UIKit
 
 extension NSMutableAttributedString {
 
-    public func getRangeOfString(textToFind:String)->NSRange{
+    func getRangeOfString(textToFind:String)-> NSRange{
         let foundRange = self.mutableString.range(of: textToFind)
         
         return foundRange

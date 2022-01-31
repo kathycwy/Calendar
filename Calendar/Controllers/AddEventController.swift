@@ -219,6 +219,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             UIAction(title: Constants.ClassTypes.classLab, handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classSeminar, handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classAssignment, handler: classTypeButtonClosure),
+            UIAction(title: Constants.ClassTypes.classExam, handler: classTypeButtonClosure),
             UIAction(title: Constants.ClassTypes.classOther, handler: classTypeButtonClosure)
           ])
 
