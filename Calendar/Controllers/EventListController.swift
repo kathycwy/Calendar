@@ -50,12 +50,12 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         let eventFilterClosure = { (action: UIAction) in
             self.filterTypeName = action.title
             if action.title != "All" {
-                self.filteredEvents = self.getEventsByType(events: self.events, name: action.title)
+                self.filteredEvents = self.getEventsByType(eventList: self.events, name: action.title)
             } else {
                 self.fetchEvents()
             }
             if self.savedSearchText != "" {
-                self.filteredEvents = self.getEventsFromSearch(events: self.filteredEvents, searchText: self.savedSearchText!)
+                self.filteredEvents = self.getEventsFromSearch(eventList: self.filteredEvents, searchText: self.savedSearchText!)
             }
             self.tableView.reloadData()
         }
@@ -102,9 +102,9 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         self.savedSearchText = searchText
-        self.filteredEvents = getEventsByType(events: events, name: filterTypeName)
+        self.filteredEvents = getEventsByType(eventList: events, name: filterTypeName)
         if searchText != "" {
-            self.filteredEvents = getEventsFromSearch(events: filteredEvents, searchText: searchText)
+            self.filteredEvents = getEventsFromSearch(eventList: filteredEvents, searchText: searchText)
         }
         
         self.tableView.reloadData()
@@ -124,9 +124,9 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     
     // MARK: - Helper functions
     
-    func getEventsFromSearch(events: [NSManagedObject], searchText: String) -> [NSManagedObject] {
+    func getEventsFromSearch(eventList: [NSManagedObject], searchText: String) -> [NSManagedObject] {
         var eventsFromSearch: [NSManagedObject] = []
-        for event in events {
+        for event in eventList {
             let event_title = event.value(forKeyPath: "title") as! String
 
             if event_title.lowercased().contains(searchText.lowercased()) {
@@ -202,21 +202,48 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     }
     
     func getEventsByDateRangeAndType(fromDate: Date, toDate: Date, name: String = "All", prevEvents: [NSManagedObject]) -> [NSManagedObject] {
-        var eventList: [NSManagedObject] = []
-        var curDate = fromDate
-        while toDate >= curDate {
-            for event in getEventsByDateAndType(currentDate: curDate, name: name, prevEvents: prevEvents) {
-                eventList.append(event)
-                curDate = self.calendarHelper.addDay(date: curDate, n: 1)
-            }
-        }
+        var eventList: [NSManagedObject] = getEventsByDateRange(fromDate: fromDate, toDate: toDate, prevEvents: prevEvents, sortedByAllDay: false)
+        eventList = getEventsByType(eventList: eventList, name: name)
         return eventList
     }
     
     func getEventsByDateAndType(currentDate: Date, name: String = "All", prevEvents: [NSManagedObject]) -> [NSManagedObject] {
         var eventList = getEventsByDate(currentDate: currentDate, prevEvents: events)
-        eventList = getEventsByType(events: eventList, name: name)
+        eventList = getEventsByType(eventList: eventList, name: name)
         return eventList
+    }
+    
+    func getEventsByDateRange(fromDate: Date, toDate: Date, prevEvents: [NSManagedObject] = [], sortedByAllDay: Bool = false) -> [NSManagedObject] {
+        var eventList = prevEvents
+        if eventList.count == 0 {
+            fetchEvents()
+            eventList = events
+        }
+        var eventsPerDate: [NSManagedObject] = []
+        var eventsPerDateNotAllDay: [NSManagedObject] = []
+        for event in eventList {
+            let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
+            let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
+            if event_start_date <= event_end_date {
+                if (self.calendarHelper.isDateOverlap(dateFromOne: event_start_date, dateToOne: event_end_date, dateFromTwo: fromDate, dateToTwo: toDate)) {
+                    if sortedByAllDay {
+                        let allDay = event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false
+                        if allDay {
+                            eventsPerDate.append(event)
+                        }
+                        else {
+                            eventsPerDateNotAllDay.append(event)
+                        }
+                    }
+                    else
+                    {
+                        eventsPerDate.append(event)
+                    }
+                }
+            }
+        }
+        eventsPerDate.append(contentsOf: eventsPerDateNotAllDay)
+        return eventsPerDate
     }
     
     func getEventsByDate(currentDate: Date, prevEvents: [NSManagedObject] = [], sortedByAllDay: Bool = false) -> [NSManagedObject] {
@@ -253,33 +280,33 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         return eventsPerDate
     }
     
-    func getEventsByType(events: [NSManagedObject], name: String) -> [NSManagedObject] {
+    func getEventsByType(eventList: [NSManagedObject], name: String) -> [NSManagedObject] {
         var eventsPerType: [NSManagedObject] = []
         if name != "All" {
-            for event in events {
+            for event in eventList {
                 let type = String(event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "None")
                 if type == name {
                     eventsPerType.append(event)
                 }
             }
         } else {
-            eventsPerType = self.events
+            eventsPerType = eventList
         }
         
         return eventsPerType
     }
     
-    func getEventsExceptType(events: [NSManagedObject], name: String) -> [NSManagedObject] {
+    func getEventsExceptType(eventList: [NSManagedObject], name: String) -> [NSManagedObject] {
         var eventsPerType: [NSManagedObject] = []
         if name != "All" {
-            for event in events {
+            for event in eventList {
                 let type = String(event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "None")
                 if type != name {
                     eventsPerType.append(event)
                 }
             }
         } else {
-            eventsPerType = self.events
+            eventsPerType = eventList
         }
         
         return eventsPerType
@@ -303,13 +330,12 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        filteredEvents = events
-        
         if let fromDate = eventStartDate {
             if let toDate = eventEndDate {
-                events = getEventsByDateRangeAndType(fromDate: fromDate, toDate: toDate, name: "All", prevEvents: events)
+                self.events = getEventsByDateRangeAndType(fromDate: fromDate, toDate: toDate, name: "All", prevEvents: events)
             }
         }
+        self.filteredEvents = self.events
     }
 
     func getCalendarColor(name: String) -> UIColor {
@@ -317,8 +343,8 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     }
     
     func sortForDisplay(events: [NSManagedObject]) -> [NSManagedObject] {
-        var events = getEventsByType(events: filteredEvents, name: Constants.ClassTypes.classAssignment)
-        let otherEvents = getEventsExceptType(events: filteredEvents, name: Constants.ClassTypes.classAssignment)
+        var events = getEventsByType(eventList: filteredEvents, name: Constants.ClassTypes.classAssignment)
+        let otherEvents = getEventsExceptType(eventList: filteredEvents, name: Constants.ClassTypes.classAssignment)
         events.append(contentsOf: otherEvents)
         return events
     }

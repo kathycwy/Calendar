@@ -145,6 +145,13 @@ struct CalendarHelper {
         return date
     }
     
+    func isDateOverlap(dateFromOne: Date, dateToOne: Date, dateFromTwo: Date, dateToTwo: Date) -> Bool {
+      let leftRange = dateFromOne ... dateToOne
+      let rightRange = dateFromTwo ... dateToTwo
+
+      return leftRange.overlaps(rightRange)
+    }
+    
     func getStartOfDayTime(date: Date) -> Date?{
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM yyyy"
