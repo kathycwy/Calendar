@@ -119,16 +119,16 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         
         attributedText.append(attributedText2)
         
-        if eventType == Constants.ClassTypes.classAssignment {
-            cell.startDateLabel.text = ""
-        }
-        
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
         cell.startDateLabel.text = formatter.string(from: event.value(forKeyPath: "startDate") as! Date)
         cell.endDateLabel.text = formatter.string(from: event.value(forKeyPath: "endDate") as! Date)
         cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
+        
+        if eventType == Constants.ClassTypes.classAssignment {
+            cell.startDateLabel.text = ""
+        }
         
         return cell
     }
