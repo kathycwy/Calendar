@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A35017027A772A500BB33BA /* ImportEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35016F27A772A500BB33BA /* ImportEventViewController.swift */; };
 		1A35019627A8299E00BB33BA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A35019527A8299E00BB33BA /* CloudKit.framework */; };
+		4204DFD627A80A150006BF39 /* WeekEventHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4204DFD527A80A150006BF39 /* WeekEventHeader.swift */; };
 		4216DE4C2795BCD50045362A /* CalendarWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216DE4B2795BCD50045362A /* CalendarWeek.swift */; };
 		421F70D427921984001ADEA0 /* WeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F70D327921984001ADEA0 /* WeekViewController.swift */; };
 		4220748927A1979F007D43AA /* UICollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220748827A1979F007D43AA /* UICollection.swift */; };
@@ -111,6 +112,7 @@
 /* Begin PBXFileReference section */
 		1A35016F27A772A500BB33BA /* ImportEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportEventViewController.swift; sourceTree = "<group>"; };
 		1A35019527A8299E00BB33BA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		4204DFD527A80A150006BF39 /* WeekEventHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekEventHeader.swift; sourceTree = "<group>"; };
 		4216DE4B2795BCD50045362A /* CalendarWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeek.swift; sourceTree = "<group>"; };
 		421F70D327921984001ADEA0 /* WeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekViewController.swift; sourceTree = "<group>"; };
 		4220748827A1979F007D43AA /* UICollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollection.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				42B2BABF27A4095300B85935 /* PreferenceCell.swift */,
 				42B2BAC127A4095400B85935 /* PreferenceHeader.swift */,
 				4227B37427A5CDB4004689DF /* PreferenceViewDataSource.swift */,
+				4204DFD527A80A150006BF39 /* WeekEventHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				4236D90A278F3A5A0034C01F /* YearViewController.swift in Sources */,
 				597A2A7527A16A38008D0B8C /* DayHeader.swift in Sources */,
 				422B2CD6276CCB8F002C8AED /* MonthCollectionViewDataSource.swift in Sources */,
+				4204DFD627A80A150006BF39 /* WeekEventHeader.swift in Sources */,
 				42EDD231278EAEF8008549A3 /* Constants.swift in Sources */,
 				42B2BB1B27A480EB00B85935 /* AppIconHelper.swift in Sources */,
 				4248DA072790991700F13CD2 /* YearHeader.swift in Sources */,

@@ -30,6 +30,7 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var remindTime: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapViewStack: UIStackView!
     @IBOutlet weak var instructor: UILabel!
     
     // MARK: - Properties
@@ -43,6 +44,7 @@ class EventDetailsController: CalendarUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapViewStack.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +80,7 @@ class EventDetailsController: CalendarUIViewController {
             startDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as? Date ?? Date.now)
             endDate.text = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
         }
-        location.text = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "")
+        location.text = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "Location not added")
         calendar.text = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "No calendar assigned")
         if (calendar.text == "No calendar assigned" || calendar.text == "None") {
             calendarDot.isHidden = true
@@ -109,6 +111,9 @@ class EventDetailsController: CalendarUIViewController {
           ])
         
         // Show location
+        if event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as! String == "Location added" {
+            mapViewStack.isHidden = false
+        }
         let EventLocationAnnotation = MKPointAnnotation()
         mapView.removeAnnotation(EventLocationAnnotation)
         let coordinateLatitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute) as! Double

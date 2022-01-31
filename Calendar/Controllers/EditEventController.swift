@@ -434,7 +434,6 @@ class EditEventController: CalendarUIViewController {
                updatingEvent.setValue(locationCoordinateLongitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute)
                updatingEvent.setValue(locationCoordinateLatitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute)
             }else{
-                location = "Location not added"
                 updatingEvent.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
             }
 

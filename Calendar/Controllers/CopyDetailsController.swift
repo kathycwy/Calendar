@@ -36,7 +36,23 @@ class CopyDetailsController: UIViewController {
         let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "d MMM y"
 
+        var classTypeString: String
+        let classType = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
+        if classType == "None" {
+            classTypeString = ""
+        } else {
+            classTypeString = classType + " "
+        }
+        
         let eventTitle = String(event!.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? "")
+        
+        var instructorString: String
+        let instructor = String(event!.value(forKeyPath: Constants.EventsAttribute.instructorAttribute) as? String ?? "")
+        if instructor.isEmpty {
+            instructorString = ""
+        } else {
+            instructorString = " by " + instructor
+        }
         
         let isAllDay = event!.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false
         
@@ -54,7 +70,7 @@ class CopyDetailsController: UIViewController {
         
         var locationString: String = ""
         let location = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "")
-        if !location.isEmpty {
+        if (!location.isEmpty && location != "Location added") {
             locationString = " at " + location
         }
    
@@ -70,7 +86,7 @@ class CopyDetailsController: UIViewController {
             notesString = " Notes: " + notes + "."
         }
         
-        return eventTitle + dateString + locationString + "." + urlString + notesString
+        return classTypeString + eventTitle + instructorString + dateString + locationString + "." + urlString + notesString
         
     }
     

@@ -551,14 +551,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F16-1L-ikz">
                                                 <rect key="frame" x="0.0" y="150" width="384" height="30"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vik-GF-AYU" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="83" height="30"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMF-Pj-nsk" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="37.5" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nDY-Y3-mtn">
-                                                        <rect key="frame" x="83" y="0.0" width="301" height="30"/>
+                                                        <rect key="frame" x="37.5" y="0.0" width="346.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                     </button>
                                                 </subviews>
@@ -956,14 +956,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="diL-iB-zWe">
                                                 <rect key="frame" x="0.0" y="150" width="364" height="30"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-cK-cLb" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="83" height="30"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0zD-4V-pe5" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="37.5" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WRD-lo-lyj">
-                                                        <rect key="frame" x="83" y="0.0" width="281" height="30"/>
+                                                        <rect key="frame" x="37.5" y="0.0" width="326.5" height="30"/>
                                                         <state key="normal" title="Button"/>
                                                     </button>
                                                 </subviews>
@@ -1714,7 +1714,8 @@
                         <outlet property="eventTitle" destination="ReO-mL-ARS" id="11h-an-FCh"/>
                         <outlet property="instructor" destination="jul-Mz-qPe" id="5Iy-Zj-0M3"/>
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
-                        <outlet property="mapView" destination="RB9-WT-8P8" id="VQr-s7-iBl"/>
+                        <outlet property="mapView" destination="RB9-WT-8P8" id="UQs-Kd-Pum"/>
+                        <outlet property="mapViewStack" destination="OW1-eY-1Mj" id="nxx-Fc-qI8"/>
                         <outlet property="notes" destination="noC-AE-PqP" id="7sg-ZB-IxC"/>
                         <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
                         <outlet property="shareButton" destination="Y8o-Yh-hiG" id="wGA-OW-wQH"/>
@@ -2300,6 +2301,7 @@
                         <outlet property="contentView" destination="YDc-Mq-1qU" id="pl2-Tk-WDW"/>
                         <outlet property="tableView" destination="ycA-04-GPv" id="cW0-II-Mfm"/>
                         <segue destination="eW7-Iv-mGl" kind="show" identifier="weeklyEventCellTapped" id="6ie-4K-NZU"/>
+                        <segue destination="pnf-gb-Vad" kind="presentation" identifier="weekToEventListSegue" id="wIh-MD-A0Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wIx-88-hRp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2424,6 +2426,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pL8-76-e5Y"/>
+        <segue reference="WqF-Zu-IdC"/>
         <segue reference="S9M-9Q-vD3"/>
     </inferredMetricsTieBreakers>
     <resources>

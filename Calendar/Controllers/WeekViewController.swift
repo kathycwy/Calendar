@@ -54,6 +54,13 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                 destinationVC.eventID = events[self.selectedRow!].objectID
             }
         }
+        
+        if segue.identifier == "weekToEventListSegue" {
+            let destinationVC = segue.destination as! EventListController
+            destinationVC.eventStartDate = self.displayWeeks[0].calendarDays.first?.date
+            destinationVC.eventEndDate = self.displayWeeks[0].calendarDays.last?.date
+            destinationVC.isForWeekView = true
+        }
     }
     
     override func viewDidLoad() {
@@ -153,6 +160,9 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollToDate"), object: nil, userInfo: ["date": self.selectedDate as Any])
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDate) as Any])
                 self.setSelectedCell()
+            }
+            else {
+                self.performSegue(withIdentifier: "weekToEventListSegue", sender: self)
             }
         }
     }
@@ -297,7 +307,7 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let event = EventListController().getEventsByDate(currentDate: self.selectedDate)[indexPath.row]
+        let event = EventListController().getEventsByDate(currentDate: self.selectedDate, sortedByAllDay: true)[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "myWeeklyEventCell", for: indexPath) as! EventCell
         
@@ -305,9 +315,9 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
         
         
         // Set text
-        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
-        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
-        let text = eventTitle + ((eventLoc == " ") ? "" : ("\n" + eventLoc))
+        let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
+        let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
+        let text = eventTitle + ((eventType == " ") ? "" : ("\n" + eventType))
         
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
@@ -318,10 +328,10 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                                     range: attributedText.getRangeOfString(textToFind: eventTitle))
         attributedText.addAttribute(.foregroundColor,
                                     value: UIColor.appColor(.secondary) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         attributedText.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.tableViewCellInfo) ?? 11),
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         
         cell.colorBar.backgroundColor = EventListController().getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
