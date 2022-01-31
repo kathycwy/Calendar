@@ -24,6 +24,8 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     var savedSearchText: String? = ""
     var filterCalendarName: String = "All"
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = rowHeight
@@ -32,8 +34,6 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
-    
-    // MARK: - Init
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -64,9 +64,8 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         self.tableView.reloadData()
     }
     
-    // MARK: - Cancel button disappear and give it its function 'to cancel the search'
+    // MARK: - response to Cancel button in search bar
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // to stop activly type into searchbar
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
     }
@@ -76,17 +75,15 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
-        // delete search field when stoped editing
         searchBar.searchTextField.text = ""
-        // here show again hohle data
         savedSearchText = ""
         filteredEvents = events
         filterCalendarName = "All"
         self.tableView.reloadData()
     }
     
-    //MARK: -  search bar - is called when text in search bar change
-    // remeber you have to inherit from UISearchBarDelegate
+    //MARK: -  search bar
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         self.savedSearchText = searchText
@@ -96,18 +93,6 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         }
         
         self.tableView.reloadData()
-    }
-
-    func getEventsFromSearch(events: [NSManagedObject], searchText: String) -> [NSManagedObject] {
-        var eventsFromSearch: [NSManagedObject] = []
-        for event in events {
-            let event_title = event.value(forKeyPath: "title") as! String
-
-            if event_title.lowercased().contains(searchText.lowercased()) {
-                eventsFromSearch.append(event)
-            }
-        }
-        return eventsFromSearch
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -123,6 +108,18 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     }
     
     // MARK: - Helper functions
+    
+    func getEventsFromSearch(events: [NSManagedObject], searchText: String) -> [NSManagedObject] {
+        var eventsFromSearch: [NSManagedObject] = []
+        for event in events {
+            let event_title = event.value(forKeyPath: "title") as! String
+
+            if event_title.lowercased().contains(searchText.lowercased()) {
+                eventsFromSearch.append(event)
+            }
+        }
+        return eventsFromSearch
+    }
     
     func getEventsByStartDateAndTime(date: Date, hour: Int) -> [NSManagedObject] {
         fetchEvents()
@@ -243,6 +240,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - Standard Tableview methods
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredEvents.count
     }
@@ -287,6 +285,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             endDateString = fullFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
         }
         
+        // set labels in cell 
         cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
         cell.startDateLabel.text = startDateString
