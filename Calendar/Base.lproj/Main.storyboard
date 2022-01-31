@@ -1358,19 +1358,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="AKS-ui-lTc">
-                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
+                                <rect key="frame" x="20" y="108" width="374" height="656"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="nea-Kz-hry">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="395.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="395.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import local events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjc-e7-b60">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dDf-YP-V8x">
-                                                <rect key="frame" x="0.0" y="45.5" width="414" height="100"/>
+                                                <rect key="frame" x="0.0" y="45.5" width="374" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="414" id="6G1-VP-t0C"/>
                                                     <constraint firstAttribute="height" constant="100" id="6yH-uD-Epg"/>
@@ -1385,7 +1385,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVa-l9-McT">
-                                                <rect key="frame" x="0.0" y="170.5" width="414" height="100"/>
+                                                <rect key="frame" x="0.0" y="170.5" width="374" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="www-6s-k5r"/>
                                                 </constraints>
@@ -1399,7 +1399,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yul-Bj-8IE">
-                                                <rect key="frame" x="0.0" y="295.5" width="414" height="100"/>
+                                                <rect key="frame" x="0.0" y="295.5" width="374" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="Dd1-QE-RSh"/>
                                                 </constraints>
@@ -1415,18 +1415,21 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lB5-xX-5WH">
-                                        <rect key="frame" x="0.0" y="445.5" width="414" height="230.5"/>
+                                        <rect key="frame" x="0.0" y="445.5" width="374" height="210.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync data with iCloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7V-aJ-Xr4">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNb-H7-Bof">
-                                                <rect key="frame" x="0.0" y="20.5" width="414" height="210"/>
+                                                <rect key="frame" x="0.0" y="20.5" width="374" height="190"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">The stored event will automatically sync to iCloud and they will appear on other devices unter the same iCloud account. If you don't want to sync your events with iCloud, please go to Settings and turn off iCloud sync function.</string>
+                                                <string key="text">
+The stored event will automatically sync to iCloud and they will appear on other devices under the same iCloud account. 
+
+If you don't want to sync your events with iCloud, please go to Settings and turn off iCloud sync function.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1439,10 +1442,10 @@
                         <viewLayoutGuide key="safeArea" id="NuF-ci-e7a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="AKS-ui-lTc" firstAttribute="leading" secondItem="NuF-ci-e7a" secondAttribute="leading" id="KOu-uH-1lW"/>
+                            <constraint firstItem="AKS-ui-lTc" firstAttribute="leading" secondItem="NuF-ci-e7a" secondAttribute="leading" constant="20" id="KOu-uH-1lW"/>
                             <constraint firstItem="NuF-ci-e7a" firstAttribute="bottom" secondItem="AKS-ui-lTc" secondAttribute="bottom" id="Lxu-9f-spq"/>
-                            <constraint firstItem="NuF-ci-e7a" firstAttribute="trailing" secondItem="AKS-ui-lTc" secondAttribute="trailing" id="WL0-Hs-Xjj"/>
-                            <constraint firstItem="AKS-ui-lTc" firstAttribute="top" secondItem="NuF-ci-e7a" secondAttribute="top" id="iZm-Fr-aUc"/>
+                            <constraint firstItem="NuF-ci-e7a" firstAttribute="trailing" secondItem="AKS-ui-lTc" secondAttribute="trailing" constant="20" id="WL0-Hs-Xjj"/>
+                            <constraint firstItem="AKS-ui-lTc" firstAttribute="top" secondItem="NuF-ci-e7a" secondAttribute="top" constant="20" id="iZm-Fr-aUc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Import Events" id="afx-tK-IcA"/>
