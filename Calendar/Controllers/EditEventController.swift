@@ -51,7 +51,7 @@ class EditEventController: CalendarUIViewController {
         super.viewDidLoad()
         endDateField.minimumDate = startDateField.date
         pageTitleLabel.textColor = .appColor(.navigationTitle)
-        
+        zoomInUsersLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -139,7 +139,12 @@ class EditEventController: CalendarUIViewController {
         }
     }
     
-
+//Location field ends
+   
+    
+    
+    
+    
     
     @objc fileprivate func willEnterForeground() {
         self.changeRemindButton()
