@@ -374,6 +374,9 @@ class WeekViewController: CalendarUIViewController, UITabBarDelegate, UITableVie
                 cell.backgroundColor = UIColor.red.withAlphaComponent(0.3)
             }
         }
+        if eventType == Constants.ClassTypes.classAssignment {
+            cell.startDateLabel.text = ""
+        }
         return cell
     }
     

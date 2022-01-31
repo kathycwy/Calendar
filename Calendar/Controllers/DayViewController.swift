@@ -333,6 +333,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false == false) {
             eventDate = start + " - " + end
         }
+        if eventType == Constants.ClassTypes.classAssignment {
+            eventDate = start
+        }
         let text = ((eventDate == "") ? "" : ("\n" + eventDate)) + ((eventType == " ") ? "" : ("\n" + eventType))
         var eventColour: UIColor? = nil
         if let attr = event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) {

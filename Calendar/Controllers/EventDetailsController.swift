@@ -32,7 +32,8 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapViewStack: UIStackView!
     @IBOutlet weak var instructor: UILabel!
-    
+    @IBOutlet weak var endDateStack: UIStackView!
+    @IBOutlet weak var startDateLabel: FieldUILabel!
     // MARK: - Properties
     
     var eventID: NSManagedObjectID?
@@ -128,6 +129,15 @@ class EventDetailsController: CalendarUIViewController {
         let region = MKCoordinateRegion.init(center: EventLocationAnnotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
         mapView.setRegion(region, animated: true)
         mapView.addAnnotation(EventLocationAnnotation)
+        
+        let classType = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
+        if classType == Constants.ClassTypes.classAssignment {
+            self.startDateLabel.text = "Due Date"
+            self.endDateStack.isHidden = true
+        } else {
+            self.startDateLabel.text = "Start Date"
+            self.endDateStack.isHidden = false
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

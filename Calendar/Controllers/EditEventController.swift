@@ -32,6 +32,9 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet weak var remindButton: UIButton!
     @IBOutlet weak var classTypeButton: UIButton!
     @IBOutlet weak var instructorField: UITextField!
+    @IBOutlet weak var allDayStack: UIStackView!
+    @IBOutlet weak var endDateStack: UIStackView!
+    @IBOutlet weak var startDateLabel: FieldUILabel!
     
     // MARK: - Properties
     
@@ -63,6 +66,14 @@ class EditEventController: CalendarUIViewController {
         
         pageTitleLabel.textColor = .appColor(.navigationTitle)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        classTypeOption = String(event!.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "")
+        
+        if classTypeOption == Constants.ClassTypes.classAssignment {
+            endDateStack.isHidden = true
+            allDayStack.isHidden = true
+            startDateLabel.text = "Due Date"
+        }
     }
     
     // MARK: enable save button when title is not empty
@@ -188,6 +199,16 @@ class EditEventController: CalendarUIViewController {
         
         let classTypeButtonClosure = { (action: UIAction) in
             self.classTypeOption = action.title
+            if action.title == Constants.ClassTypes.classAssignment {
+                self.allDayStack.isHidden = true
+                self.startDateLabel.text = "Due Date"
+                self.endDateField.date = self.startDateField.date
+                self.endDateStack.isHidden = true
+            } else {
+                self.allDayStack.isHidden = false
+                self.startDateLabel.text = "Start Date"
+                self.endDateStack.isHidden = false
+            }
         }
         
         classTypeButton.menu = UIMenu(children: [

@@ -126,6 +126,10 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         cell.startDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         cell.endDateLabel.font = cell.startDateLabel.font.withSize(UIFont.appFontSize(.innerCollectionViewHeader) ?? 10)
         
+        if eventType == Constants.ClassTypes.classAssignment {
+            cell.startDateLabel.text = ""
+        }
+        
         return cell
     }
     

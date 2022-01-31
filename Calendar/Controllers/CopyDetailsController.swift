@@ -67,6 +67,9 @@ class CopyDetailsController: UIViewController {
             endDate = dateTimeFormatter.string(from: event!.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as? Date ?? Date.now)
             dateString = " from " + startDate + " to " + endDate
         }
+        if classType == Constants.ClassTypes.classAssignment {
+            dateString = " due at " + startDate
+        }
         
         var locationString: String = ""
         let location = String(event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String ?? "")
