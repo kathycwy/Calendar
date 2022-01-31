@@ -595,7 +595,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
                 event.setValue(locationCoordinateLongitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute)
                 event.setValue(locationCoordinateLatitude, forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute)
             }else{
-                location = "Location not added"
+//                location = "Location not added"
                 event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
             }
             let remindTime = calcRemindTime(startDate: repeatEventDate[0], remindOption: remindOption)

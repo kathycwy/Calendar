@@ -1628,7 +1628,8 @@
                         <outlet property="eventTitle" destination="ReO-mL-ARS" id="11h-an-FCh"/>
                         <outlet property="instructor" destination="jul-Mz-qPe" id="5Iy-Zj-0M3"/>
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
-                        <outlet property="mapView" destination="RB9-WT-8P8" id="VQr-s7-iBl"/>
+                        <outlet property="mapView" destination="RB9-WT-8P8" id="UQs-Kd-Pum"/>
+                        <outlet property="mapViewStack" destination="OW1-eY-1Mj" id="nxx-Fc-qI8"/>
                         <outlet property="notes" destination="noC-AE-PqP" id="7sg-ZB-IxC"/>
                         <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
                         <outlet property="shareButton" destination="Y8o-Yh-hiG" id="wGA-OW-wQH"/>
