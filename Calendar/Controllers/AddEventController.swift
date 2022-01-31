@@ -71,8 +71,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        zoomInUsersLocation()
         checkAuthrizationStatus(locationManager: manager)
+        zoomInUsersLocation()
         mapView.addGestureRecognizer(onetapGesture)
         
         // disable save button at the beginnig
