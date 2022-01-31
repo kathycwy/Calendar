@@ -250,10 +250,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
        
         if annotationAdded {
              eventLocation = selectedLocation.coordinate
+            locationField.text = "Location added"
             locationAdded = true
         }else{
             if userLocationEnabled{
                 eventLocation = manager.location?.coordinate
+                locationField.text = "Location added"
                 locationAdded = true
             } else{
                 showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
