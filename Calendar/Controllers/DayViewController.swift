@@ -377,7 +377,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         attributedText.append(attributedText2)
         attributedText.addAttribute(.foregroundColor,
                                     value: eventDate == "" ? UIColor.white : (eventColour ?? UIColor.appColor(.onPrimary)) as Any,
-                                    range: attributedText.getRangeOfString(textToFind: text))
+                                    range: attributedText.getRangeOfString(textToFind: eventTitle + text))
         let x_loc = 80
         let rectCellTable = hourTableView.rectForRow(at: indexPath)
         let rectCellView = view.convert(rectCellTable, to: hourTableView.superview)
