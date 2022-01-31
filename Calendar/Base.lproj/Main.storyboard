@@ -1324,7 +1324,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Event list" id="wrh-Nb-gyT">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="ea9-lE-M2O">
+                        <barButtonItem key="leftBarButtonItem" image="square.and.arrow.down.on.square" catalog="system" id="ea9-lE-M2O">
                             <connections>
                                 <segue destination="2Zn-BD-oPL" kind="show" id="mPK-T0-yX4"/>
                             </connections>
@@ -1349,17 +1349,103 @@
             </objects>
             <point key="canvasLocation" x="1785.5072463768117" y="1356.6964285714284"/>
         </scene>
-        <!--Import Event View Controller-->
+        <!--Import Events-->
         <scene sceneID="HGF-pN-F8t">
             <objects>
                 <viewController id="2Zn-BD-oPL" customClass="ImportEventViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v5o-Ve-Db8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="AKS-ui-lTc">
+                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="nea-Kz-hry">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="395.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import local events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjc-e7-b60">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dDf-YP-V8x">
+                                                <rect key="frame" x="0.0" y="45.5" width="414" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="414" id="6G1-VP-t0C"/>
+                                                    <constraint firstAttribute="height" constant="100" id="6yH-uD-Epg"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Import for the coming week">
+                                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                                    <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="importForAWeek:" destination="2Zn-BD-oPL" eventType="touchUpInside" id="Yr5-BY-zVz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVa-l9-McT">
+                                                <rect key="frame" x="0.0" y="170.5" width="414" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="www-6s-k5r"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Import for the coming month">
+                                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                                    <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="ImportForAMonth:" destination="2Zn-BD-oPL" eventType="touchUpInside" id="u45-JL-xyM"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yul-Bj-8IE">
+                                                <rect key="frame" x="0.0" y="295.5" width="414" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="Dd1-QE-RSh"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Import for the whole year">
+                                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                                    <color key="baseBackgroundColor" systemColor="placeholderTextColor"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="importForAYear:" destination="2Zn-BD-oPL" eventType="touchUpInside" id="6I4-Ti-2xL"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lB5-xX-5WH">
+                                        <rect key="frame" x="0.0" y="445.5" width="414" height="230.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync data with iCloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7V-aJ-Xr4">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNb-H7-Bof">
+                                                <rect key="frame" x="0.0" y="20.5" width="414" height="210"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <string key="text">The stored event will automatically sync to iCloud and they will appear on other devices unter the same iCloud account. If you don't want to sync your events with iCloud, please go to Settings and turn off iCloud sync function.</string>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="NuF-ci-e7a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="AKS-ui-lTc" firstAttribute="leading" secondItem="NuF-ci-e7a" secondAttribute="leading" id="KOu-uH-1lW"/>
+                            <constraint firstItem="NuF-ci-e7a" firstAttribute="bottom" secondItem="AKS-ui-lTc" secondAttribute="bottom" id="Lxu-9f-spq"/>
+                            <constraint firstItem="NuF-ci-e7a" firstAttribute="trailing" secondItem="AKS-ui-lTc" secondAttribute="trailing" id="WL0-Hs-Xjj"/>
+                            <constraint firstItem="AKS-ui-lTc" firstAttribute="top" secondItem="NuF-ci-e7a" secondAttribute="top" id="iZm-Fr-aUc"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="afx-tK-IcA"/>
+                    <navigationItem key="navigationItem" title="Import Events" id="afx-tK-IcA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K8v-PI-T7d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -19030,6 +19116,7 @@ AAAAD0GWA
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
+        <image name="square.and.arrow.down.on.square" catalog="system" width="122" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="Teal-background">

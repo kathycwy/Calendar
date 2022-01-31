@@ -111,7 +111,7 @@ class EventDetailsController: CalendarUIViewController {
           ])
         
         // Show location
-        if event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as! String == "Location added" {
+        if event!.value(forKeyPath: Constants.EventsAttribute.locationAttribute) as? String == "Location added" {
             mapViewStack.isHidden = false
         }
         let EventLocationAnnotation = MKPointAnnotation()

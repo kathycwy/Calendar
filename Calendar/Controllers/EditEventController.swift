@@ -53,7 +53,8 @@ class EditEventController: CalendarUIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        checkAuthrizationStatus(locationManager: manager)
+        zoomInUsersLocation()
         saveButton.isEnabled = true
         [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         
@@ -62,7 +63,6 @@ class EditEventController: CalendarUIViewController {
         endDateField.minimumDate = startDateField.date
         
         pageTitleLabel.textColor = .appColor(.navigationTitle)
-        zoomInUsersLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -85,6 +85,33 @@ class EditEventController: CalendarUIViewController {
     }
     
     // MARK: Location Service Functions
+    func checkAuthrizationStatus(locationManager: CLLocationManager){
+        switch locationManager.authorizationStatus {
+            
+        case .notDetermined:
+            if CLLocationManager.locationServicesEnabled(){
+                locationManager.requestWhenInUseAuthorization()
+            }else{
+                showAlert(title: "Get Location failed", description: "Locationservice is disabled, please check your device settings!")
+            }
+            break;
+        case .restricted:
+            showAlert(title: "Get Location failed", description: "Request restricted!")
+            break;
+        case .denied:
+            showAlert(title: "Request denied!", description: "Locationrequest denied, you can change it in your device settings")
+        case .authorizedAlways:
+            userLocationEnabled = true
+            break;
+        case .authorizedWhenInUse:
+            userLocationEnabled = true
+            break;
+        @unknown default:
+            showAlert(title: "Unknown Error!", description: "Please try to update your application and try it again!")
+            break;
+        }
+    }
+
     
     @IBAction func tapToSelect(_ sender: Any) {
        //        If there is already a pin dropped, remove the previous pin
@@ -140,31 +167,7 @@ class EditEventController: CalendarUIViewController {
          }
      }
     
-    func checkAuthrizationStatus(locationManager: CLLocationManager){
-        switch locationManager.authorizationStatus {
-            
-        case .notDetermined:
-            if CLLocationManager.locationServicesEnabled(){
-                locationManager.requestWhenInUseAuthorization()
-            }else{
-                showAlert(title: "Get Location failed", description: "Locationservice is disabled, please check your device settings!")
-            }
-            break;
-        case .restricted:
-            showAlert(title: "Get Location failed", description: "Request restricted!")
-            break;
-        case .denied:
-            showAlert(title: "Request denied!", description: "Locationrequest denied, you can change it in your device settings")
-        case .authorizedAlways:
-            userLocationEnabled = true
-            break;
-        case .authorizedWhenInUse:
-            userLocationEnabled = true
-            break;
-        @unknown default:
-            break;
-        }
-    }
+
     
 //Location field ends
    
