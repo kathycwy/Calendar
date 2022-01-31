@@ -119,7 +119,8 @@ class EventDetailsController: CalendarUIViewController {
             mapViewStack.isHidden = false
         }
         let EventLocationAnnotation = MKPointAnnotation()
-        mapView.removeAnnotation(EventLocationAnnotation)
+        let allAnnotations = self.mapView.annotations
+        self.mapView.removeAnnotations(allAnnotations)
         let coordinateLatitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute) as! Double
         let coordinateLongitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute) as! Double
         EventLocationAnnotation.coordinate = CLLocationCoordinate2D.init(latitude:coordinateLatitude, longitude: coordinateLongitude)
