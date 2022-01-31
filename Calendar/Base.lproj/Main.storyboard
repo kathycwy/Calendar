@@ -507,8 +507,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67T-6e-roI">
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
-                                        <rect key="frame" x="25" y="0.0" width="364" height="1227"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kCd-4C-K3M">
+                                        <rect key="frame" x="15" y="0.0" width="364" height="1227"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-5P-pxG">
                                                 <rect key="frame" x="0.0" y="0.0" width="364" height="60"/>
@@ -798,14 +798,20 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="kCd-4C-K3M" firstAttribute="top" secondItem="67T-6e-roI" secondAttribute="top" id="8U3-vx-9lv"/>
+                                    <constraint firstAttribute="bottom" secondItem="kCd-4C-K3M" secondAttribute="bottom" id="nkC-ed-46W"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Flq-sn-XLY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="67T-6e-roI" firstAttribute="top" secondItem="Flq-sn-XLY" secondAttribute="top" id="2Fd-N0-rGj"/>
+                            <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="kCd-4C-K3M" secondAttribute="trailing" constant="35" id="7in-1k-lYN"/>
                             <constraint firstItem="Flq-sn-XLY" firstAttribute="trailing" secondItem="67T-6e-roI" secondAttribute="trailing" id="D3v-vt-3EY"/>
                             <constraint firstItem="Flq-sn-XLY" firstAttribute="bottom" secondItem="67T-6e-roI" secondAttribute="bottom" id="Gwu-gr-dqS"/>
+                            <constraint firstItem="kCd-4C-K3M" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" constant="15" id="SZy-th-SYY"/>
                             <constraint firstItem="67T-6e-roI" firstAttribute="leading" secondItem="Flq-sn-XLY" secondAttribute="leading" id="rw2-RG-l9a"/>
                         </constraints>
                     </view>
