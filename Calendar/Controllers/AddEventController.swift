@@ -17,9 +17,8 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
 
     var savedEventId : String = ""
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
-    
-    // MARK: - Properties
 
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet private var titleField: UITextField!
     @IBOutlet private var allDaySwitch: UISwitch!
@@ -36,10 +35,11 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet private var notesField: UITextField!
     @IBOutlet weak var remindButton: UIButton!
-    
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet var onetapGesture: UITapGestureRecognizer!
+    
+    // MARK: - Properties
+    
     var managedObjectContext: NSManagedObjectContext?
     var events: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
@@ -53,13 +53,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     var lastView: String = ""
     var newStartDate: Date = Date()
 
-        
-      let manager = CLLocationManager()
-      let selectedLocation = MKPointAnnotation()
-      var eventLocation:CLLocationCoordinate2D?
-      var annotationAdded = false
-      var locationAdded = false
-      var userLocationEnabled = false
+    let manager = CLLocationManager()
+    let selectedLocation = MKPointAnnotation()
+    var eventLocation:CLLocationCoordinate2D?
+    var annotationAdded = false
+    var locationAdded = false
+    var userLocationEnabled = false
 
     // MARK: - Init
     
@@ -72,23 +71,55 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         zoomInUsersLocation()
         checkAuthrizationStatus(locationManager: manager)
         mapView.addGestureRecognizer(onetapGesture)
+        
+        // disable save button at the beginnig
+        saveButton.isEnabled = false
+        [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
+        
+        // set appropriate date in start/end date pickers
         startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
+        var dateComponent = DateComponents()
+        dateComponent.hour = 1
+        let newDate = Calendar.current.date(byAdding: dateComponent, to: endDateField.date)! as Date
+        endDateField.setDate(newDate, animated: false)
+        
+        // set repeat options
         endRepeatDatePicker.minimumDate = endDateField.date
         endRepeatStack.isHidden = true
         endRepeatDatePicker.isHidden = true
         endRepeatAfterCertainTimesButton.isHidden = true
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(
             title: " ", style: .plain, target: nil, action: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
+        // set start/end date pickers date with the date from day/week view
         if lastView == "d" || lastView == "w" {
             self.startDateField.date = newStartDate
             self.endDateField.date = CalendarHelper().addMinute(date: self.startDateField.date, n: 60)
             lastView = ""
         }
 
+    }
+    
+    // MARK: enable save button when title is not empty
+    
+    @objc func editingChanged(_ textField: UITextField) {
+        if textField.text?.count == 1 {
+            if textField.text?.first == " " {
+                textField.text = ""
+                return
+            }
+        }
+        guard
+            let title = titleField.text, !title.isEmpty
+        else {
+            saveButton.isEnabled = false
+            return
+        }
+        saveButton.isEnabled = true
     }
     
     @objc fileprivate func willEnterForeground() {
@@ -138,6 +169,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             UIAction(title: Constants.RepeatOptions.endRepeatAfterCertainTimes, handler: endRepeatClosure)
           ])
         
+        // responding to calendar button
         let calendarButtonClosure = { (action: UIAction) in
             self.calendarOption = action.title
             let color = EventListController().getCalendarColor(name: self.calendarOption)
@@ -151,6 +183,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, handler: calendarButtonClosure)
           ])
         
+        // responding to remind button
         let remindButtonClosure = { (action: UIAction) in
             self.remindOption = action.title
         }
@@ -179,52 +212,50 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     
     @IBAction func tapToSelect(_ sender: Any) {
        //        If there is already a pin dropped, remove the previous pin
-               if annotationAdded{
-                   mapView.removeAnnotation(selectedLocation)
-               }
-               
-               
-               let location = onetapGesture.location(in: mapView)
-               let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
-               selectedLocation.coordinate = locationInMap
-               mapView.addAnnotation(selectedLocation)
-               annotationAdded = true
-           }
-    @IBAction func recenterToUsersLocation(_ sender: Any) {
-            zoomInUsersLocation()
+        if annotationAdded{
+           mapView.removeAnnotation(selectedLocation)
         }
-        
-        @IBAction func saveLocationCoordinate(_ sender: Any) {
-           
-            if annotationAdded {
-                 eventLocation = selectedLocation.coordinate
-                locationAdded = true
-            }else{
-                if userLocationEnabled{
-                    eventLocation = manager.location?.coordinate
-                    locationAdded = true
-                } else{
-                    showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
-                    
-                }
-            }
-          
-            
-        }
+
+
+        let location = onetapGesture.location(in: mapView)
+        let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
+        selectedLocation.coordinate = locationInMap
+        mapView.addAnnotation(selectedLocation)
+        annotationAdded = true
+    }
     
+    @IBAction func recenterToUsersLocation(_ sender: Any) {
+        zoomInUsersLocation()
+    }
+        
+    @IBAction func saveLocationCoordinate(_ sender: Any) {
+       
+        if annotationAdded {
+             eventLocation = selectedLocation.coordinate
+            locationAdded = true
+        }else{
+            if userLocationEnabled{
+                eventLocation = manager.location?.coordinate
+                locationAdded = true
+            } else{
+                showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
+            }
+        }
+    }
+
     func zoomInUsersLocation(){
-           if let usersLocation = manager.location?.coordinate {
-               let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
-               mapView.setRegion(region, animated: true)
-           }
-       }
+        if let usersLocation = manager.location?.coordinate {
+           let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+           mapView.setRegion(region, animated: true)
+        }
+    }
+    
     func showAlert(title: String, description: String){
          let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
          alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: goToSettings(alert:)))
          alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
          self.present(alert, animated: true)
      }
-     
      
      func goToSettings(alert: UIAlertAction!){
          let url = URL(string: UIApplication.openSettingsURLString)!
@@ -258,8 +289,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }
     }
     
-
-    
     // MARK: Helper functions
     
     func changeRemindButton() {
@@ -276,93 +305,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }
     }
     
-    // MARK: - Actions
-    
-    @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
-        if allDaySwitch.isOn {
-            startDateField.datePickerMode = .date
-            endDateField.datePickerMode = .date
-        } else {
-            startDateField.datePickerMode = .dateAndTime
-            endDateField.datePickerMode = .dateAndTime
-        }
-    }
-    
-    @IBAction func updateEndDatePicker (_ sender: UIDatePicker) {
-        endDateField.minimumDate = startDateField.date
-        endRepeatDatePicker.minimumDate = endDateField.date
-    }
-    
-    @IBAction func updateEndRepeatDatePicker(_ sender: Any) {
-        endRepeatDatePicker.minimumDate = endDateField.date
-    }
-    
-    
-    @IBAction func popUpEndEventTimesPicker(_ sender: Any) {
-        
-        let vc = UIViewController()
-        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height / 4)
-        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height / 4))
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        
-        pickerView.selectRow(selectedRow, inComponent: 0, animated: false)
-        
-        vc.view.addSubview(pickerView)
-        pickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        pickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
-        
-        let alert = UIAlertController(title: "Select repeating times", message: nil, preferredStyle: .actionSheet)
-        
-        alert.popoverPresentationController?.sourceView = endRepeatAfterCertainTimesButton
-        alert.popoverPresentationController?.sourceRect = endRepeatAfterCertainTimesButton.bounds
-        
-        alert.setValue(vc, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
-            self.selectedRow = pickerView.selectedRow(inComponent: 0)
-            self.endRepeatAfterCertainTimesButton.setTitle("After " + String(self.selectedRow + 1) + " Time(s)", for: .normal)
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    @IBAction func remindButtonPressed(_ sender: Any) {
-        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
-        if isNotificationEnabled == false {
-            self.remindButton.showsMenuAsPrimaryAction = false
-            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
-            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
-                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
-                else {
-                    return
-                }
-                if (UIApplication.shared.canOpenURL(settingsURL)) {
-                    UIApplication.shared.open(settingsURL) { (_) in }
-                }
-            }
-            alert.addAction(goToSettings)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
-            self.present(alert, animated: true)
-        }
-    }
-    
-    // MARK: - Standard PickerView methods
-    
-    func numberOfComponents(in endRepeatIntPicker: UIPickerView) -> Int {
-        return 1
-    }
-     
-    func pickerView(_ endRepeatIntPicker: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 100
-    }
-     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?  {
-        return String(row + 1)
-    }
-    
     func appendRepeatEventDates (startDate: Date, endDate: Date, repeatOption: String, endRepeatOption: String, endRepeatDate: Date) -> [[Date]] {
         
         var result = [[Date]]()
@@ -372,8 +314,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         var localEndRepeatDate = endRepeatDate
         
         // if End Repeat == "Never", the event will be repeated for 100 years
-        let currentDate = Date()
-        var dateComponent = DateComponents()
         var hundredYearsDateComponent = DateComponents()
         hundredYearsDateComponent.year = 100
         
@@ -381,6 +321,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             localEndRepeatDate = Calendar.current.date(byAdding: hundredYearsDateComponent, to: localEndRepeatDate)! as Date
         }
                 
+        var dateComponent = DateComponents()
         switch repeatOption {
         case Constants.RepeatOptions.repeatEveryDay:
             if endRepeatOption == Constants.RepeatOptions.endRepeatAfterCertainTimes {
@@ -464,10 +405,101 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         return result
     }
     
+    // MARK: - Actions
+    
+    @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
+        if allDaySwitch.isOn {
+            startDateField.datePickerMode = .date
+            endDateField.datePickerMode = .date
+        } else {
+            startDateField.datePickerMode = .dateAndTime
+            endDateField.datePickerMode = .dateAndTime
+        }
+    }
+    
+    @IBAction func updateEndDatePicker (_ sender: UIDatePicker) {
+        endDateField.minimumDate = startDateField.date
+        var dateComponent = DateComponents()
+        dateComponent.hour = 1
+        let newDate = Calendar.current.date(byAdding: dateComponent, to: startDateField.date)! as Date
+        endDateField.setDate(newDate, animated: false)
+        endRepeatDatePicker.minimumDate = endDateField.date
+    }
+    
+    @IBAction func updateEndRepeatDatePicker(_ sender: Any) {
+        endRepeatDatePicker.minimumDate = endDateField.date
+    }
+    
+    @IBAction func popUpEndEventTimesPicker(_ sender: Any) {
+        
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height / 4)
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height / 4))
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
+        pickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+        
+        vc.view.addSubview(pickerView)
+        pickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
+        pickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        
+        let alert = UIAlertController(title: "Select repeating times", message: nil, preferredStyle: .actionSheet)
+        
+        alert.popoverPresentationController?.sourceView = endRepeatAfterCertainTimesButton
+        alert.popoverPresentationController?.sourceRect = endRepeatAfterCertainTimesButton.bounds
+        
+        alert.setValue(vc, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
+            self.selectedRow = pickerView.selectedRow(inComponent: 0)
+            self.endRepeatAfterCertainTimesButton.setTitle("After " + String(self.selectedRow + 1) + " Time(s)", for: .normal)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func remindButtonPressed(_ sender: Any) {
+        let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+        if isNotificationEnabled == false {
+            self.remindButton.showsMenuAsPrimaryAction = false
+            let alert = UIAlertController(title: "Enable Notifications?", message: "To use reminders, you must enable notifications in your settings", preferredStyle: .alert)
+            let goToSettings = UIAlertAction(title: "Settings", style: .default) {(_) in
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString)
+                else {
+                    return
+                }
+                if (UIApplication.shared.canOpenURL(settingsURL)) {
+                    UIApplication.shared.open(settingsURL) { (_) in }
+                }
+            }
+            alert.addAction(goToSettings)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in }))
+            self.present(alert, animated: true)
+        }
+    }
+    
+    // MARK: - Standard PickerView methods
+    
+    func numberOfComponents(in endRepeatIntPicker: UIPickerView) -> Int {
+        return 1
+    }
+     
+    func pickerView(_ endRepeatIntPicker: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 100
+    }
+     
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?  {
+        return String(row + 1)
+    }
+    
     // MARK: - CoreData
     
     @IBAction func addEvent(_ sender: Any) {
 
+        // get the CoreData context
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -475,6 +507,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
 
         let entity = NSEntityDescription.entity(forEntityName: Constants.EventsAttribute.entityName, in: managedContext)!
 
+        // get the inputs from users
         let title = titleField.text
         let allDaySwitchState = allDaySwitch.isOn
         var startDate = startDateField.date
@@ -513,6 +546,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             repeatEventDates.append(contentsOf: appendRepeatEventDates(startDate: startDate, endDate: endDate, repeatOption: repeatOption, endRepeatOption: endRepeatOption, endRepeatDate: endRepeatDate))
         }
 
+        // set the value for each key in the entity
         for repeatEventDate in repeatEventDates {
             let event = NSManagedObject(entity: entity, insertInto: managedContext)
             let notificationID = UUID().uuidString
@@ -523,7 +557,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             event.setValue(repeatOption, forKeyPath: Constants.EventsAttribute.repeatOptionAttribute)
             event.setValue(endRepeatOption, forKeyPath: Constants.EventsAttribute.endRepeatOptionAttribute)
             event.setValue(endRepeatDate, forKeyPath: Constants.EventsAttribute.endRepeatDateAttribute)
-//            event.setValue(location, forKeyPath: Constants.EventsAttribute.locationAttribute)
             event.setValue(calendarOption, forKeyPath: Constants.EventsAttribute.calendarAttribute)
             event.setValue(url, forKeyPath: Constants.EventsAttribute.urlAttribute)
             event.setValue(notes, forKeyPath: Constants.EventsAttribute.notesAttribute)
@@ -545,6 +578,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
                 self.appDelegate?.scheduleNotification(eventTitle: title!, remindDate: remindTime, remindOption: remindOption, notID: notificationID)
             }
             
+            // save to CoreData
             do {
                 try managedContext.save()
 
@@ -555,71 +589,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         
         // go back to previous controller
         navigationController?.popViewController(animated: true)
-
     }
-
-  
-
-    
-    ///////////// EventKit //////////
-    
-//    func createEvent(eventStore: EKEventStore, title: String, startDate: NSDate, endDate: NSDate) {
-//        let event = EKEvent(eventStore: eventStore)
-//
-//        event.title = title
-//        event.startDate = startDate as Date
-//        event.endDate = endDate as Date
-//        event.calendar = eventStore.defaultCalendarForNewEvents
-//        do {
-//            try eventStore.save(event, span: .thisEvent)
-//            savedEventId = event.eventIdentifier
-//        } catch {
-//            print("Bad things happened")
-//        }
-//    }
-//
-//    func deleteEvent(eventStore: EKEventStore, eventIdentifier: String) {
-//        let eventToRemove = eventStore.event(withIdentifier: eventIdentifier)
-//        if (eventToRemove != nil) {
-//            do {
-//                try eventStore.remove(eventToRemove!, span: .thisEvent)
-//            } catch {
-//                print("Bad things happened")
-//            }
-//        }
-//    }
-//
-//    @IBAction func addEvent(sender: Any) {
-//        let eventStore = EKEventStore()
-//
-//        let title = titleField.text
-//        let startDate = startDateField.date as NSDate
-//        let endDate = endDateField.date as NSDate
-//
-//        if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
-//            eventStore.requestAccess(to: .event, completion: {
-//                granted, error in
-//                self.createEvent(eventStore: eventStore, title: title ?? "noName", startDate: startDate, endDate: endDate)
-//            })
-//        } else {
-//            createEvent(eventStore: eventStore, title: title ?? "noName", startDate: startDate, endDate: endDate)
-//        }
-//        
-//        // go back to previous controller
-//        navigationController?.popViewController(animated: true)
-//    }
-//
-//    @IBAction func removeEvent(sender: UIButton) {
-//        let eventStore = EKEventStore()
-//
-//        if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
-//            eventStore.requestAccess(to: .event, completion: { (granted, error) -> Void in
-//                self.deleteEvent(eventStore: eventStore, eventIdentifier: self.savedEventId)
-//            })
-//        } else {
-//            deleteEvent(eventStore: eventStore, eventIdentifier: savedEventId)
-//        }
-//
-//    }
 
 }

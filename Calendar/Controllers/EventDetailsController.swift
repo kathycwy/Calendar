@@ -18,8 +18,6 @@ class EventDetailsController: CalendarUIViewController {
     
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    // MARK: - Properties
-    
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var allDayLabel: UILabel!
     @IBOutlet weak var startDate: UILabel!
@@ -32,6 +30,8 @@ class EventDetailsController: CalendarUIViewController {
     @IBOutlet weak var remindTime: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: - Properties
     
     var eventID: NSManagedObjectID?
     var event: NSManagedObject?
@@ -88,8 +88,12 @@ class EventDetailsController: CalendarUIViewController {
         let color = EventListController().getCalendarColor(name: calendar.text ?? "None")
         calendarDot.tintColor = color
         notes.text = String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "")
+        if String(event!.value(forKeyPath: Constants.EventsAttribute.notesAttribute) as? String ?? "").isEmpty {
+            notes.text = "No notes added"
+        }
         remindTime.text = String(event!.value(forKeyPath: Constants.EventsAttribute.remindOptionAttribute) as? String ?? "")
         
+        // set up Share button
         let iCalButtonClosure = { (action: UIAction) in
             self.saveToICal()
         }
@@ -102,19 +106,16 @@ class EventDetailsController: CalendarUIViewController {
             UIAction(title: "Share to iCalendar", handler: iCalButtonClosure),
             UIAction(title: "Copy event details", handler: copyDetailsClosure)
           ])
-//        Show location
+        
+        // Show location
         let EventLocationAnnotation = MKPointAnnotation()
         let coordinateLatitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLatitudeAttribute) as! Double
         let coordinateLongitude: Double = event!.value(forKeyPath: Constants.EventsAttribute.locationCoordinateLongitudeAttribute) as! Double
-                      EventLocationAnnotation.coordinate = CLLocationCoordinate2D.init(latitude:coordinateLatitude, longitude: coordinateLongitude)
-                      
-                      
-                      
-                      let region = MKCoordinateRegion.init(center: EventLocationAnnotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-                      mapView.setRegion(region, animated: true)
-                      mapView.addAnnotation(EventLocationAnnotation)
-                      
+        EventLocationAnnotation.coordinate = CLLocationCoordinate2D.init(latitude:coordinateLatitude, longitude: coordinateLongitude)
 
+        let region = MKCoordinateRegion.init(center: EventLocationAnnotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        mapView.setRegion(region, animated: true)
+        mapView.addAnnotation(EventLocationAnnotation)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -176,20 +177,18 @@ class EventDetailsController: CalendarUIViewController {
         }
 
         managedContext.undoManager!.registerUndo(withTarget: self) { target in
-            //simply save the hohle table view. A bit uniffcient but simple
             self.fetchedEvents = target.fetchedEvents
         }
-        // Delete the notification associated with the event
+    
         let notificationID = String(self.event!.value(forKeyPath: Constants.EventsAttribute.notificationIDAttribute) as? String ?? "")
         self.appDelegate?.deleteNotification(notID: notificationID)
-        // Find the index of the event that is to be deleted from the array
+
         let index = fetchedEvents.firstIndex(where: {$0.objectID  == eventID})!
-        // delete it from Core data
+        
         managedContext.delete(fetchedEvents[index])
-        // delete it from the arrays
+        
         fetchedEvents.remove(at: index)
 
-        // finally save the current state of Core data
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -200,7 +199,7 @@ class EventDetailsController: CalendarUIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    ////////////// Share to iCalendar
+    // Share to iCalendar
     
     func createEvent(eventStore: EKEventStore, title: String, startDate: Date, endDate: Date, isAllDay: Bool) {
         let event = EKEvent(eventStore: eventStore)
@@ -241,7 +240,7 @@ class EventDetailsController: CalendarUIViewController {
         let close = UIAlertAction(title: "Close", style: .cancel) { (action) -> Void in
         }
         
-        //Add OK and Cancel button to dialog message
+        //Add Close button to dialog message
         dialogMessage.addAction(close)
         
         // Present dialog message to user

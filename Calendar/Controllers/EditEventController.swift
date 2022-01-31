@@ -17,8 +17,7 @@ class EditEventController: CalendarUIViewController {
     
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    // MARK: - Properties
-    
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var pageTitleLabel: UILabel!
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var allDaySwitch: UISwitch!
@@ -32,73 +31,99 @@ class EditEventController: CalendarUIViewController {
     @IBOutlet var onetapGesture: UITapGestureRecognizer!
     @IBOutlet weak var remindButton: UIButton!
     
+    // MARK: - Properties
+    
     var event: NSManagedObject?
     var fetchedEvents: [NSManagedObject] = []
     var calendarOption: String = "None"
     var remindOption: String = ""
     var initialRemindOption: String = ""
     
+    let manager = CLLocationManager()
+    let selectedLocation = MKPointAnnotation()
+    var eventLocation:CLLocationCoordinate2D?
+    var annotationAdded = false
+    var locationAdded = false
+    var userLocationEnabled = false
     
-  let manager = CLLocationManager()
-  let selectedLocation = MKPointAnnotation()
-  var eventLocation:CLLocationCoordinate2D?
-  var annotationAdded = false
-  var locationAdded = false
-  var userLocationEnabled = false
     // MARK: - Init
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // disable save button at the beginnig
+        saveButton.isEnabled = false
+        [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
+        
+        // set appropriate date in start/end date pickers
+        startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
+        
         pageTitleLabel.textColor = .appColor(.navigationTitle)
         
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
+    // MARK: enable save button when title is not empty
+    
+    @objc func editingChanged(_ textField: UITextField) {
+        if textField.text?.count == 1 {
+            if textField.text?.first == " " {
+                textField.text = ""
+                return
+            }
+        }
+        guard
+            let title = titleField.text, !title.isEmpty
+        else {
+            saveButton.isEnabled = false
+            return
+        }
+        saveButton.isEnabled = true
+    }
     
     // MARK: Location Service Functions
     
     @IBAction func tapToSelect(_ sender: Any) {
        //        If there is already a pin dropped, remove the previous pin
-               if annotationAdded{
-                   mapView.removeAnnotation(selectedLocation)
-               }
-               
-               
-               let location = onetapGesture.location(in: mapView)
-               let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
-               selectedLocation.coordinate = locationInMap
-               mapView.addAnnotation(selectedLocation)
-               annotationAdded = true
-           }
+        if annotationAdded{
+           mapView.removeAnnotation(selectedLocation)
+        }
+
+
+        let location = onetapGesture.location(in: mapView)
+        let locationInMap = mapView.convert(location, toCoordinateFrom: mapView)
+        selectedLocation.coordinate = locationInMap
+        mapView.addAnnotation(selectedLocation)
+        annotationAdded = true
+    }
+    
     @IBAction func recenterToUsersLocation(_ sender: Any) {
-            zoomInUsersLocation()
-        }
+        zoomInUsersLocation()
+    }
         
-        @IBAction func saveLocationCoordinate(_ sender: Any) {
-           
-            if annotationAdded {
-                 eventLocation = selectedLocation.coordinate
+    @IBAction func saveLocationCoordinate(_ sender: Any) {
+       
+        if annotationAdded {
+             eventLocation = selectedLocation.coordinate
+            locationAdded = true
+        }else{
+            if userLocationEnabled{
+                eventLocation = manager.location?.coordinate
                 locationAdded = true
-            }else{
-                if userLocationEnabled{
-                    eventLocation = manager.location?.coordinate
-                    locationAdded = true
-                } else{
-                    showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
-                    
-                }
+            } else{
+                showAlert(title: "Set Location Failed", description: "No Location is selected in the Map")
             }
-          
-            
         }
+    }
     
     func zoomInUsersLocation(){
-           if let usersLocation = manager.location?.coordinate {
-               let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
-               mapView.setRegion(region, animated: true)
-           }
-       }
+        if let usersLocation = manager.location?.coordinate {
+        let region = MKCoordinateRegion.init(center: usersLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        mapView.setRegion(region, animated: true)
+        }
+    }
+    
     func showAlert(title: String, description: String){
          let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
          alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: goToSettings(alert:)))
@@ -138,8 +163,6 @@ class EditEventController: CalendarUIViewController {
             break;
         }
     }
-    
-
     
     @objc fileprivate func willEnterForeground() {
         self.changeRemindButton()
@@ -233,6 +256,8 @@ class EditEventController: CalendarUIViewController {
         remindButton.menu = UIMenu(children: arrMenu)
     }
     
+    // MARK: Helper functions
+    
     func changeRemindButton() {
         self.appDelegate?.checkAuthorization {  (isEnabled) in
             if (isEnabled == false) {
@@ -249,22 +274,6 @@ class EditEventController: CalendarUIViewController {
         } else {
             return .off
         }
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
-        if allDaySwitch.isOn {
-            startDateField.datePickerMode = .date
-            endDateField.datePickerMode = .date
-        } else {
-            startDateField.datePickerMode = .dateAndTime
-            endDateField.datePickerMode = .dateAndTime
-        }
-    }
-    
-    @IBAction func updateEndDatePicker (_ sender: UIDatePicker) {
-        endDateField.minimumDate = startDateField.date
     }
     
     func calcRemindTime (startDate: Date, remindOption: String) -> Date {
@@ -299,6 +308,22 @@ class EditEventController: CalendarUIViewController {
         return result
     }
     
+    // MARK: - Actions
+    
+    @IBAction func switchAllDayDatePicker (_ sender: UISwitch) {
+        if allDaySwitch.isOn {
+            startDateField.datePickerMode = .date
+            endDateField.datePickerMode = .date
+        } else {
+            startDateField.datePickerMode = .dateAndTime
+            endDateField.datePickerMode = .dateAndTime
+        }
+    }
+    
+    @IBAction func updateEndDatePicker (_ sender: UIDatePicker) {
+        endDateField.minimumDate = startDateField.date
+    }
+    
     @IBAction func remindButtonPressed(_ sender: Any) {
         let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
         if isNotificationEnabled == false {
@@ -319,8 +344,11 @@ class EditEventController: CalendarUIViewController {
         }
     }
     
+    // MARK: - CoreData
+    
     @IBAction func updateEvent(_ sender: Any) {
 
+        // get the CoreData context
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -329,6 +357,7 @@ class EditEventController: CalendarUIViewController {
 
             let updatingEvent = try managedContext.existingObject(with: self.event!.objectID)
             
+            // get the inputs from users
             let title = titleField.text
             let allDaySwitchState = allDaySwitch.isOn
             var startDate = startDateField.date
@@ -359,6 +388,7 @@ class EditEventController: CalendarUIViewController {
                 endDate = calender.date(from: endDateComponents) ?? endDate
             }
             
+            // set the value for each key in the entity
             updatingEvent.setValue(title, forKeyPath: Constants.EventsAttribute.titleAttribute)
             updatingEvent.setValue(allDaySwitchState, forKeyPath: Constants.EventsAttribute.allDayAttribute)
             updatingEvent.setValue(startDate, forKeyPath: Constants.EventsAttribute.startDateAttribute)
@@ -391,6 +421,7 @@ class EditEventController: CalendarUIViewController {
                 self.appDelegate?.deleteNotification(notID: notificationID)
             }
 
+            // save to CoreData
             try managedContext.save()
             
         } catch let error as NSError {

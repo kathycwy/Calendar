@@ -14,6 +14,8 @@ class CopyDetailsController: UIViewController {
     
     var event: NSManagedObject?
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 1.0
@@ -23,6 +25,9 @@ class CopyDetailsController: UIViewController {
         
     }
     
+    // MARK: Helper functions
+    
+    // set text in the text view
     func setText() -> String {
         
         let dateTimeFormatter = DateFormatter()
@@ -69,6 +74,9 @@ class CopyDetailsController: UIViewController {
         
     }
     
+    // MARK: - Actions
+    
+    // copy all text from text view to clipboard
     @IBAction func copyButton(_ sender: Any) {
         UIPasteboard.general.string = textView.text
         
