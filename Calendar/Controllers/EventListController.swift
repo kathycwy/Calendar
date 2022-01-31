@@ -128,15 +128,9 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         {
             let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
             let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
-            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
-            if fallsBetween
-            {
-                var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
-                if event_start_date.removeTimeStamp != date.removeTimeStamp {
-                    eventStartHour = 0
-                }
-      
-                if  eventStartHour >= hour && eventStartHour < hour + 1
+            if event_end_date >= event_start_date {
+                let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
+                if fallsBetween
                 {
                     var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
                     if event_start_date.removeTimeStamp != date.removeTimeStamp {
@@ -145,7 +139,15 @@ class EventListController: UITableViewController, UISearchBarDelegate {
           
                     if  eventStartHour >= hour && eventStartHour < hour + 1
                     {
-                        eventsPerHour.append(event)
+                        var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                        if event_start_date.removeTimeStamp != date.removeTimeStamp {
+                            eventStartHour = 0
+                        }
+              
+                        if  eventStartHour >= hour && eventStartHour < hour + 1
+                        {
+                            eventsPerHour.append(event)
+                        }
                     }
                 }
             }
@@ -160,22 +162,24 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         {
             let event_start_date = event.value(forKeyPath: Constants.EventsAttribute.startDateAttribute) as! Date
             let event_end_date = event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date
-            let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
-            if fallsBetween
-            {
-                var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
-                if event_start_date.removeTimeStamp != date.removeTimeStamp {
-                    eventStartHour = 0
-                }
-                
-                var eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
-                if event_end_date.removeTimeStamp != date.removeTimeStamp {
-                    eventEndHour = 23
-                }
-      
-                if  hour >= eventStartHour && hour <= eventEndHour
+            if event_end_date >= event_start_date {
+                let fallsBetween = (event_start_date.removeTimeStamp! ... event_end_date.removeTimeStamp!).contains(date.removeTimeStamp!)
+                if fallsBetween
                 {
-                    eventsPerHour.append(event)
+                    var eventStartHour = CalendarHelper().hourFromDate(date: event_start_date)
+                    if event_start_date.removeTimeStamp != date.removeTimeStamp {
+                        eventStartHour = 0
+                    }
+                    
+                    var eventEndHour = CalendarHelper().hourFromDate(date: event_end_date)
+                    if event_end_date.removeTimeStamp != date.removeTimeStamp {
+                        eventEndHour = 23
+                    }
+          
+                    if  hour >= eventStartHour && hour <= eventEndHour
+                    {
+                        eventsPerHour.append(event)
+                    }
                 }
             }
         }
