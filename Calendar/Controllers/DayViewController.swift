@@ -30,15 +30,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
 
     override func loadView() {
         super.loadView()
-        
         hourTableView.rowHeight = rowHeight
         hourTableView.estimatedRowHeight = rowHeight
         hourTableView.separatorStyle = .none
-        
-        // As buffer region for scrolling
-        //let footerView = UIView()
-        //footerView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: rowHeight)
-        //hourTableView.tableFooterView = footerView
     }
     
     override func viewDidLoad() {
@@ -61,6 +55,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
          }
     }
     
+    // Create gesture for swipping to different dates
     func initGestureRecognizer(){
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
@@ -71,6 +66,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Set the event to be shown in event detail to the event buttons
         if segue.identifier == "dayToEventDetailSegue" {
             let destinationVC = segue.destination as! EventDetailsController
             
@@ -83,6 +79,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
     
     // MARK: - Actions
 
+    // Swipe to change day
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer){
         if sender.direction == .left {
             self.selectedDay = self.calendarHelper.addDay(date: self.selectedDay, n: 1)
@@ -142,6 +139,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         self.hourTableView.headerView(forSection: 0)?.contentView.backgroundColor = .appColor(.primary)
     }
 
+    // Main function to be called for redrawing the event table view
     func setDayView(scroll: Bool = true) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "setLastSelectedDate"), object: nil, userInfo: ["date": self.calendarHelper.removeTimeStamp(fromDate: self.selectedDay) as Any])
         // Remove all eventButtons
@@ -179,7 +177,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "dailyCell", for: indexPath) as! DayCell
         cell.initCell()
         
-        // Set up label
+        // Set up labels
         if indexPath.row == 0 {
             cell.bottomTimeLabel.text = "All-day"
         }
@@ -198,8 +196,10 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         
         if indexPath.row > 0 && indexPath.row < hours.count + 1 {
             let events = EventListController().getEventsByStartDateAndTime(date: self.selectedDay, hour: hours[indexPath.row - 1])
+            // Insert the event
             self.insertEvents(indexPath: indexPath, events: events)
             
+            // Check if needs to show the "NOW" line
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYYMMDD"
             let formatter2 = DateFormatter()
@@ -212,6 +212,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
             }
         }
         
+        // Hide the now line and bottom line
         if (indexPath.row == 0 || indexPath.row == hours.count + 1) {
             cell.separatorLine.isHidden = true
         }
@@ -219,6 +220,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         return cell
     }
     
+    // Insert a line to current time for today
     func insertTodayLine(indexPath: IndexPath, curTime: Date) {
         let formatter = DateFormatter()
         formatter.dateFormat = "mm"
@@ -232,9 +234,11 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         if let oldButton = view.viewWithTag(tag) as! EventButton? {
             oldButton.removeFromSuperview()
         }
-
+        
+        // Calculate the position of for the line
         let frame = CGRect(x: CGFloat(x_loc), y: rectCellView.origin.y + offsetY, width: rectCellView.width, height: 1)
         
+        // Create the button as a line
         let eventButton: EventButton = {
             let eventButton = EventButton()
             eventButton.frame = frame
@@ -246,13 +250,15 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         hourTableView.addSubview(eventButton)
         viewTags.append(tag)
         
-        let text = "Now"
+        // Create a button as a time label
+        formatter.dateFormat = "HH:mm"
+        let text = formatter.string(from: curTime)
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(.foregroundColor,
                                     value: UIColor.red,
                                     range: attributedText.getRangeOfString(textToFind: text))
         attributedText.addAttribute(.font,
-                                    value: UIFont.boldSystemFont(ofSize: (UIFont.appFontSize(.innerCollectionViewHeader) ?? 11) - 2),
+                                    value: UIFont.boldSystemFont(ofSize: (UIFont.appFontSize(.innerCollectionViewHeader) ?? 11) - 1),
                                     range: attributedText.getRangeOfString(textToFind: text))
         
         let eventButton2: EventButton = {
@@ -284,8 +290,9 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                 for event in events {
                     if let startDate = event.value(forKeyPath: "startDate") as? Date {
                         if let endDate = event.value(forKeyPath: "endDate") as? Date {
-                            // All day event
+                            // Calculate the position of the event
                             if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false) {
+                              // All day event
                               let cellWidth = (fullWidth - CGFloat(buffer * (totalEvent - 1))) / CGFloat(totalEvent)
                               let height = rowHeight
                               let offsetY = CGFloat(rowHeight * -1)
@@ -319,6 +326,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         let start = formatter.string(from: startDate)
         let end = formatter.string(from: endDate)
         
+        // Event info
         let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
         let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
         var eventDate: String = ""

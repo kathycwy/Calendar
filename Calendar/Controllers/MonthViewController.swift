@@ -111,6 +111,7 @@ class MonthViewController: CalendarUIViewController {
         
     }
     
+    // Create gesture for swipping to different dates
     func initGestureRecognizer(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.collectionView.addGestureRecognizer(tap)
@@ -119,6 +120,7 @@ class MonthViewController: CalendarUIViewController {
     
     // MARK: - Actions
     
+    // For reloading to the right position after rotating the phone
     @objc func rotated() {
         if UIDevice.current.orientation.isLandscape {
             self.scrollToDate(date: self.selectedDate, animated: false)
@@ -127,6 +129,7 @@ class MonthViewController: CalendarUIViewController {
         }
     }
     
+    // Tap to day view
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         if let indexPath = self.collectionView?.indexPathForItem(at: sender.location(in: self.collectionView)) {
             if indexPath.item > 0 {
@@ -146,6 +149,7 @@ class MonthViewController: CalendarUIViewController {
 
     // MARK: - Helper functions
     
+    // Move the selected cell
     func setSelectedCell(indexPath: IndexPath) {
         self.calendarMonths = self.collectionViewDataSource.getCalendarMonths()
         if self.calendarMonths[indexPath.section].calendarDays[indexPath.item].isDate == true {
@@ -174,22 +178,14 @@ class MonthViewController: CalendarUIViewController {
         return results
     }
     
+    // Get how many indexpaths to be reloaded
     func calculateIndexPathsToReload(from newcalendarMonths: [CalendarMonth]) -> [IndexPath] {
       let startIndex = self.calendarMonths.count - newcalendarMonths.count
       let endIndex = startIndex + newcalendarMonths.count
       return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
-    private func createSpinnerFooter() -> UIView {
-        let footerView = UIView(frame: CGRect(x:0, y:0, width: view.frame.size.width, height: 100))
-        
-        let spinner = UIActivityIndicatorView()
-        spinner.center = footerView.center
-        footerView.addSubview(spinner)
-        spinner.startAnimating()
-        return footerView
-    }
-    
+    // Getting the next batch of datasource for collection view
     func loadNextBatch(){
         let lastCalendarMonths = self.calendarMonths.count
         
@@ -218,6 +214,7 @@ class MonthViewController: CalendarUIViewController {
          */
     }
     
+    // Getting the previous batch of datasource for collection view
     func loadPrevBatch(){
         let indexPath = IndexPath(item: 15, section: nextBatchCalendarMonthSize)
         self.collectionView.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: false)
