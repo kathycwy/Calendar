@@ -80,7 +80,6 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         [titleField].forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .editingChanged) })
         
         // set appropriate date in start/end date pickers
-        startDateField.minimumDate = Date.now
         endDateField.minimumDate = startDateField.date
         var dateComponent = DateComponents()
         dateComponent.hour = 1
