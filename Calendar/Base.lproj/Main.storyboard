@@ -1250,6 +1250,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Event list" id="wrh-Nb-gyT">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="ea9-lE-M2O">
+                            <connections>
+                                <segue destination="2Zn-BD-oPL" kind="show" id="mPK-T0-yX4"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="plus" catalog="system" id="XXx-Yf-uC5">
                                 <connections>
@@ -1269,6 +1274,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3O6-hw-tAp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1785.5072463768117" y="1356.6964285714284"/>
+        </scene>
+        <!--Import Event View Controller-->
+        <scene sceneID="HGF-pN-F8t">
+            <objects>
+                <viewController id="2Zn-BD-oPL" customClass="ImportEventViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v5o-Ve-Db8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="NuF-ci-e7a"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="afx-tK-IcA"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K8v-PI-T7d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1551" y="2115"/>
         </scene>
         <!--Event details-->
         <scene sceneID="WRz-Cl-FUa">
@@ -1927,7 +1948,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TOB-k2-KSr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1872" y="706"/>
+            <point key="canvasLocation" x="1872" y="714"/>
         </scene>
         <!--Week View Controller-->
         <scene sceneID="DcV-XF-dIf">
@@ -2220,7 +2241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N4c-Ws-5XV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="956.52173913043487" y="-592.63392857142856"/>
+            <point key="canvasLocation" x="729" y="-657"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

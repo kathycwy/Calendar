@@ -254,6 +254,7 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
             userLocationEnabled = true
             break;
         @unknown default:
+            showAlert(title: "Unknown Error!", description: "Please try to update your application and try it again!")
             break;
         }
     }
