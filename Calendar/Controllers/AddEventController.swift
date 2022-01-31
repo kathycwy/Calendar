@@ -180,10 +180,12 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         }
         
         calendarButton.menu = UIMenu(children: [
-            UIAction(title: Constants.CalendarConstants.calendarNone, state: .on, handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, handler: calendarButtonClosure)
+            UIAction(title: Constants.TagConstants.tagNone, state: .on, handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagRed, image: Constants.TagConstants.tagRedDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagOrange, image: Constants.TagConstants.tagOrangeDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagGreen, image: Constants.TagConstants.tagGreenDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagBlue, image: Constants.TagConstants.tagBlueDot, handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagPurple, image: Constants.TagConstants.tagPurpleDot, handler: calendarButtonClosure)
           ])
         
         // responding to remind button

@@ -212,18 +212,20 @@ class EditEventController: CalendarUIViewController {
             self.calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
         }
         
-        let calendarOption = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
+        var calendarOption = String(event!.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
                   
         calendarButton.menu = UIMenu(children: [
-            UIAction(title: Constants.CalendarConstants.calendarNone, state: menuOptionState(option: Constants.CalendarConstants.calendarNone, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, state: menuOptionState(option: Constants.CalendarConstants.calendarPersonal, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, state: menuOptionState(option: Constants.CalendarConstants.calendarSchool, selectedOption: calendarOption), handler: calendarButtonClosure),
-            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, state: menuOptionState(option: Constants.CalendarConstants.calendarWork, selectedOption: calendarOption), handler: calendarButtonClosure)
+            UIAction(title: Constants.TagConstants.tagNone, state: menuOptionState(option: Constants.TagConstants.tagNone, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagRed, image: Constants.TagConstants.tagRedDot, state: menuOptionState(option: Constants.TagConstants.tagRed, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagOrange, image: Constants.TagConstants.tagOrangeDot, state: menuOptionState(option: Constants.TagConstants.tagOrange, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagGreen, image: Constants.TagConstants.tagGreenDot, state: menuOptionState(option: Constants.TagConstants.tagGreen, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagBlue, image: Constants.TagConstants.tagBlueDot, state: menuOptionState(option: Constants.TagConstants.tagBlue, selectedOption: calendarOption), handler: calendarButtonClosure),
+            UIAction(title: Constants.TagConstants.tagPurple, image: Constants.TagConstants.tagPurpleDot, state: menuOptionState(option: Constants.TagConstants.tagPurple, selectedOption: calendarOption), handler: calendarButtonClosure),
           ])
         
         let color = EventListController().getCalendarColor(name: calendarOption)
         calendarButton.setImage(UIImage(systemName: "circle.fill")!.withTintColor(color, renderingMode: .alwaysOriginal), for: .normal)
-        calendarButton.titleLabel?.textColor = .black
+//        calendarButton.titleLabel?.textColor = .black
 
         instructorField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.instructorAttribute) as? String ?? "")
         urlField.text = String(event!.value(forKeyPath: Constants.EventsAttribute.urlAttribute) as? String ?? "")

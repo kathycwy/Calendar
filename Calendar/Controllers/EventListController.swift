@@ -22,7 +22,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     let rowHeight: CGFloat = 80.0
     var selectedRow: Int?
     var savedSearchText: String? = ""
-    var filterCalendarName: String = "All"
+    var filterTypeName: String = "All"
     
     // MARK: - Init
     
@@ -41,9 +41,9 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         self.fetchEvents()
         
         let eventFilterClosure = { (action: UIAction) in
-            self.filterCalendarName = action.title
+            self.filterTypeName = action.title
             if action.title != "All" {
-                self.filteredEvents = self.getEventsByCalendar(events: self.events, name: action.title)
+                self.filteredEvents = self.getEventsByType(events: self.events, name: action.title)
             } else {
                 self.fetchEvents()
             }
@@ -55,10 +55,11 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         
         eventFilterButton.menu = UIMenu(children: [
             UIAction(title: "All", handler: eventFilterClosure),
-            UIAction(title: Constants.CalendarConstants.calendarNone, handler: eventFilterClosure),
-            UIAction(title: Constants.CalendarConstants.calendarPersonal, image: Constants.CalendarConstants.personalDot, handler: eventFilterClosure),
-            UIAction(title: Constants.CalendarConstants.calendarSchool, image: Constants.CalendarConstants.schoolDot, handler: eventFilterClosure),
-            UIAction(title: Constants.CalendarConstants.calendarWork, image: Constants.CalendarConstants.workDot, handler: eventFilterClosure)
+            UIAction(title: Constants.ClassTypes.classLecture, handler: eventFilterClosure),
+            UIAction(title: Constants.ClassTypes.classLab, handler: eventFilterClosure),
+            UIAction(title: Constants.ClassTypes.classSeminar, handler: eventFilterClosure),
+            UIAction(title: Constants.ClassTypes.classAssignment, handler: eventFilterClosure),
+            UIAction(title: Constants.ClassTypes.classOther, handler: eventFilterClosure)
           ])
         
         self.tableView.reloadData()
@@ -78,7 +79,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         searchBar.searchTextField.text = ""
         savedSearchText = ""
         filteredEvents = events
-        filterCalendarName = "All"
+        filterTypeName = "All"
         self.tableView.reloadData()
     }
     
@@ -87,7 +88,7 @@ class EventListController: UITableViewController, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         self.savedSearchText = searchText
-        self.filteredEvents = getEventsByCalendar(events: events, name: filterCalendarName)
+        self.filteredEvents = getEventsByType(events: events, name: filterTypeName)
         if searchText != "" {
             self.filteredEvents = getEventsFromSearch(events: filteredEvents, searchText: searchText)
         }
@@ -199,19 +200,20 @@ class EventListController: UITableViewController, UISearchBarDelegate {
         return eventsPerDate
     }
     
-    func getEventsByCalendar(events: [NSManagedObject], name: String) -> [NSManagedObject] {
-        var eventsPerCalendar: [NSManagedObject] = []
+    func getEventsByType(events: [NSManagedObject], name: String) -> [NSManagedObject] {
+        var eventsPerType: [NSManagedObject] = []
         if name != "All" {
             for event in events {
-                if event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as! String == name {
-                        eventsPerCalendar.append(event)
+                let type = String(event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? "None")
+                if type == name {
+                    eventsPerType.append(event)
                 }
             }
         } else {
-            eventsPerCalendar = self.events
+            eventsPerType = self.events
         }
         
-        return eventsPerCalendar
+        return eventsPerType
     }
     
     func fetchEvents(){
