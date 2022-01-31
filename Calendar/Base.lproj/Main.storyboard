@@ -838,6 +838,7 @@
                         <outlet property="pageTitleLabel" destination="PvK-i8-31C" id="I2n-Hn-I1Q"/>
                         <outlet property="remindButton" destination="CNI-1f-Q1c" id="GOn-rW-7Jp"/>
                         <outlet property="repeatButton" destination="M8U-uR-vhF" id="ruD-Ad-hww"/>
+                        <outlet property="saveButton" destination="Dgs-na-PPU" id="YTM-1V-g56"/>
                         <outlet property="stackView" destination="kCd-4C-K3M" id="sbQ-PN-9fb"/>
                         <outlet property="startDateField" destination="oQQ-3h-1Cc" id="Zyf-Cd-hHB"/>
                         <outlet property="titleField" destination="Hir-mg-mCB" id="8yj-K4-sQi"/>
@@ -1126,6 +1127,7 @@
                         <outlet property="onetapGesture" destination="DcP-kC-dft" id="AIy-29-Yo5"/>
                         <outlet property="pageTitleLabel" destination="ppG-YR-xwc" id="OO6-wX-eqS"/>
                         <outlet property="remindButton" destination="7kT-lU-LtP" id="Yak-xS-MOL"/>
+                        <outlet property="saveButton" destination="8FX-UZ-hVF" id="bKy-KO-8Eh"/>
                         <outlet property="startDateField" destination="eiI-wI-ePU" id="8N0-CJ-I5D"/>
                         <outlet property="titleField" destination="QLi-QZ-KJn" id="wau-Hj-5zP"/>
                         <outlet property="urlField" destination="2UY-xN-FVy" id="YbL-tH-HJQ"/>
