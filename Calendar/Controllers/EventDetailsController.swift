@@ -62,7 +62,7 @@ class EventDetailsController: CalendarUIViewController {
             let attributedUrlString = NSAttributedString(string: urlString, attributes:[NSAttributedString.Key.link: eventURL])
             url.attributedText = attributedUrlString
         } else {
-            url.attributedText = NSAttributedString(string: "No URL added")
+            url.text = "No URL added"
         }
 
         url.textAlignment = NSTextAlignment.right
