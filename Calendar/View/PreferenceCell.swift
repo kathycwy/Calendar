@@ -221,7 +221,7 @@ class PreferenceCell: UITableViewCell {
                break
             }
             break
-        case 3:
+        case 2:
             switch(myIndexPath.row)
             {
             case 0:
