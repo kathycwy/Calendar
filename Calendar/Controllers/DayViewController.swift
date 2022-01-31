@@ -319,13 +319,13 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
         let start = formatter.string(from: startDate)
         let end = formatter.string(from: endDate)
         
-        let eventTitle: String = event.value(forKeyPath: "title") as? String ?? " "
-        let eventLoc: String = event.value(forKeyPath: "location") as? String ?? " "
+        let eventTitle: String = event.value(forKeyPath: Constants.EventsAttribute.titleAttribute) as? String ?? " "
+        let eventType: String = event.value(forKeyPath: Constants.EventsAttribute.classTypeAttribute) as? String ?? " "
         var eventDate: String = ""
         if (event.value(forKeyPath: Constants.EventsAttribute.allDayAttribute) as? Bool ?? false == false) {
             eventDate = start + " - " + end
         }
-        let text = eventTitle + ((eventDate == "") ? "" : ("\n" + eventDate)) + ((eventLoc == " ") ? "" : ("\n" + eventLoc))
+        let text = eventTitle + ((eventDate == "") ? "" : ("\n" + eventDate)) + ((eventType == " ") ? "" : ("\n" + eventType))
         var eventColour: UIColor? = nil
         if let attr = event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) {
             if let str = attr as? String {
@@ -362,7 +362,7 @@ class DayViewController: CalendarUIViewController, UITabBarDelegate, UITableView
                                     range: attributedText.getRangeOfString(textToFind: eventDate))
         attributedText.addAttribute(.font,
                                     value: UIFont.systemFont(ofSize: UIFont.appFontSize(.innerCollectionViewHeader) ?? 11),
-                                    range: attributedText.getRangeOfString(textToFind: eventLoc))
+                                    range: attributedText.getRangeOfString(textToFind: eventType))
         
         let x_loc = 80
         let rectCellTable = hourTableView.rectForRow(at: indexPath)
