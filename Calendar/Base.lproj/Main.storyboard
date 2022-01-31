@@ -583,7 +583,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CRf-fH-L2r">
                                                 <rect key="frame" x="0.0" y="241" width="384" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twt-li-H2r" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twt-li-H2r" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="78" id="HcJ-Ov-A3F"/>
@@ -606,7 +606,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A8T-7i-Qun">
                                                 <rect key="frame" x="0.0" y="306" width="384" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYo-f9-awL" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYo-f9-awL" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="78" id="D1S-2a-7dl"/>
@@ -870,10 +870,12 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="allDayStack" destination="8lg-rn-4sA" id="jlM-mJ-LZb"/>
                         <outlet property="allDaySwitch" destination="xVF-Zs-MWt" id="Tar-5x-bOl"/>
                         <outlet property="calendarButton" destination="CC3-TD-ZjX" id="Jgn-di-VbK"/>
                         <outlet property="classTypeButton" destination="nDY-Y3-mtn" id="qRL-kW-asq"/>
                         <outlet property="endDateField" destination="44U-Rh-zgp" id="J9d-Q6-ox8"/>
+                        <outlet property="endDateStack" destination="A8T-7i-Qun" id="Fah-uJ-86t"/>
                         <outlet property="endRepeatAfterCertainTimesButton" destination="Od3-Gt-OPC" id="yLf-CU-bJd"/>
                         <outlet property="endRepeatButton" destination="eM7-TL-Myq" id="JXo-T6-ceu"/>
                         <outlet property="endRepeatDatePicker" destination="Y61-zm-Xw5" id="fno-Tr-8Gf"/>
@@ -889,6 +891,7 @@
                         <outlet property="saveButton" destination="Dgs-na-PPU" id="YTM-1V-g56"/>
                         <outlet property="stackView" destination="kCd-4C-K3M" id="sbQ-PN-9fb"/>
                         <outlet property="startDateField" destination="oQQ-3h-1Cc" id="Zyf-Cd-hHB"/>
+                        <outlet property="startDateLabel" destination="twt-li-H2r" id="PyU-fh-RyW"/>
                         <outlet property="titleField" destination="Hir-mg-mCB" id="8yj-K4-sQi"/>
                         <outlet property="urlField" destination="eOM-as-qL5" id="s74-Id-utj"/>
                     </connections>
@@ -988,7 +991,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TF7-rF-7GN">
                                                 <rect key="frame" x="0.0" y="241" width="364" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rSj-XO-BsD" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rSj-XO-BsD" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="78" id="snE-LK-imx"/>
@@ -1011,7 +1014,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6td-bc-Kxq">
                                                 <rect key="frame" x="0.0" y="306" width="364" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUv-vh-7c8" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUv-vh-7c8" customClass="FieldUILabel" customModule="Calendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="78" id="gGp-hS-rdZ"/>
@@ -1206,10 +1209,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="allDayStack" destination="CLw-Yb-hTh" id="ple-7R-lOE"/>
                         <outlet property="allDaySwitch" destination="q8e-pb-cKk" id="sCD-yc-mav"/>
                         <outlet property="calendarButton" destination="sbT-zI-op3" id="JqW-9X-nJ7"/>
                         <outlet property="classTypeButton" destination="WRD-lo-lyj" id="H3Q-iW-of6"/>
                         <outlet property="endDateField" destination="JCP-FO-gbq" id="vzp-4B-TGD"/>
+                        <outlet property="endDateStack" destination="6td-bc-Kxq" id="mjA-2e-0pu"/>
                         <outlet property="instructorField" destination="jMw-1a-rLS" id="mPb-eQ-Akq"/>
                         <outlet property="locationField" destination="2zL-BQ-Cnn" id="9GQ-yh-tAl"/>
                         <outlet property="mapView" destination="Fps-sp-n9T" id="vsO-f5-4bP"/>
@@ -1219,6 +1224,7 @@
                         <outlet property="remindButton" destination="7kT-lU-LtP" id="Yak-xS-MOL"/>
                         <outlet property="saveButton" destination="8FX-UZ-hVF" id="bKy-KO-8Eh"/>
                         <outlet property="startDateField" destination="eiI-wI-ePU" id="8N0-CJ-I5D"/>
+                        <outlet property="startDateLabel" destination="rSj-XO-BsD" id="aFA-XG-UjV"/>
                         <outlet property="titleField" destination="QLi-QZ-KJn" id="wau-Hj-5zP"/>
                         <outlet property="urlField" destination="2UY-xN-FVy" id="YbL-tH-HJQ"/>
                     </connections>
@@ -1714,6 +1720,7 @@ If you don't want to sync your events with iCloud, please go to Settings and tur
                         <outlet property="calendar" destination="1T3-2T-CNQ" id="NYc-0b-guV"/>
                         <outlet property="calendarDot" destination="y3b-28-RfI" id="3bb-cs-F74"/>
                         <outlet property="endDate" destination="ibG-kZ-FYF" id="vtC-gN-nRF"/>
+                        <outlet property="endDateStack" destination="X4k-r3-LYq" id="1GC-zm-hXv"/>
                         <outlet property="eventTitle" destination="ReO-mL-ARS" id="11h-an-FCh"/>
                         <outlet property="instructor" destination="jul-Mz-qPe" id="5Iy-Zj-0M3"/>
                         <outlet property="location" destination="Iff-jx-Og1" id="RTy-2P-ouR"/>
@@ -1723,6 +1730,7 @@ If you don't want to sync your events with iCloud, please go to Settings and tur
                         <outlet property="remindTime" destination="0Cl-ws-HZZ" id="BLv-kx-a9V"/>
                         <outlet property="shareButton" destination="Y8o-Yh-hiG" id="wGA-OW-wQH"/>
                         <outlet property="startDate" destination="X7a-BP-q0c" id="WMK-Nk-Xg9"/>
+                        <outlet property="startDateLabel" destination="I6k-RO-Zxq" id="sBT-ol-0KB"/>
                         <outlet property="subtitleLabel" destination="T9H-Io-Ie2" id="z9A-ej-j5P"/>
                         <outlet property="url" destination="yD3-R2-u6y" id="yIM-MP-Nze"/>
                         <segue destination="wO8-KG-OKN" kind="show" identifier="editButtonTapped" id="cor-3I-WJO"/>

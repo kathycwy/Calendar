@@ -39,6 +39,9 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
     @IBOutlet var onetapGesture: UITapGestureRecognizer!
     @IBOutlet weak var classTypeButton: UIButton!
     @IBOutlet weak var instructorField: UITextField!
+    @IBOutlet weak var allDayStack: UIStackView!
+    @IBOutlet weak var startDateLabel: FieldUILabel!
+    @IBOutlet weak var endDateStack: UIStackView!
     
     // MARK: - Properties
     
@@ -212,6 +215,16 @@ final class AddEventController: CalendarUIViewController, UIPickerViewDelegate, 
         // responding to class type button
         let classTypeButtonClosure = { (action: UIAction) in
             self.classType = action.title
+            if action.title == Constants.ClassTypes.classAssignment {
+                self.allDayStack.isHidden = true
+                self.startDateLabel.text = "Due Date"
+                self.endDateField.date = self.startDateField.date
+                self.endDateStack.isHidden = true
+            } else {
+                self.allDayStack.isHidden = false
+                self.startDateLabel.text = "Start Date"
+                self.endDateStack.isHidden = false
+            }
         }
         
         classTypeButton.menu = UIMenu(children: [

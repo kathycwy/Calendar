@@ -413,6 +413,10 @@ class EventListController: UITableViewController, UISearchBarDelegate {
             endDateString = fullFormatter.string(from: event.value(forKeyPath: Constants.EventsAttribute.endDateAttribute) as! Date)
         }
         
+        if eventType == Constants.ClassTypes.classAssignment {
+            startDateString = ""
+        }
+        
         // set labels in cell 
         cell.colorBar.backgroundColor = getCalendarColor(name: event.value(forKeyPath: Constants.EventsAttribute.calendarAttribute) as? String ?? "None")
         cell.titleLabel.attributedText = attributedText
